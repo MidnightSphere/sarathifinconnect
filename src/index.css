@@ -28,10 +28,19 @@
 
 html {
   scroll-behavior: smooth;
+  /* Offset for the fixed navbar so hash-link targets aren't hidden behind it */
+  scroll-padding-top: 80px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 90px;
+  }
+}
+
 
 html,
 body,

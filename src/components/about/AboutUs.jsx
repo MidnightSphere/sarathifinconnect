@@ -54,7 +54,7 @@ export default function AboutUs() {
           variants={fadeUp}
           className="mx-auto mt-6 max-w-xl text-pretty text-[0.96rem] leading-relaxed text-text-secondary"
         >
-          Sarathi FinConnect is a financial services firm that helps individuals and businesses explore
+          Sarathi FinConnect Advisory LLP is a financial services firm that helps individuals and businesses explore
           suitable loan and finance options. We act as a bridge between you and the right solution —
           offering guidance, clarity, and support at every stage of the process.
         </motion.p>

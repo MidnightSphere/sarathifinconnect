@@ -13,7 +13,7 @@ export default function HomePage() {
         <AboutUs />
       </main>
       <footer className="border-t border-border px-5 py-8 text-center text-xs font-medium tracking-wide text-text-secondary">
-        © {new Date().getFullYear()} Sarathi FinConnect. Guidance for every journey.
+        © {new Date().getFullYear()} Sarathi FinConnect Advisory LLP. Guidance for every journey.
       </footer>
     </>
   );

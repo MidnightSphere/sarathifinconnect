@@ -1,17 +1,26 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { navLinks } from "../../data/navigation";
 import MobileMenu from "./MobileMenu";
 
+/**
+ * Set of hrefs that have a corresponding navbar link.
+ * Sections NOT in this set cause Home ("#top") to become active.
+ */
+const MAPPED_HREFS = new Set(navLinks.map((l) => l.href));
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeHref, setActiveHref] = useState("");
+  // Default "#top" → Home link is active on initial load / page top
+  const [activeHref, setActiveHref] = useState("#top");
+  const navContainerRef = useRef(null);
   const location = useLocation();
   const isHome = location.pathname === "/";
 
+  // ── Scroll shadow ────────────────────────────────────────────────────────
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
     onScroll();
@@ -21,24 +30,50 @@ export default function Navbar() {
 
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
 
+  // ── IntersectionObserver — active section tracking ───────────────────────
   useEffect(() => {
     if (!isHome) return;
-    const sections = navLinks
-      .map((link) => document.querySelector(link.href))
+
+    // Observe every known section so unmapped ones can fall back to Home.
+    const ALL_SECTION_IDS = ["top", "about-us", "services", "contact", "journey"];
+    const allSections = ALL_SECTION_IDS
+      .map((id) => document.getElementById(id))
       .filter(Boolean);
+
+    // Keep a live map of intersection ratios keyed by element id.
+    const ratioMap = new Map();
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActiveHref(`#${visible.target.id}`);
+        entries.forEach((entry) => {
+          ratioMap.set(entry.target.id, entry.intersectionRatio);
+        });
+
+        // Pick the section with the highest visibility.
+        let bestId = null;
+        let bestRatio = 0;
+        ratioMap.forEach((ratio, id) => {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestId = id;
+          }
+        });
+
+        if (bestId !== null && bestRatio > 0) {
+          const candidate = `#${bestId}`;
+          // Map to navbar link, or fall back to Home.
+          setActiveHref(MAPPED_HREFS.has(candidate) ? candidate : "#top");
+        }
       },
-      { rootMargin: "-35% 0px -50%", threshold: [0.1, 0.3, 0.5] },
+      // Upper-middle band of the viewport; avoids flickering at boundaries.
+      { rootMargin: "-25% 0px -50%", threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] },
     );
-    sections.forEach((section) => observer.observe(section));
+
+    allSections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, [isHome]);
 
+  // ── Keyboard: Escape closes mobile menu ─────────────────────────────────
   useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key === "Escape") closeMobileMenu();
@@ -47,11 +82,30 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [closeMobileMenu]);
 
+  // ── Outside-click: closes mobile menu ───────────────────────────────────
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onPointerDown = (event) => {
+      // Close only when the click lands outside the whole navbar container.
+      if (
+        navContainerRef.current &&
+        !navContainerRef.current.contains(event.target)
+      ) {
+        closeMobileMenu();
+      }
+    };
+    // pointerdown fires before click, so navigation links still work normally.
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [mobileMenuOpen, closeMobileMenu]);
+
+  // On home: use plain hash; on other pages: navigate to home then hash.
   const getHref = (hash) => (isHome ? hash : `/${hash}`);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 sm:px-6 sm:pt-5">
-      <div className="relative w-full max-w-6xl">
+      {/* ref covers nav pill + mobile dropdown so outside-click works correctly */}
+      <div ref={navContainerRef} className="relative w-full max-w-6xl">
         <motion.nav
           aria-label="Main navigation"
           initial={{ y: -18, opacity: 0 }}
