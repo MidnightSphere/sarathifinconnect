@@ -35,6 +35,31 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+/* Restrained glass treatment shared by the fixed navbar and mobile menu. */
+.navbar-glass {
+  background-color: rgba(255, 255, 255, 0.93);
+  border-color: rgba(11, 31, 77, 0.10);
+  box-shadow: 0 5px 18px rgba(11, 31, 77, 0.08);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.navbar-glass-scrolled {
+  background-color: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 7px 22px rgba(11, 31, 77, 0.10);
+}
+
+.navbar-glass-menu {
+  background-color: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 16px 36px rgba(11, 31, 77, 0.13);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .navbar-glass {
+    background-color: #fff;
+  }
+}
+
 @media (min-width: 768px) {
   html {
     scroll-padding-top: 90px;

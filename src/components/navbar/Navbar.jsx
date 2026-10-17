@@ -30,43 +30,56 @@ export default function Navbar() {
 
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
 
+  const navigateFromMobileMenu = useCallback((event, href) => {
+    const targetUrl = new URL(href, window.location.href);
+    const target = targetUrl.hash
+      ? document.getElementById(decodeURIComponent(targetUrl.hash.slice(1)))
+      : null;
+
+    // Resolve same-page anchors before the animated menu starts unmounting.
+    // The browser's native anchor action otherwise races the menu's exit.
+    if (target && targetUrl.pathname === window.location.pathname) {
+      event.preventDefault();
+      window.history.pushState(null, "", `${targetUrl.pathname}${targetUrl.hash}`);
+      target.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "instant"
+          : "smooth",
+        block: "start",
+      });
+    }
+    closeMobileMenu();
+  }, [closeMobileMenu]);
+
   // ── IntersectionObserver — active section tracking ───────────────────────
   useEffect(() => {
     if (!isHome) return;
 
     // Observe every known section so unmapped ones can fall back to Home.
-    const ALL_SECTION_IDS = ["top", "about-us", "services", "contact", "journey"];
+    const ALL_SECTION_IDS = ["top", "about-us", "services", "about", "contact"];
     const allSections = ALL_SECTION_IDS
       .map((id) => document.getElementById(id))
       .filter(Boolean);
 
-    // Keep a live map of intersection ratios keyed by element id.
-    const ratioMap = new Map();
-
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          ratioMap.set(entry.target.id, entry.intersectionRatio);
-        });
+      () => {
+        // Recheck every section's current position instead of retaining stale
+        // intersection ratios from sections that have since left the viewport.
+        const bandTop = 90;
+        const bandBottom = window.innerHeight * 0.35;
+        const activeSection = allSections
+          .map((section) => ({
+            id: section.id,
+            rect: section.getBoundingClientRect(),
+          }))
+          .filter(({ rect }) => rect.bottom > bandTop && rect.top < bandBottom)
+          .sort((a, b) => Math.abs(a.rect.top - bandTop) - Math.abs(b.rect.top - bandTop))[0];
 
-        // Pick the section with the highest visibility.
-        let bestId = null;
-        let bestRatio = 0;
-        ratioMap.forEach((ratio, id) => {
-          if (ratio > bestRatio) {
-            bestRatio = ratio;
-            bestId = id;
-          }
-        });
-
-        if (bestId !== null && bestRatio > 0) {
-          const candidate = `#${bestId}`;
-          // Map to navbar link, or fall back to Home.
-          setActiveHref(MAPPED_HREFS.has(candidate) ? candidate : "#top");
-        }
+        const candidate = activeSection ? `#${activeSection.id}` : "#top";
+        setActiveHref(MAPPED_HREFS.has(candidate) ? candidate : "#top");
       },
-      // Upper-middle band of the viewport; avoids flickering at boundaries.
-      { rootMargin: "-25% 0px -50%", threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] },
+      // A stable reading band below the fixed navbar.
+      { rootMargin: "-90px 0px -65% 0px", threshold: 0 },
     );
 
     allSections.forEach((section) => observer.observe(section));
@@ -111,7 +124,7 @@ export default function Navbar() {
           initial={{ y: -18, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
-          className={`flex items-center justify-between rounded-full border px-4 py-2.5 transition-all duration-300 sm:px-6 md:px-8 md:py-3 ${scrolled ? "border-white/80 bg-white/88 shadow-[0_5px_18px_rgba(11,31,77,0.09)] backdrop-blur-lg" : "border-white/75 bg-white/70 shadow-[0_2px_10px_rgba(11,31,77,0.045)] backdrop-blur-sm"}`}
+          className={`navbar-glass flex items-center justify-between rounded-full border px-4 py-2.5 sm:px-6 md:px-8 md:py-3 ${scrolled ? "navbar-glass-scrolled" : ""}`}
         >
           <Link
             to="/"
@@ -164,7 +177,7 @@ export default function Navbar() {
         </motion.nav>
         <MobileMenu
           isOpen={mobileMenuOpen}
-          onClose={closeMobileMenu}
+          onNavigate={navigateFromMobileMenu}
           activeHref={activeHref}
           isHome={isHome}
         />
