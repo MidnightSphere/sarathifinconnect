@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { ArrowLeft, ArrowRight, Briefcase, Home, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
+import Footer from "../components/layout/Footer";
 
 const services = [
   {
@@ -170,9 +171,7 @@ export default function ServicesPage() {
           </motion.div>
         </section>
       </main>
-      <footer className="border-t border-border px-5 py-8 text-center text-xs font-medium tracking-wide text-text-secondary">
-        © {new Date().getFullYear()} Sarathi FinConnect Advisory LLP. Guidance for every journey.
-      </footer>
+      <Footer />
     </div>
   );
 }
