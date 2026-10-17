@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { navLinks } from "../../data/navigation";
 import MobileMenu from "./MobileMenu";
 
@@ -10,6 +10,7 @@ import MobileMenu from "./MobileMenu";
  * Sections NOT in this set cause Home ("#top") to become active.
  */
 const MAPPED_HREFS = new Set(navLinks.map((l) => l.href));
+const NAV_OFFSET = 96;
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -18,6 +19,7 @@ export default function Navbar() {
   const [activeHref, setActiveHref] = useState("#top");
   const navContainerRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const isHome = location.pathname === "/";
 
   // ── Scroll shadow ────────────────────────────────────────────────────────
@@ -30,26 +32,40 @@ export default function Navbar() {
 
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
 
-  const navigateFromMobileMenu = useCallback((event, href) => {
-    const targetUrl = new URL(href, window.location.href);
-    const target = targetUrl.hash
-      ? document.getElementById(decodeURIComponent(targetUrl.hash.slice(1)))
-      : null;
+  const scrollToHash = useCallback((hash, smooth = true) => {
+    const id = decodeURIComponent(hash.replace(/^#/, ""));
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const behavior = smooth && !prefersReducedMotion ? "smooth" : "auto";
 
-    // Resolve same-page anchors before the animated menu starts unmounting.
-    // The browser's native anchor action otherwise races the menu's exit.
-    if (target && targetUrl.pathname === window.location.pathname) {
-      event.preventDefault();
-      window.history.pushState(null, "", `${targetUrl.pathname}${targetUrl.hash}`);
-      target.scrollIntoView({
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "instant"
-          : "smooth",
-        block: "start",
-      });
+    if (!id || id === "top") {
+      window.scrollTo({ top: 0, behavior });
+      return true;
     }
+
+    const element = document.getElementById(id);
+    if (!element) return false;
+
+    const top =
+      element.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+    window.scrollTo({ top: Math.max(top, 0), behavior });
+    return true;
+  }, []);
+
+  const navigateFromMobileMenu = useCallback((event, href) => {
+    event.preventDefault();
+    const hash = href.slice(href.indexOf("#"));
     closeMobileMenu();
-  }, [closeMobileMenu]);
+    navigate({ pathname: "/", hash });
+  }, [closeMobileMenu, navigate]);
+
+  useEffect(() => {
+    if (!isHome || !location.hash) return;
+
+    const timer = window.setTimeout(() => scrollToHash(location.hash), 260);
+    return () => window.clearTimeout(timer);
+  }, [isHome, location.key, location.hash, scrollToHash]);
 
   // ── IntersectionObserver — active section tracking ───────────────────────
   useEffect(() => {
@@ -151,6 +167,10 @@ export default function Navbar() {
               <li key={link.href}>
                 <a
                   href={getHref(link.href)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigate({ pathname: "/", hash: link.href });
+                  }}
                   className={`relative block px-4 py-2 text-sm no-underline transition-colors duration-200 after:absolute after:bottom-1 after:left-4 after:right-4 after:h-px after:origin-left after:bg-brand-gold after:transition-transform after:duration-200 ${activeHref === link.href ? "font-bold text-brand-gold after:scale-x-100" : "font-semibold text-text-primary after:scale-x-0 hover:text-brand-gold hover:after:scale-x-100"}`}
                 >
                   {link.label}
