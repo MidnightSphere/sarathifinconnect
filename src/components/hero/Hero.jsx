@@ -80,7 +80,7 @@ export default function Hero() {
         </motion.p>
         <motion.h1
           variants={item}
-          className="m-0 mx-auto max-w-2xl text-balance text-5xl font-black leading-[0.96] tracking-[-0.07em] text-brand-navy sm:text-[5.2rem]"
+          className="m-0 mx-auto max-w-2xl text-balance text-5xl font-space font-[900] leading-[0.96] tracking-[-0.11em] text-brand-navy sm:text-[5.2rem]"
         >
           Loan solutions for your goals,{" "}
           <span className="text-brand-gold">guided with confidence.</span>
