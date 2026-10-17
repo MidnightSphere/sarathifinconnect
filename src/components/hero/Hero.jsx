@@ -1,7 +1,14 @@
+import { lazy, Suspense, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import PrimaryButton from "../ui/PrimaryButton";
 import SecondaryButton from "../ui/SecondaryButton";
+
+const GlowCursor = lazy(() => import("../ui/GlowCursor"));
+
+// These hex values match the brand-navy and brand-gold tokens in index.css.
+const BRAND_NAVY_HEX = "#0b1f4d";
+const BRAND_GOLD_HEX = "#c69214";
 
 const item = {
   hidden: { opacity: 0, y: 16 },
@@ -12,11 +19,45 @@ const item = {
   },
 };
 export default function Hero() {
+  const [supportsFinePointer, setSupportsFinePointer] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => setSupportsFinePointer(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
   return (
     <section
       id="top"
       className="relative flex min-h-[86vh] items-center justify-center overflow-hidden px-5 pb-20 pt-32 text-center sm:px-8 sm:pt-36"
     >
+      {supportsFinePointer && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 opacity-35"
+        >
+          <Suspense fallback={null}>
+            <GlowCursor
+              theme="light"
+              color={BRAND_NAVY_HEX}
+              secondaryColor={BRAND_GOLD_HEX}
+              intensity={0.6}
+              trailWidth={2.5}
+              linger={1.2}
+              glow={0.4}
+              hotspot={0.25}
+              followSpeed={0.6}
+              grain={0}
+              clickBurst={false}
+              quality="medium"
+              maxDevicePixelRatio={1.5}
+            />
+          </Suspense>
+        </div>
+      )}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] bg-[radial-gradient(ellipse_at_center,rgba(198,146,20,0.09),transparent_62%)]"
         aria-hidden="true"
@@ -25,7 +66,7 @@ export default function Hero() {
         initial="hidden"
         animate="visible"
         transition={{ staggerChildren: 0.1 }}
-        className="relative mx-auto max-w-6xl"
+        className="relative z-10 mx-auto max-w-6xl"
       >
         <motion.p
           variants={item}
