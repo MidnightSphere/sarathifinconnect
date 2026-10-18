@@ -5,10 +5,15 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { navLinks } from "../../data/navigation";
 import MobileMenu from "./MobileMenu";
 
-// Only these navbar destinations exist as standalone navigation targets.
-// Journey's internal cards are not navbar destinations.
-const NAVIGABLE_HREFS = new Set(["#top", "#about-us"]);
 const NAV_OFFSET = 96;
+const JOURNEY_SELECTOR = '[aria-label="Sarathi FinConnect financial journey"]';
+
+function getNavSection(href) {
+  const id = href.slice(1);
+  const section = document.getElementById(id);
+  if (!section || section.closest(JOURNEY_SELECTOR)) return null;
+  return section;
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -16,7 +21,6 @@ export default function Navbar() {
   // Default "#top" → Home link is active on initial load / page top
   const [activeHref, setActiveHref] = useState("#top");
   const navContainerRef = useRef(null);
-  const pendingNavHrefRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === "/";
@@ -47,7 +51,7 @@ export default function Navbar() {
       return true;
     }
 
-    const element = document.getElementById(id);
+    const element = getNavSection(hash);
     if (!element) return false;
 
     const top =
@@ -59,27 +63,56 @@ export default function Navbar() {
   const navigateFromMobileMenu = useCallback((event, href) => {
     event.preventDefault();
     const hash = href.slice(href.indexOf("#"));
-    if (!NAVIGABLE_HREFS.has(hash)) return;
+    if (isHome && !getNavSection(hash)) return;
     if (isHome) {
       if (!scrollToHash(hash)) return;
-      setActiveHref(hash);
     }
     closeMobileMenu();
-    pendingNavHrefRef.current = isHome ? null : hash;
     navigate({ pathname: "/", hash });
   }, [closeMobileMenu, isHome, navigate, scrollToHash]);
 
   useEffect(() => {
-    if (!isHome || !location.hash || !NAVIGABLE_HREFS.has(location.hash)) return;
+    if (!isHome || !location.hash || !getNavSection(location.hash)) return;
 
-    const timer = window.setTimeout(() => {
-      if (scrollToHash(location.hash) && pendingNavHrefRef.current === location.hash) {
-        setActiveHref(location.hash);
-      }
-      pendingNavHrefRef.current = null;
-    }, 260);
+    const timer = window.setTimeout(() => scrollToHash(location.hash), 260);
     return () => window.clearTimeout(timer);
   }, [isHome, location.key, location.hash, scrollToHash]);
+
+  // Track only actual navbar sections. Journey cards with matching legacy IDs
+  // are deliberately excluded; future sections work automatically when their
+  // IDs are added outside the Journey component.
+  useEffect(() => {
+    if (!isHome) return;
+
+    let frame = 0;
+    const updateActiveSection = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const readingLine = NAV_OFFSET + 12;
+        const sections = navLinks
+          .map((link) => ({ link, section: getNavSection(link.href) }))
+          .filter(({ section }) => section)
+          .map(({ link, section }) => ({
+            href: link.href,
+            rect: section.getBoundingClientRect(),
+          }));
+
+        const current = sections.find(
+          ({ rect }) => rect.top <= readingLine && rect.bottom > readingLine,
+        );
+        if (current) setActiveHref(current.href);
+      });
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("resize", updateActiveSection);
+    };
+  }, [isHome]);
 
   // ── Keyboard: Escape closes mobile menu ─────────────────────────────────
   useEffect(() => {
@@ -152,10 +185,8 @@ export default function Navbar() {
                       aria-current={isActive ? "location" : undefined}
                       onClick={(event) => {
                         event.preventDefault();
-                        if (!NAVIGABLE_HREFS.has(link.href)) return;
+                        if (isHome && !getNavSection(link.href)) return;
                         if (isHome && !scrollToHash(link.href)) return;
-                        pendingNavHrefRef.current = isHome ? null : link.href;
-                        if (isHome) setActiveHref(link.href);
                         navigate({ pathname: "/", hash: link.href });
                       }}
                       className={`relative block rounded-full px-4 py-2 text-sm no-underline transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold ${isActive ? "font-bold text-brand-navy" : "font-semibold text-text-primary"}`}
