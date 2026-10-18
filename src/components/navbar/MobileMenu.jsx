@@ -1,9 +1,13 @@
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { navLinks } from "../../data/navigation";
 
 export default function MobileMenu({ isOpen, onNavigate, activeHref, isHome }) {
   const getHref = (hash) => (isHome ? hash : `/${hash}`);
+  const prefersReducedMotion = useReducedMotion();
+  const pillTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { type: "spring", stiffness: 380, damping: 34, mass: 0.75 };
 
   return (
     <AnimatePresence>
@@ -22,10 +26,25 @@ export default function MobileMenu({ isOpen, onNavigate, activeHref, isHome }) {
                 <motion.li key={link.href} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.04 + index * 0.04 }}>
                   <a
                     href={getHref(link.href)}
+                    aria-current={activeHref === link.href ? "location" : undefined}
                     onClick={(event) => onNavigate(event, getHref(link.href))}
-                    className={`block rounded-xl px-4 py-3 text-[0.95rem] no-underline transition-colors hover:bg-brand-navy/5 focus-visible:outline-2 focus-visible:outline-brand-gold ${activeHref === link.href ? "font-bold text-brand-gold" : "font-semibold text-brand-navy"}`}
+                    className={`relative block rounded-full px-4 py-3 text-sm no-underline transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold ${activeHref === link.href ? "font-bold text-brand-navy" : "font-semibold text-text-primary"}`}
                   >
-                    {link.label}
+                    {activeHref === link.href && (
+                      <motion.span
+                        layoutId="mobile-nav-pill"
+                        transition={pillTransition}
+                        className="absolute inset-0 rounded-full border border-black/5 bg-white shadow-sm"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <motion.span
+                      className="relative z-10 inline-block"
+                      animate={{ scale: activeHref === link.href ? 1 : 0.98 }}
+                      transition={{ duration: prefersReducedMotion ? 0 : 0.28, ease: [0.32, 0.72, 0, 1] }}
+                    >
+                      {link.label}
+                    </motion.span>
                   </a>
                 </motion.li>
               ))}

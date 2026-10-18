@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { navLinks } from "../../data/navigation";
@@ -21,6 +21,10 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === "/";
+  const prefersReducedMotion = useReducedMotion();
+  const pillTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { type: "spring", stiffness: 380, damping: 34, mass: 0.75 };
 
   // ── Scroll shadow ────────────────────────────────────────────────────────
   useEffect(() => {
@@ -162,22 +166,42 @@ export default function Navbar() {
               className="h-4 w-auto max-w-[9.5rem] object-contain sm:h-5 md:h-[1.35rem] md:max-w-none"
             /> */}
           </Link>
-          <ul className="m-0 hidden list-none items-center gap-1 p-0 md:flex">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={getHref(link.href)}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    navigate({ pathname: "/", hash: link.href });
-                  }}
-                  className={`relative block px-4 py-2 text-sm no-underline transition-colors duration-200 after:absolute after:bottom-1 after:left-4 after:right-4 after:h-px after:origin-left after:bg-brand-gold after:transition-transform after:duration-200 ${activeHref === link.href ? "font-bold text-brand-gold after:scale-x-100" : "font-semibold text-text-primary after:scale-x-0 hover:text-brand-gold hover:after:scale-x-100"}`}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <nav aria-label="Main navigation links" className="hidden md:block">
+            <ul className="m-0 flex list-none items-center gap-1 rounded-full bg-brand-navy/5 p-1">
+              {navLinks.map((link) => {
+                const isActive = activeHref === link.href;
+                return (
+                  <li key={link.href}>
+                    <a
+                      href={getHref(link.href)}
+                      aria-current={isActive ? "location" : undefined}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        navigate({ pathname: "/", hash: link.href });
+                      }}
+                      className={`relative block rounded-full px-4 py-2 text-sm no-underline transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold ${isActive ? "font-bold text-brand-navy" : "font-semibold text-text-primary"}`}
+                    >
+                      {isActive && (
+                        <motion.span
+                          layoutId="desktop-nav-pill"
+                          transition={pillTransition}
+                          className="absolute inset-0 rounded-full border border-black/5 bg-white shadow-sm"
+                          aria-hidden="true"
+                        />
+                      )}
+                      <motion.span
+                        className="relative z-10 inline-block"
+                        animate={{ scale: isActive ? 1 : 0.98 }}
+                        transition={{ duration: prefersReducedMotion ? 0 : 0.28, ease: [0.32, 0.72, 0, 1] }}
+                      >
+                        {link.label}
+                      </motion.span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
           <button
             type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}
