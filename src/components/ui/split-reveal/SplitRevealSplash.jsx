@@ -100,7 +100,7 @@ export default function SplitRevealSplash({ onComplete }) {
         timers.delete(timeout);
         startReveal();
       }
-    });
+    }).catch(startReveal);
 
     return () => {
       disposed = true;
