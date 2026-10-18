@@ -128,7 +128,7 @@ export default function Footer() {
           className="pointer-events-none select-none overflow-hidden px-1 pt-5 pb-1 text-center sm:px-3 sm:pt-7 md:pt-8"
         >
           <span
-            className="block whitespace-nowrap font-bricolage font-black leading-[0.82] tracking-[-0.075em]"
+            className="block whitespace-nowrap font-bricolage font-black leading-[0.82] tracking-[0.05em]"
             style={{
               fontSize: "clamp(1.7rem, 9.3vw, 8.5rem)",
               backgroundImage:
