@@ -166,7 +166,7 @@ export default function Navbar() {
               className="h-8 w-auto shrink-0 object-contain md:h-9"
             />
             <span className="ml-1 truncate font-bricolage text-[1.05rem] font-[750] leading-none tracking-wide text-brand-navy sm:text-xl md:ml-2 md:text-[1.5rem]">
-              sa<span className="text-[1.3rem]">&#8377;</span>athi finconnect
+              sa<span className="text-[1.05rem] sm:text-xl md:text-[1.3rem]">&#8377;</span>athi finconnect
             </span>
             {/* <img
               src="/logo/sarathi-finconnect-tile-logo.svg"

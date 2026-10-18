@@ -25,9 +25,7 @@ function LinkGroup({ title, children }) {
   return (
     <nav aria-label={`${title} links`}>
       <h2 className="m-0 mb-4 text-sm font-bold text-brand-navy">{title}</h2>
-      <ul className="m-0 grid list-none gap-3 p-0">
-        {children}
-      </ul>
+      <ul className="m-0 grid list-none gap-3 p-0">{children}</ul>
     </nav>
   );
 }
@@ -51,21 +49,29 @@ export default function Footer() {
                   className="h-8 w-auto shrink-0 object-contain md:h-9"
                 />
                 <span className="font-bricolage text-[1.05rem] font-[750] leading-none tracking-wide text-brand-navy sm:text-xl md:text-[1.35rem]">
-                  sa<span className="text-[0.78em]">&#8377;</span>athi finconnect
+                  sa<span className="text-[0.78em]">&#8377;</span>athi
+                  finconnect
                 </span>
               </Link>
 
               <p className="mb-0 mt-5 max-w-sm text-sm leading-relaxed text-text-secondary">
-                Sarathi FinConnect helps individuals and businesses find suitable
-                loan and finance options with clear guidance and trusted support.
+                Sarathi FinConnect helps individuals and businesses find
+                suitable loan and finance options with clear guidance and
+                trusted support.
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 sm:gap-x-8">
               <LinkGroup title="Company">
-                <li><SectionLink hash="#about-us">About</SectionLink></li>
-                <li><SectionLink hash="#services">Services</SectionLink></li>
-                <li><SectionLink hash="#contact">Contact</SectionLink></li>
+                <li>
+                  <SectionLink hash="#about-us">About</SectionLink>
+                </li>
+                <li>
+                  <SectionLink hash="#services">Services</SectionLink>
+                </li>
+                <li>
+                  <SectionLink hash="#contact">Contact</SectionLink>
+                </li>
               </LinkGroup>
 
               <LinkGroup title="Services">
@@ -128,7 +134,7 @@ export default function Footer() {
           className="pointer-events-none select-none overflow-hidden px-1 pt-5 pb-1 text-center sm:px-3 sm:pt-7 md:pt-8"
         >
           <span
-            className="block whitespace-nowrap font-bricolage font-black leading-[0.82] tracking-[0.03em]"
+            className="block whitespace-nowrap font-bricolage font-black leading-[0.82] tracking-[-0.075em] md:tracking-[0.03em]"
             style={{
               fontSize: "clamp(1.7rem, 9.3vw, 8.5rem)",
               backgroundImage:
@@ -140,7 +146,7 @@ export default function Footer() {
           >
             sa<span className="text-[0.78em]">&#8377;</span>athi finconnect
           </span>
-          </div>
+        </div>
       </div>
     </footer>
   );
