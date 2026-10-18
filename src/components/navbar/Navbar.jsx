@@ -167,7 +167,7 @@ export default function Navbar() {
             /> */}
           </Link>
           <nav aria-label="Main navigation links" className="hidden md:block">
-            <ul className="m-0 flex list-none items-center gap-1 rounded-full bg-brand-navy/5 p-1">
+            <ul className="m-0 flex list-none items-center gap-1 p-0">
               {navLinks.map((link) => {
                 const isActive = activeHref === link.href;
                 return (
@@ -185,7 +185,7 @@ export default function Navbar() {
                         <motion.span
                           layoutId="desktop-nav-pill"
                           transition={pillTransition}
-                          className="absolute inset-0 rounded-full border border-black/5 bg-white shadow-sm"
+                          className="absolute inset-0 rounded-full border border-brand-navy/5 bg-brand-navy/5 shadow-sm"
                           aria-hidden="true"
                         />
                       )}
