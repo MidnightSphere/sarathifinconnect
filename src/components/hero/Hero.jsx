@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import PrimaryButton from "../ui/PrimaryButton";
 import SecondaryButton from "../ui/SecondaryButton";
+import useSplashDone from "../ui/split-reveal/useSplashDone";
 
 const GlowCursor = lazy(() => import("../ui/GlowCursor"));
 
@@ -19,6 +20,7 @@ const item = {
   },
 };
 export default function Hero() {
+  const splashDone = useSplashDone();
   const [supportsFinePointer, setSupportsFinePointer] = useState(false);
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export default function Hero() {
       />
       <motion.div
         initial="hidden"
-        animate="visible"
+        animate={splashDone ? "visible" : "hidden"}
         transition={{ staggerChildren: 0.1 }}
         className="relative z-10 mx-auto max-w-6xl"
       >

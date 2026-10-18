@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { navLinks } from "../../data/navigation";
 import MobileMenu from "./MobileMenu";
+import useSplashDone from "../ui/split-reveal/useSplashDone";
 
 const NAV_OFFSET = 96;
 const JOURNEY_SELECTOR = '[aria-label="Sarathi FinConnect financial journey"]';
@@ -25,6 +26,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const isHome = location.pathname === "/";
   const prefersReducedMotion = useReducedMotion();
+  const splashDone = useSplashDone();
   const pillTransition = prefersReducedMotion
     ? { duration: 0 }
     : { type: "spring", stiffness: 380, damping: 34, mass: 0.75 };
@@ -150,7 +152,7 @@ export default function Navbar() {
         <motion.nav
           aria-label="Main navigation"
           initial={{ y: -18, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          animate={splashDone ? { y: 0, opacity: 1 } : { y: -18, opacity: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
           className={`navbar-glass flex items-center justify-between rounded-full border px-4 py-2.5 sm:px-6 md:px-8 md:py-3 ${scrolled ? "navbar-glass-scrolled" : ""}`}
         >

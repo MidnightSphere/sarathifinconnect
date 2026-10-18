@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import PrimaryButton from "../ui/PrimaryButton";
+import useSplashDone from "../ui/split-reveal/useSplashDone";
 
 /* ═══════════════════════════════════════════════════
    DATA
@@ -203,6 +204,7 @@ function MobileMilestoneLabel({ label, pathXPct }) {
    ═══════════════════════════════════════════════════ */
 
 export default function Journey() {
+  const splashDone = useSplashDone();
   const containerRef = useRef(null);
   const reduceMotion = useReducedMotion();
   const [dims, setDims] = useState({ w: 1200, h: 3600 });
@@ -249,7 +251,11 @@ export default function Journey() {
   );
 
   const isMobile = dims.w < 768;
-  const activeStyle = reduceMotion ? { pathLength: 1 } : { pathLength: scrollYProgress };
+  const activeStyle = !splashDone
+    ? { pathLength: 0 }
+    : reduceMotion
+      ? { pathLength: 1 }
+      : { pathLength: scrollYProgress };
 
   /* ── Stroke widths (pixel values, no scaling needed) ── */
   const outerStroke = isMobile ? 14 : 22;
