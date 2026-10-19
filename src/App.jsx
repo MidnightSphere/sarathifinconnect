@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import ServicesPage from "./pages/ServicesPage";
 import SplitRevealSplash from "./components/ui/split-reveal/SplitRevealSplash";
 import SplashProvider from "./components/ui/split-reveal/SplashProvider";
+import { Analytics } from '@vercel/analytics/react';
 
 const SPLASH_SEEN_KEY = "sarathi_splash_seen";
 
@@ -63,6 +64,7 @@ export default function App() {
           <Routes location={location}>
             <Route path="/" element={<HomePage />} />
             <Route path="/services" element={<ServicesPage />} />
+             <Analytics />
           </Routes>
         </div>
         {!splashDone && <SplitRevealSplash onComplete={completeSplash} />}
