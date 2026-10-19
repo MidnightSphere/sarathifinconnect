@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sarathi-finconnect.vercel.app/sitemap.xml
+Sitemap: https://sarathifinconnect.com/sitemap.xml
