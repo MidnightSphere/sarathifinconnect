@@ -4,14 +4,15 @@ import HomePage from "./pages/HomePage";
 import ServicesPage from "./pages/ServicesPage";
 import SplitRevealSplash from "./components/ui/split-reveal/SplitRevealSplash";
 import SplashProvider from "./components/ui/split-reveal/SplashProvider";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 const SPLASH_SEEN_KEY = "sarathi_splash_seen";
 
 function shouldShowSplashOnBoot() {
   if (typeof window === "undefined") return false;
   if (window.location.pathname !== "/" || window.location.hash) return false;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    return false;
 
   try {
     if (window.sessionStorage.getItem(SPLASH_SEEN_KEY) === "1") return false;
@@ -32,7 +33,8 @@ function ScrollToTop() {
       const target = document.getElementById(decodeURIComponent(hash.slice(1)));
       if (target) {
         target.scrollIntoView({
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+            .matches
             ? "instant"
             : "smooth",
           block: "start",
@@ -64,10 +66,10 @@ export default function App() {
           <Routes location={location}>
             <Route path="/" element={<HomePage />} />
             <Route path="/services" element={<ServicesPage />} />
-             <Analytics />
           </Routes>
         </div>
         {!splashDone && <SplitRevealSplash onComplete={completeSplash} />}
+        <Analytics />
       </>
     </SplashProvider>
   );
