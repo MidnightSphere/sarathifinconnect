@@ -136,7 +136,7 @@ export default function ServicesPage() {
                 Detailed information about each service, eligibility, and
                 process will be available here soon. For now, feel free to{" "}
                 <a
-                  href="mailto:"
+                  href="mailto:info@sarathifinconnect.com?subject=Services%20enquiry"
                   className="font-semibold text-brand-gold no-underline transition-colors hover:text-brand-navy"
                 >
                   reach out to us
@@ -163,7 +163,7 @@ export default function ServicesPage() {
               A conversation is the first move toward a clearer financial path.
             </p>
             <a
-              href="mailto:info@sarathifinconnect.com"
+              href="mailto:info@sarathifinconnect.com?subject=Services%20enquiry"
               className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand-navy px-7 py-3.5 text-[0.9375rem] font-semibold text-white no-underline transition-colors duration-200 hover:bg-brand-navy-deep"
             >
               Talk to Us <ArrowRight size={16} aria-hidden="true" />
