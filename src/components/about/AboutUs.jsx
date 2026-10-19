@@ -69,7 +69,7 @@ export default function AboutUs() {
 
         <motion.div variants={fadeUp} className="mt-8">
           <a
-            href="mailto:"
+            href=""
             className="inline-flex items-center gap-2 text-[0.9rem] font-semibold text-brand-gold no-underline transition-colors duration-200 hover:text-brand-navy"
           >
             Learn More About Us <ArrowRight size={15} aria-hidden="true" />
