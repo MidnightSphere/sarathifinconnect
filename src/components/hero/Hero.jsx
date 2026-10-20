@@ -34,8 +34,16 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[86vh] items-center justify-center overflow-hidden px-5 pb-20 pt-32 text-center sm:px-8 sm:pt-36"
+      className="relative isolate flex min-h-[86vh] items-center justify-center overflow-hidden px-5 pb-20 pt-32 text-center sm:px-8 sm:pt-36"
     >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-24 -top-32 -z-10 h-[420px] w-[420px] rounded-full bg-[rgba(198,146,20,0.14)] blur-3xl"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-24 -top-32 -z-10 h-[420px] w-[420px] rounded-full bg-[rgba(11,31,77,0.08)] blur-3xl"
+      />
       {supportsFinePointer && (
         <div
           aria-hidden="true"

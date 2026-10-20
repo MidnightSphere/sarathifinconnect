@@ -144,6 +144,12 @@ export default function Navbar() {
 
   // On home: use plain hash; on other pages: navigate to home then hash.
   const getHref = (hash) => (isHome ? hash : `/${hash}`);
+  const navigateFromDesktopNav = (event, href) => {
+    event.preventDefault();
+    if (isHome && !getNavSection(href)) return;
+    if (isHome && !scrollToHash(href)) return;
+    navigate({ pathname: "/", hash: href });
+  };
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 sm:px-6 sm:pt-5">
@@ -154,7 +160,7 @@ export default function Navbar() {
           initial={{ y: -18, opacity: 0 }}
           animate={splashDone ? { y: 0, opacity: 1 } : { y: -18, opacity: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
-          className={`navbar-glass flex items-center justify-between rounded-full border px-4 py-2.5 sm:px-6 md:px-8 md:py-3 ${scrolled ? "navbar-glass-scrolled" : ""}`}
+          className={`navbar-glass flex items-center justify-between rounded-full border px-4 py-2.5 sm:px-6 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center md:px-8 md:py-3 ${scrolled ? "navbar-glass-scrolled" : ""}`}
         >
           <Link
             to="/"
@@ -176,7 +182,7 @@ export default function Navbar() {
               className="h-4 w-auto max-w-[9.5rem] object-contain sm:h-5 md:h-[1.35rem] md:max-w-none"
             /> */}
           </Link>
-          <nav aria-label="Main navigation links" className="hidden md:block">
+          <nav aria-label="Main navigation links" className=" hidden rounded-full p-1 md:block">
             <ul className="m-0 flex list-none items-center gap-1 p-0">
               {navLinks.map((link) => {
                 const isActive = activeHref === link.href;
@@ -185,12 +191,7 @@ export default function Navbar() {
                     <a
                       href={getHref(link.href)}
                       aria-current={isActive ? "location" : undefined}
-                      onClick={(event) => {
-                        event.preventDefault();
-                        if (isHome && !getNavSection(link.href)) return;
-                        if (isHome && !scrollToHash(link.href)) return;
-                        navigate({ pathname: "/", hash: link.href });
-                      }}
+                      onClick={(event) => navigateFromDesktopNav(event, link.href)}
                       className={`relative block rounded-full px-4 py-2 text-sm no-underline transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold ${isActive ? "font-bold text-brand-navy" : "font-semibold text-text-primary"}`}
                     >
                       {isActive && (
@@ -214,6 +215,13 @@ export default function Navbar() {
               })}
             </ul>
           </nav>
+          <a
+            href={getHref("#contact")}
+            onClick={(event) => navigateFromDesktopNav(event, "#contact")}
+            className="hidden md:inline-flex items-center rounded-full border border-white/20 bg-brand-navy px-5 py-2 text-sm font-semibold text-white no-underline transition hover:bg-brand-navy-deep hover:shadow-lg focus-visible:outline-2 focus-visible:outline-brand-gold md:justify-self-end"
+          >
+            Get Started
+          </a>
           <button
             type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}
