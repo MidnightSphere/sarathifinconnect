@@ -54,7 +54,7 @@ export default function MobileMenu({ isOpen, onNavigate, activeHref, isHome }) {
                   onClick={(event) => onNavigate(event, getHref("#contact"))}
                   size="md"
                   variant="navy"
-                  className="w-full justify-between"
+                  className="w-full"
                 >
                   Get Started
                 </ArrowButton>
