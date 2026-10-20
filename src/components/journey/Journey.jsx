@@ -12,7 +12,7 @@ import {
   HeartHandshake,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import PrimaryButton from "../ui/PrimaryButton";
+import ArrowButton from "../ui/ArrowButton";
 import useSplashDone from "../ui/split-reveal/useSplashDone";
 
 /* ═══════════════════════════════════════════════════
@@ -519,12 +519,14 @@ export default function Journey() {
           <p className="mx-auto mt-5 max-w-lg text-white/70">
             A conversation is the first move toward a clearer financial path.
           </p>
-          <PrimaryButton
+          <ArrowButton
             href="mailto:"
-            className="mt-8 !bg-brand-gold hover:!bg-brand-gold-light"
+            variant="gold"
+            size="md"
+            className="mt-8"
           >
-            Talk to Us <ArrowRight size={16} aria-hidden="true" />
-          </PrimaryButton>
+            Talk to Us
+          </ArrowButton>
         </div>
       </section>
     </div>

@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { navLinks } from "../../data/navigation";
+import ArrowButton from "../ui/ArrowButton";
 import MobileMenu from "./MobileMenu";
 import useSplashDone from "../ui/split-reveal/useSplashDone";
 
@@ -222,13 +223,15 @@ export default function Navbar() {
               })}
             </ul>
           </nav>
-          <a
+          <ArrowButton
             href={getHref("#contact")}
-            onClick={(event) => navigateFromDesktopNav(event, "#contact")}
-            className="hidden md:inline-flex items-center rounded-full border border-white/20 bg-brand-navy px-5 py-2 text-sm font-semibold text-white no-underline transition hover:bg-brand-navy-deep hover:shadow-lg focus-visible:outline-2 focus-visible:outline-brand-gold md:justify-self-end"
+            onClick={(e) => navigateFromDesktopNav(e, "#contact")}
+            size="sm"
+            variant="navy"
+            className="hidden md:inline-flex md:h-9 md:justify-self-end"
           >
             Get Started
-          </a>
+          </ArrowButton>
           <button
             type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}

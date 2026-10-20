@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowRight } from "lucide-react";
 import { navLinks } from "../../data/navigation";
+import ArrowButton from "../ui/ArrowButton";
 
 export default function MobileMenu({ isOpen, onNavigate, activeHref, isHome }) {
   const getHref = (hash) => (isHome ? hash : `/${hash}`);
@@ -49,13 +49,15 @@ export default function MobileMenu({ isOpen, onNavigate, activeHref, isHome }) {
                 </motion.li>
               ))}
               <li className="mt-1 border-t border-border pt-2">
-                <a
+                <ArrowButton
                   href={getHref("#contact")}
                   onClick={(event) => onNavigate(event, getHref("#contact"))}
-                  className="flex items-center justify-between rounded-xl bg-brand-navy px-4 py-3 text-[0.95rem] font-semibold text-white no-underline transition-colors hover:bg-brand-navy-deep focus-visible:outline-2 focus-visible:outline-brand-gold"
+                  size="md"
+                  variant="navy"
+                  className="w-full justify-between"
                 >
-                  Get Started <ArrowRight size={17} aria-hidden="true" />
-                </a>
+                  Get Started
+                </ArrowButton>
               </li>
             </ul>
           </nav>

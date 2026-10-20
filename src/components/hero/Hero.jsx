@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, MessageCircle } from "lucide-react";
-import PrimaryButton from "../ui/PrimaryButton";
+import { MessageCircle } from "lucide-react";
+import ArrowButton from "../ui/ArrowButton";
 import SecondaryButton from "../ui/SecondaryButton";
 import useSplashDone from "../ui/split-reveal/useSplashDone";
 
@@ -106,9 +106,9 @@ export default function Hero() {
           variants={item}
           className="mt-9 flex flex-wrap justify-center gap-3 sm:gap-4"
         >
-          <PrimaryButton href="#services">
-            Explore Solutions <ArrowRight size={16} aria-hidden="true" />
-          </PrimaryButton>
+          <ArrowButton href="#services" variant="navy" size="md">
+            Explore Solutions
+          </ArrowButton>
           <SecondaryButton href="#contact">
             <MessageCircle size={16} aria-hidden="true" /> Talk to Us
           </SecondaryButton>
