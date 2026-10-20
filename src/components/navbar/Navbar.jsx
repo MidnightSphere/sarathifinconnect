@@ -223,15 +223,17 @@ export default function Navbar() {
               })}
             </ul>
           </nav>
-          <ArrowButton
-            href={getHref("#contact")}
-            onClick={(e) => navigateFromDesktopNav(e, "#contact")}
-            size="sm"
-            variant="navy"
-            className="hidden md:inline-flex md:h-9 md:justify-self-end"
-          >
-            Get Started
-          </ArrowButton>
+          <div className="hidden md:block md:justify-self-end">
+            <ArrowButton
+              href={getHref("#contact")}
+              onClick={(e) => navigateFromDesktopNav(e, "#contact")}
+              size="sm"
+              variant="navy"
+              className="md:h-9"
+            >
+              Get Started
+            </ArrowButton>
+          </div>
           <button
             type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}
