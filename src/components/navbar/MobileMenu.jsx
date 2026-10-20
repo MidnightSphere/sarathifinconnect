@@ -34,7 +34,7 @@ export default function MobileMenu({ isOpen, onNavigate, activeHref, isHome }) {
                       <motion.span
                         layoutId="mobile-nav-pill"
                         transition={pillTransition}
-                        className="absolute inset-0 rounded-full border border-white/80 bg-white/75 shadow-[0_2px_12px_rgba(11,31,77,0.12)]"
+                        className="absolute inset-0 rounded-full border border-white/70 bg-white/60 shadow-[0_2px_10px_rgba(11,31,77,0.12)]"
                         aria-hidden="true"
                       />
                     )}

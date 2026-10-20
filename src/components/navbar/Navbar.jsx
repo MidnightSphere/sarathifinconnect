@@ -160,7 +160,7 @@ export default function Navbar() {
           initial={{ y: -18, opacity: 0 }}
           animate={splashDone ? { y: 0, opacity: 1 } : { y: -18, opacity: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
-          className={`navbar-glass flex items-center justify-between rounded-full border px-4 py-2.5 sm:px-6 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center md:px-8 md:py-3 ${scrolled ? "navbar-glass-scrolled" : ""}`}
+          className={`navbar-glass flex items-center justify-between rounded-full border px-4 py-2.5 sm:px-6 md:px-8 md:py-3 ${scrolled ? "navbar-glass-scrolled" : ""}`}
         >
           <Link
             to="/"
@@ -182,7 +182,7 @@ export default function Navbar() {
               className="h-4 w-auto max-w-[9.5rem] object-contain sm:h-5 md:h-[1.35rem] md:max-w-none"
             /> */}
           </Link>
-          <nav aria-label="Main navigation links" className=" hidden rounded-full p-1 md:block">
+          <nav aria-label="Main navigation links" className="hidden md:block">
             <ul className="m-0 flex list-none items-center gap-1 p-0">
               {navLinks.map((link) => {
                 const isActive = activeHref === link.href;
@@ -198,7 +198,7 @@ export default function Navbar() {
                         <motion.span
                           layoutId="desktop-nav-pill"
                           transition={pillTransition}
-                          className="absolute inset-0 rounded-full border border-brand-navy/5 bg-brand-navy/5 shadow-sm"
+                          className="absolute inset-0 rounded-full border border-white/70 bg-white/60 shadow-[0_2px_10px_rgba(11,31,77,0.12)]"
                           aria-hidden="true"
                         />
                       )}

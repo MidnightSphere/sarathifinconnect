@@ -38,12 +38,12 @@ export default function Hero() {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-24 -top-32 -z-10 h-[420px] w-[420px] rounded-full bg-[rgba(198,146,20,0.14)] blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-24 -top-32 -z-10 h-[420px] w-[420px] rounded-full bg-[rgba(11,31,77,0.08)] blur-3xl"
-      />
+        className="pointer-events-none absolute inset-0 -z-10 hidden overflow-hidden md:block"
+      >
+        <div className="absolute -top-20 left-[8%] h-[380px] w-[380px] rounded-full bg-brand-gold/35 blur-3xl" />
+        <div className="absolute -top-[100px] right-[6%] h-[420px] w-[420px] rounded-full bg-brand-navy/25 blur-3xl" />
+        <div className="absolute top-10 left-[45%] h-[280px] w-[280px] rounded-full bg-brand-gold-light/40 blur-3xl" />
+      </div>
       {supportsFinePointer && (
         <div
           aria-hidden="true"
