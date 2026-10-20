@@ -62,16 +62,19 @@ export default function Navbar() {
     return true;
   }, []);
 
-  const navigateFromMobileMenu = useCallback((event, href) => {
-    event.preventDefault();
-    const hash = href.slice(href.indexOf("#"));
-    if (isHome && !getNavSection(hash)) return;
-    if (isHome) {
-      if (!scrollToHash(hash)) return;
-    }
-    closeMobileMenu();
-    navigate({ pathname: "/", hash });
-  }, [closeMobileMenu, isHome, navigate, scrollToHash]);
+  const navigateFromMobileMenu = useCallback(
+    (event, href) => {
+      event.preventDefault();
+      const hash = href.slice(href.indexOf("#"));
+      if (isHome && !getNavSection(hash)) return;
+      if (isHome) {
+        if (!scrollToHash(hash)) return;
+      }
+      closeMobileMenu();
+      navigate({ pathname: "/", hash });
+    },
+    [closeMobileMenu, isHome, navigate, scrollToHash],
+  );
 
   useEffect(() => {
     if (!isHome || !location.hash || !getNavSection(location.hash)) return;
@@ -174,13 +177,12 @@ export default function Navbar() {
               className="h-8 w-auto shrink-0 object-contain md:h-9"
             />
             <span className="ml-1 truncate font-bricolage text-[1.05rem] font-[750] leading-none tracking-wide text-brand-navy sm:text-xl md:ml-2 md:text-[1.5rem]">
-              sa<span className="text-[1.05rem] sm:text-xl md:text-[1.3rem]">&#8377;</span>athi finconnect
+              sa
+              <span className="text-[1.05rem] sm:text-xl md:text-[1.3rem]">
+                &#8377;
+              </span>
+              athi finconnect
             </span>
-            {/* <img
-              src="/logo/sarathi-finconnect-tile-logo.svg"
-              alt="Sarathi FinConnect"
-              className="h-4 w-auto max-w-[9.5rem] object-contain sm:h-5 md:h-[1.35rem] md:max-w-none"
-            /> */}
           </Link>
           <nav aria-label="Main navigation links" className="hidden md:block">
             <ul className="m-0 flex list-none items-center gap-1 p-0">
@@ -191,21 +193,26 @@ export default function Navbar() {
                     <a
                       href={getHref(link.href)}
                       aria-current={isActive ? "location" : undefined}
-                      onClick={(event) => navigateFromDesktopNav(event, link.href)}
+                      onClick={(event) =>
+                        navigateFromDesktopNav(event, link.href)
+                      }
                       className={`relative block rounded-full px-4 py-2 text-sm no-underline transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold ${isActive ? "font-bold text-brand-navy" : "font-semibold text-text-primary"}`}
                     >
                       {isActive && (
                         <motion.span
                           layoutId="desktop-nav-pill"
                           transition={pillTransition}
-                          className="absolute inset-0 rounded-full border border-white/70 bg-white/60 shadow-[0_2px_10px_rgba(11,31,77,0.12)]"
+                          className="absolute inset-0 rounded-full border border-brand-navy/5 bg-brand-navy/5 shadow-sm"
                           aria-hidden="true"
                         />
                       )}
                       <motion.span
                         className="relative z-10 inline-block"
                         animate={{ scale: isActive ? 1 : 0.98 }}
-                        transition={{ duration: prefersReducedMotion ? 0 : 0.28, ease: [0.32, 0.72, 0, 1] }}
+                        transition={{
+                          duration: prefersReducedMotion ? 0 : 0.28,
+                          ease: [0.32, 0.72, 0, 1],
+                        }}
                       >
                         {link.label}
                       </motion.span>
