@@ -30,10 +30,16 @@ function ScrollToTop() {
   const { pathname, hash } = useLocation();
   useLayoutEffect(() => {
     if (hash) {
-      const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+      const id = decodeURIComponent(hash.slice(1));
+      const servicesTarget = id === "services";
+      const target = document.getElementById(
+        servicesTarget ? "services-content" : id,
+      ) || document.getElementById(id);
       if (target) {
         target.scrollIntoView({
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+          behavior: servicesTarget
+            ? "instant"
+            : window.matchMedia("(prefers-reduced-motion: reduce)")
             .matches
             ? "instant"
             : "smooth",

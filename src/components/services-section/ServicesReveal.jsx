@@ -1,6 +1,6 @@
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
-import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import ScrollStack, { ScrollStackItem } from './ServicesScrollStack.jsx'
 import { loanServices } from '../../data/loan-services-data.js'
 
@@ -163,12 +163,17 @@ function ServiceCard({ card }) {
 function ServicesReveal() {
   const revealRef = useRef(null)
   const reducedMotion = useReducedMotion() ?? false
+  const { hash } = useLocation()
   const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 639px)').matches)
   const { scrollYProgress } = useScroll({ target: revealRef, offset: ['start start', 'end end'] })
   const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.35 })
   const circleClip = useTransform(progress, [0, 0.7], ['circle(0% at 50% 50%)', 'circle(75% at 50% 50%)'])
   const copyOpacity = useTransform(progress, [0.6, 0.84], [0, 1])
   const copyY = useTransform(progress, [0.6, 0.84], [18, 0])
+
+  useLayoutEffect(() => {
+    if (hash === '#services') progress.jump(0.97)
+  }, [hash, progress])
 
   useEffect(() => {
     const media = window.matchMedia('(max-width: 639px)')
@@ -178,15 +183,21 @@ function ServicesReveal() {
   }, [])
 
   return (
-    <section className="relative bg-[var(--navy-deep)] px-4 pb-16 text-white sm:px-6 sm:pb-20 md:pb-24" id="services" style={{ '--navy': '#10224d', '--navy-deep': '#0b1f4d', '--gold': '#c69214' }} aria-labelledby="services-heading">
+    <section className="relative m-0 mb-20 rounded-[1.75rem] bg-[var(--navy-deep)] px-4 pb-16 text-white md:rounded-[2.5rem] md:pb-24" id="services" style={{ '--navy': '#10224d', '--navy-deep': '#0b1f4d', '--gold': '#c69214' }} aria-labelledby="services-heading">
       <div ref={revealRef} className={reducedMotion ? 'relative' : 'relative h-[250svh]'} aria-label="Services introduction reveal">
+        <div
+          id="services-content"
+          className="pointer-events-none absolute"
+          style={{ top: reducedMotion ? 0 : 'calc((100% - 100svh) * 0.97)' }}
+          aria-hidden="true"
+        />
         {reducedMotion ? (
           <div className="mx-auto flex min-h-[22rem] w-full max-w-6xl flex-col items-center justify-center pb-10 text-center">
             <ServicesRevealCopy />
           </div>
         ) : (
-          <div className="sticky top-0 -mx-4 grid h-svh w-[calc(100%+2rem)] place-items-center bg-white sm:-mx-6 sm:w-[calc(100%+3rem)]">
-            <motion.div className="absolute inset-0 z-0 bg-[var(--navy-deep)]" style={{ clipPath: circleClip }} aria-hidden="true" />
+          <div className="sticky top-0 -mx-4 grid h-svh w-[calc(100%+2rem)] place-items-center rounded-[1.75rem] bg-white sm:-mx-6 sm:w-[calc(100%+3rem)] md:rounded-[2.5rem]">
+            <motion.div className="absolute inset-0 z-0 rounded-[inherit] bg-[var(--navy-deep)]" style={{ clipPath: circleClip }} aria-hidden="true" />
             <motion.div
               className="relative z-[1] flex w-full flex-col items-center justify-center gap-4 px-6 py-8 text-center text-white"
               style={{ opacity: copyOpacity, y: copyY }}
@@ -212,7 +223,7 @@ function ServicesReveal() {
       >
         {serviceCards.map((card) => <ServiceCard key={card.id} card={card} />)}
       </ScrollStack>
-      <p className="mx-auto mb-0 mt-7 w-[94%] max-w-[90rem] px-2 text-[10px] leading-5 text-white/60">
+      <p className="mx-auto mb-0 mt-8 w-[94%] max-w-3xl px-2 text-center text-xs leading-relaxed text-white/70 md:mt-12 sm:text-sm">
         * Indicative references from the supplied loan guide only. Rates, tenure, charges, and eligibility vary by lender and applicant; confirm current terms directly with a lender.
       </p>
     </section>

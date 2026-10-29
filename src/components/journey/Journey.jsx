@@ -69,7 +69,7 @@ function buildPath(w, h) {
     { x: rx, y: h * 0.53 },    // 5  How It Works milestone → RIGHT (card is LEFT)
     { x: cx, y: h * 0.63 },    // 6  center pass
     { x: cx, y: h * 0.73 },    // 7  Next Step (center)
-    { x: cx, y: h * 0.97 },    // 8  end → extends into bottom padding (behind About Us)
+    { x: cx, y: h },           // 8  end at the Journey section boundary
   ];
 
   // Smooth cubic Bézier: control points at same X as waypoint,
@@ -175,7 +175,7 @@ function MobileMilestoneLabel({ label, pathXPct }) {
    ─────────────────────────────────────────────────
    Architecture:
 
-   ┌─ Journey Container (relative, pb-32) ─────────┐
+   ┌─ Journey Container (relative) ─────────┐
    │                                                │
    │  SVG (absolute inset-0, z-0)                   │
    │    ├─ outer grey rail     (strokeWidth 22)      │
@@ -194,7 +194,7 @@ function MobileMilestoneLabel({ label, pathXPct }) {
    │    ├─ How It Works card (LEFT side)             │
    │    └─ Next Step CTA (CENTER, path behind)       │
    │                                                │
-   │  ── pb-32 padding (path tail visible here) ──  │
+
    └────────────────────────────────────────────────┘
    ┌─ About Us (separate component, bg-surface) ───┐
    │  -mt-20 overlaps journey padding               │
@@ -273,7 +273,7 @@ export default function Journey() {
   return (
     <div
       ref={containerRef}
-      className="relative pb-32"
+      className="relative overflow-y-clip"
       aria-label="Sarathi FinConnect financial journey"
     >
       {/* Subtle radial background */}
@@ -292,6 +292,10 @@ export default function Journey() {
         preserveAspectRatio="none"
         fill="none"
         aria-hidden="true"
+        style={{
+          maskImage: "linear-gradient(to bottom, #000 calc(100% - 28px), transparent)",
+          WebkitMaskImage: "linear-gradient(to bottom, #000 calc(100% - 28px), transparent)",
+        }}
       >
         {/* 1. OUTER TRACK — thick grey stroke forms the two visible rails */}
         <path
@@ -503,8 +507,7 @@ export default function Journey() {
 
       {/* ─── NEXT STEP CTA ───
            Path passes BEHIND this card (z-10 > z-0).
-           Path continues below in pb-32 padding,
-           then gets covered by About Us.               */}
+           Path ends at the Journey section boundary. */}
       <section
         id="contact"
         className="relative z-10 flex items-center justify-center px-5 py-20 text-center sm:px-8 sm:py-28"

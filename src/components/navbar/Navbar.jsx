@@ -54,12 +54,19 @@ export default function Navbar() {
       return true;
     }
 
-    const element = getNavSection(hash);
-    if (!element) return false;
+    const section = getNavSection(hash);
+    if (!section) return false;
+    const element =
+      id === "services"
+        ? document.getElementById("services-content") || section
+        : section;
 
     const top =
       element.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
-    window.scrollTo({ top: Math.max(top, 0), behavior });
+    window.scrollTo({
+      top: Math.max(top, 0),
+      behavior: id === "services" ? "instant" : behavior,
+    });
     return true;
   }, []);
 
