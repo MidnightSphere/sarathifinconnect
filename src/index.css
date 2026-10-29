@@ -163,3 +163,27 @@ body {
   background-color: var(--color-brand-navy);
   color: white;
 }
+
+#services::selection,
+#services *::selection {
+  background-color: var(--color-brand-gold);
+  color: var(--color-brand-navy);
+}
+
+#services::-moz-selection,
+#services *::-moz-selection {
+  background-color: var(--color-brand-gold);
+  color: var(--color-brand-navy);
+}
+
+#services .service-card--gold::selection,
+#services .service-card--gold *::selection {
+  background-color: var(--color-brand-navy);
+  color: #ffffff;
+}
+
+#services .service-card--gold::-moz-selection,
+#services .service-card--gold *::-moz-selection {
+  background-color: var(--color-brand-navy);
+  color: #ffffff;
+}

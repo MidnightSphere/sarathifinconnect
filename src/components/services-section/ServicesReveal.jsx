@@ -152,7 +152,7 @@ function ServiceCard({ card }) {
 
   return (
     <ScrollStackItem
-      itemClassName="h-auto rounded-[28px] p-4 sm:p-6 lg:p-8"
+      itemClassName={`h-auto rounded-[28px] p-4 sm:p-6 lg:p-8 ${card.tone === 'gold' ? 'service-card--gold' : ''}`}
       style={{ background: card.background, color: card.color, border: card.border }}
     >
       <div className={`grid grid-cols-1 items-start gap-4 sm:gap-5 lg:items-center lg:gap-12 ${card.imageFirst ? 'lg:grid-cols-[0.85fr_1fr]' : 'lg:grid-cols-[1fr_0.85fr]'}`}>
@@ -241,7 +241,7 @@ function ServicesRevealCopy() {
         Loans built around your goals.
       </h2>
       <p className="m-0 max-w-[650px] text-sm leading-7 text-white/80 sm:text-base">
-        Choose from home, car, personal and business loans, with clear guidance from application to approval.
+        Explore loan options for your personal, business and property needs, with clear guidance from application to approval.
       </p>
       <Link to="/services" className="group mt-1 inline-flex min-h-11 items-center gap-3 rounded-full border border-[#c69214] px-6 py-2 text-sm font-bold text-white no-underline transition-colors hover:bg-[#c69214] hover:text-[#10224d] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#c69214]">
         Explore more services
