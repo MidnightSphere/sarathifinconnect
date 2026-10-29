@@ -183,7 +183,8 @@ function ServicesReveal() {
   }, [])
 
   return (
-    <section className="relative m-0 mb-20 rounded-[1.75rem] bg-[var(--navy-deep)] px-4 pb-16 text-white md:rounded-[2.5rem] md:pb-24" id="services" style={{ '--navy': '#10224d', '--navy-deep': '#0b1f4d', '--gold': '#c69214' }} aria-labelledby="services-heading">
+    <section className="relative isolate m-0 mb-20 bg-transparent px-4 pb-16 text-white md:pb-24" id="services" style={{ '--navy': '#10224d', '--navy-deep': '#0b1f4d', '--gold': '#c69214' }} aria-labelledby="services-heading">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[-1] rounded-b-[1.75rem] bg-[var(--navy-deep)] md:rounded-b-[2.5rem]" />
       <div ref={revealRef} className={reducedMotion ? 'relative' : 'relative h-[250svh]'} aria-label="Services introduction reveal">
         <div
           id="services-content"
@@ -196,8 +197,8 @@ function ServicesReveal() {
             <ServicesRevealCopy />
           </div>
         ) : (
-          <div className="sticky top-0 -mx-4 grid h-svh w-[calc(100%+2rem)] place-items-center rounded-[1.75rem] bg-white sm:-mx-6 sm:w-[calc(100%+3rem)] md:rounded-[2.5rem]">
-            <motion.div className="absolute inset-0 z-0 rounded-[inherit] bg-[var(--navy-deep)]" style={{ clipPath: circleClip }} aria-hidden="true" />
+          <div className="sticky top-0 -mx-4 grid h-svh w-[calc(100%+2rem)] place-items-center bg-white sm:-mx-6 sm:w-[calc(100%+3rem)]">
+            <motion.div className="absolute inset-0 z-0 bg-[var(--navy-deep)]" style={{ clipPath: circleClip }} aria-hidden="true" />
             <motion.div
               className="relative z-[1] flex w-full flex-col items-center justify-center gap-4 px-6 py-8 text-center text-white"
               style={{ opacity: copyOpacity, y: copyY }}
