@@ -285,7 +285,16 @@ function ServicesReveal() {
     () => window.matchMedia("(max-width: 639px)").matches,
   );
   const [maxRevealRadius, setMaxRevealRadius] = useState(0);
-  const [supportsMask, setSupportsMask] = useState(true);
+  const supportsMask =
+    typeof CSS !== "undefined" &&
+    (CSS.supports(
+      "mask-image",
+      "radial-gradient(circle, transparent, #000)",
+    ) ||
+      CSS.supports(
+        "-webkit-mask-image",
+        "radial-gradient(circle, transparent, #000)",
+      ));
   const { scrollYProgress } = useScroll({
     target: revealRef,
     offset: ["start start", "end end"],
@@ -316,17 +325,6 @@ function ServicesReveal() {
   }, [hash, progress]);
 
   useLayoutEffect(() => {
-    setSupportsMask(
-      CSS.supports(
-        "mask-image",
-        "radial-gradient(circle, transparent, #000)",
-      ) ||
-        CSS.supports(
-          "-webkit-mask-image",
-          "radial-gradient(circle, transparent, #000)",
-        ),
-    );
-
     const sticky = stickyRef.current;
     if (!sticky) return;
 
@@ -335,7 +333,6 @@ function ServicesReveal() {
       setMaxRevealRadius(Math.hypot(width, height) / 2 + 8);
     };
 
-    updateRadius();
     const observer = new ResizeObserver(updateRadius);
     observer.observe(sticky);
     return () => observer.disconnect();
@@ -362,7 +359,7 @@ function ServicesReveal() {
       <div
         ref={revealRef}
         className={
-          reducedMotion ? "relative h-svh" : "relative h-[180svh] md:h-[240svh]"
+          reducedMotion ? "relative h-svh" : "relative h-[190svh] md:h-[240svh]"
         }
       >
         {!reducedMotion && (
@@ -432,7 +429,10 @@ function ServicesReveal() {
         )}
       </div>
 
-      <div id="services-cards" className="w-full pt-8 md:pt-12">
+      <div
+        id="services-cards"
+        className="relative z-20 w-full pt-8 md:pt-12"
+      >
         <ScrollStack
           useWindowScroll
           smoothScroll={false}
