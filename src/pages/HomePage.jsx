@@ -2,6 +2,7 @@ import Navbar from "../components/navbar/Navbar";
 import Hero from "../components/hero/Hero";
 import Journey from "../components/journey/Journey";
 import AboutUs from "../components/about/AboutUs";
+import ServicesReveal from "../components/services-section/ServicesReveal";
 import Footer from "../components/layout/Footer";
 
 export default function HomePage() {
@@ -11,6 +12,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <Journey />
+        <ServicesReveal />
         <AboutUs />
       </main>
       <Footer />

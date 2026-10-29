@@ -391,7 +391,7 @@ export default function Journey() {
 
       {/* ─── SOLUTIONS (LEFT) ─── */}
       <section
-        id="services"
+        id="journey-services"
         className="relative z-10 px-5 py-20 sm:px-8 sm:py-28"
       >
         <MobileMilestoneLabel label="SOLUTIONS" pathXPct={rightPct} />
