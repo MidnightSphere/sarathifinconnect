@@ -330,7 +330,8 @@ function ServicesReveal() {
 
     const updateRadius = () => {
       const { width, height } = sticky.getBoundingClientRect();
-      setMaxRevealRadius(Math.hypot(width, height) / 2 + 8);
+      const diagonal = Math.hypot(width, height);
+      setMaxRevealRadius(diagonal * 0.6);
     };
 
     const observer = new ResizeObserver(updateRadius);
@@ -359,16 +360,18 @@ function ServicesReveal() {
       <div
         ref={revealRef}
         className={
-          reducedMotion ? "relative h-svh" : "relative h-[190svh] md:h-[240svh]"
+          reducedMotion
+            ? "relative h-screen supports-[height:100lvh]:h-[100lvh]"
+            : "relative h-[165vh] md:h-[205vh] supports-[height:100lvh]:h-[165lvh] md:supports-[height:100lvh]:h-[205lvh]"
         }
       >
         {!reducedMotion && (
           <div
             ref={stickyRef}
-            className="sticky top-0 -mx-4 h-svh w-[calc(100%+2rem)] overflow-hidden"
+            className="sticky top-0 -mx-4 h-screen supports-[height:100lvh]:h-[100lvh] w-[calc(100%+2rem)] overflow-hidden"
           >
             <motion.div
-              className="pointer-events-none absolute inset-0 z-0 bg-white"
+              className="pointer-events-none absolute inset-0 z-0 h-full bg-white"
               style={{
                 "--reveal-radius": revealRadius,
                 maskImage:
@@ -379,7 +382,7 @@ function ServicesReveal() {
               }}
               aria-hidden="true"
             />
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 pt-24 pb-[36svh] text-center">
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 pt-24 pb-[24svh] md:pb-[28svh] text-center">
               <motion.span
                 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#d6ad52]"
                 style={{ opacity: eyebrowOpacity, y: eyebrowY }}
@@ -416,14 +419,14 @@ function ServicesReveal() {
           </div>
         )}
         {reducedMotion && (
-          <div className="sticky top-0 flex h-svh flex-col items-center justify-center px-4 pt-24 pb-[36svh] text-center">
+          <div className="sticky top-0 flex h-screen supports-[height:100lvh]:h-[100lvh] flex-col items-center justify-center px-4 pt-24 pb-[24svh] md:pb-[28svh] text-center">
             <ServicesRevealCopy />
           </div>
         )}
         {!reducedMotion && (
           <div
             id="services-content"
-            className="pointer-events-none absolute top-[calc(90%_-_77svh)] h-0 w-0"
+            className="pointer-events-none absolute top-[calc(90%_-_90svh_+_96px)] h-0 w-0"
             aria-hidden="true"
           />
         )}
