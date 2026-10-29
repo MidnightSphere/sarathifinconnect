@@ -14,6 +14,7 @@ const standardFaqs = [
 export const loanServices = [
   {
     id: "home-loan",
+    icon: "Home",
     number: "01",
     name: "Home Loan",
     category: "Property finance",
@@ -52,6 +53,7 @@ export const loanServices = [
   },
   {
     id: "car-loan",
+    icon: "Car",
     number: "02",
     name: "Car Loan",
     category: "Vehicle finance",
@@ -90,6 +92,7 @@ export const loanServices = [
   },
   {
     id: "business-loan",
+    icon: "Briefcase",
     number: "03",
     name: "Business Loan",
     category: "Business finance",
@@ -128,6 +131,7 @@ export const loanServices = [
   },
   {
     id: "personal-loan",
+    icon: "Wallet",
     number: "04",
     name: "Personal Loan",
     category: "Personal finance",
@@ -166,6 +170,7 @@ export const loanServices = [
   },
   {
     id: "loan-against-property",
+    icon: "Building2",
     number: "05",
     name: "Loan Against Property",
     category: "Property-backed finance",
@@ -198,6 +203,7 @@ export const loanServices = [
   },
   {
     id: "loan-against-securities",
+    icon: "LineChart",
     number: "06",
     name: "Loan Against Securities",
     category: "Investment-backed finance",
@@ -229,6 +235,7 @@ export const loanServices = [
   },
   {
     id: "gold-loan",
+    icon: "Coins",
     number: "07",
     name: "Gold Loan",
     category: "Gold-backed finance",
@@ -261,6 +268,7 @@ export const loanServices = [
   },
   {
     id: "machinery-loan",
+    icon: "Cog",
     number: "08",
     name: "Machinery Loan",
     category: "Equipment finance",
@@ -293,6 +301,7 @@ export const loanServices = [
   },
   {
     id: "commercial-vehicle-loan",
+    icon: "Truck",
     number: "09",
     name: "Commercial Vehicle Loan",
     category: "Fleet finance",
@@ -323,6 +332,7 @@ export const loanServices = [
   },
   {
     id: "home-loan-balance-transfer",
+    icon: "Repeat",
     number: "10",
     name: "Home Loan Balance Transfer",
     category: "Loan transfer",
@@ -356,6 +366,7 @@ export const loanServices = [
   },
   {
     id: "education-loan",
+    icon: "GraduationCap",
     number: "11",
     name: "Education Loan",
     category: "Education finance",
@@ -395,6 +406,7 @@ export const loanServices = [
   },
   {
     id: "sme-msme-loan",
+    icon: "Store",
     number: "12",
     name: "SME & MSME Loan",
     category: "Enterprise finance",
@@ -428,6 +440,7 @@ export const loanServices = [
   },
   {
     id: "business-equipment-finance",
+    icon: "Wrench",
     number: "13",
     name: "Business & Equipment Finance",
     category: "Equipment finance",
@@ -461,6 +474,7 @@ export const loanServices = [
   },
   {
     id: "working-capital-finance",
+    icon: "Banknote",
     number: "14",
     name: "Working Capital Finance",
     category: "Cash-flow finance",
@@ -493,6 +507,7 @@ export const loanServices = [
   },
   {
     id: "solar-project-finance",
+    icon: "Sun",
     number: "15",
     name: "Solar Project Finance",
     category: "Green energy finance",

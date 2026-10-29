@@ -26,6 +26,7 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === "/";
+  const isServicesPage = location.pathname === "/services";
   const prefersReducedMotion = useReducedMotion();
   const splashDone = useSplashDone();
   const pillTransition = prefersReducedMotion
@@ -195,7 +196,9 @@ export default function Navbar() {
           <nav aria-label="Main navigation links" className="hidden md:block">
             <ul className="m-0 flex list-none items-center gap-1 p-0">
               {navLinks.map((link) => {
-                const isActive = activeHref === link.href;
+                const isActive = isServicesPage
+                  ? link.href === "#services"
+                  : activeHref === link.href;
                 return (
                   <li key={link.href}>
                     <a
@@ -261,7 +264,7 @@ export default function Navbar() {
         <MobileMenu
           isOpen={mobileMenuOpen}
           onNavigate={navigateFromMobileMenu}
-          activeHref={activeHref}
+          activeHref={isServicesPage ? "#services" : activeHref}
           isHome={isHome}
         />
       </div>

@@ -39,10 +39,10 @@ const SERVICE_BUTTON_STYLES = {
 }
 
 const imageByService = {
-  'home-loan': { src: '/services/home.png', alt: 'Home loan property', imagePosition: 'center 40%' },
-  'car-loan': { src: '/services/car.png', alt: 'Car loan vehicle', imagePosition: 'center 60%' },
-  'personal-loan': { src: '/services/personal.png', alt: 'Personal loan', imagePosition: 'center 60%' },
-  'business-loan': { src: '/services/business.png', alt: 'Business loan', imagePosition: 'center' },
+  'home-loan': { src: '/loan-pages-photos/01-home-loan.png', alt: 'Home loan property', imagePosition: 'center 40%' },
+  'car-loan': { src: '/loan-pages-photos/02-car-loan.png', alt: 'Car loan vehicle', imagePosition: 'center 60%' },
+  'personal-loan': { src: '/loan-pages-photos/04-personal-loan.png', alt: 'Personal loan', imagePosition: 'center 60%' },
+  'business-loan': { src: '/loan-pages-photos/03-business-loan.png', alt: 'Business loan', imagePosition: 'center' },
 }
 
 const serviceOrder = ['home-loan', 'car-loan', 'personal-loan', 'business-loan']
