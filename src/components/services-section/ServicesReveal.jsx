@@ -5,10 +5,10 @@ import ScrollStack, { ScrollStackItem } from './ServicesScrollStack.jsx'
 import { loanServices } from '../../data/loan-services-data.js'
 
 const SERVICE_CARD_COLORS = [
-  { background: '#ffffff', color: 'var(--navy)', tone: 'light' },
-  { background: 'var(--gold)', color: 'var(--navy)', tone: 'gold' },
-  { background: 'color-mix(in srgb, var(--navy) 9%, white)', color: 'var(--navy)', tone: 'light' },
-  { background: '#18356f', color: '#ffffff', border: '1px solid rgba(198, 146, 20, 0.36)', tone: 'dark' },
+  { background: '#ffffff', color: 'var(--navy)', tone: 'light', dotColor: 'var(--gold)' },
+  { background: 'var(--gold)', color: 'var(--navy)', tone: 'gold', dotColor: '#ffffff' },
+  { background: 'color-mix(in srgb, var(--navy) 9%, white)', color: 'var(--navy)', tone: 'light', dotColor: 'var(--gold)' },
+  { background: '#18356f', color: '#ffffff', border: '1px solid rgba(198, 146, 20, 0.36)', tone: 'dark', dotColor: 'var(--gold)' },
 ]
 
 const SERVICE_BUTTON_STYLES = {
@@ -104,7 +104,7 @@ function ServiceCard({ card }) {
       </div>
 
       <h3 className="mb-3 text-3xl font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-4xl lg:text-5xl">
-        {card.title}<span className="text-[#c69214]">.</span>
+        {card.title}<span style={{ color: card.dotColor }}>.</span>
       </h3>
       <p className={`mb-6 line-clamp-2 max-w-md text-base leading-relaxed opacity-80 lg:text-lg ${isDark ? 'text-white' : 'text-[#10224d]'}`}>
         {card.description}
@@ -138,22 +138,24 @@ function ServiceCard({ card }) {
   )
 
   const image = card.image ? (
-    <img
-      src={card.image.src}
-      alt={card.image.alt}
-      loading="lazy"
-      decoding="async"
-      style={{ objectPosition: card.image.imagePosition || 'center' }}
-      className={`order-1 aspect-[4/3] max-h-[24rem] w-full self-start rounded-2xl object-cover sm:aspect-[16/10] sm:max-w-[38.4rem] sm:justify-self-center lg:order-1 lg:aspect-auto lg:h-full lg:max-h-none lg:max-w-none lg:min-h-[22rem] lg:self-stretch lg:justify-self-stretch ${card.imageFirst ? '' : 'lg:order-2'}`}
-    />
+    <div className={`relative order-1 aspect-[4/3] w-full overflow-hidden rounded-2xl ${card.imageFirst ? 'lg:order-1' : 'lg:order-2'}`}>
+      <img
+        src={card.image.src}
+        alt={card.image.alt}
+        loading="lazy"
+        decoding="async"
+        style={{ objectPosition: card.image.imagePosition || 'center' }}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+    </div>
   ) : <WalletPlaceholder />
 
   return (
     <ScrollStackItem
-      itemClassName="h-[38rem] rounded-[28px] p-4 sm:h-[48rem] sm:p-6 lg:h-[27rem] lg:p-8"
+      itemClassName="h-auto rounded-[28px] p-4 sm:p-6 lg:p-8"
       style={{ background: card.background, color: card.color, border: card.border }}
     >
-      <div className="grid h-full grid-cols-1 content-start items-start gap-4 sm:gap-5 lg:grid-cols-2 lg:content-stretch lg:items-stretch lg:gap-12">
+      <div className={`grid grid-cols-1 items-start gap-4 sm:gap-5 lg:items-center lg:gap-12 ${card.imageFirst ? 'lg:grid-cols-[0.85fr_1fr]' : 'lg:grid-cols-[1fr_0.85fr]'}`}>
         {card.imageFirst ? <>{image}{content}</> : <>{content}{image}</>}
       </div>
     </ScrollStackItem>
