@@ -1,6 +1,10 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const serviceLinks = ["Personal Loan", "Business Finance", "Home Finance"];
+const serviceLinks = [
+  { label: "Personal Loan", slug: "personal-loan" },
+  { label: "Business Finance", slug: "business-loan" },
+  { label: "Home Finance", slug: "home-loan" },
+];
 
 function SectionLink({ hash, children }) {
   const navigate = useNavigate();
@@ -78,10 +82,10 @@ export default function Footer() {
                 {serviceLinks.map((service) => (
                   <li key={service}>
                     <Link
-                      to="/services"
+                      to={`/services/${service.slug}`}
                       className="text-sm text-text-secondary transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold"
                     >
-                      {service}
+                      {service.label}
                     </Link>
                   </li>
                 ))}

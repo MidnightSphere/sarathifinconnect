@@ -1,7 +1,8 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigationType, useParams } from "react-router-dom";
 import { useCallback, useState, useLayoutEffect } from "react";
 import HomePage from "./pages/HomePage";
 import ServicesPage from "./pages/ServicesPage";
+import LoanDetailPage from "./pages/loans/LoanDetailPage";
 import SplitRevealSplash from "./components/ui/split-reveal/SplitRevealSplash";
 import SplashProvider from "./components/ui/split-reveal/SplashProvider";
 import { Analytics } from "@vercel/analytics/react";
@@ -28,7 +29,20 @@ const SHOW_SPLASH_ON_BOOT = shouldShowSplashOnBoot();
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
+  const navigationType = useNavigationType();
   useLayoutEffect(() => {
+    if (navigationType === "POP" && pathname === "/services" && !hash) {
+      try {
+        const savedScroll = sessionStorage.getItem("sarathi_services_scroll");
+        if (savedScroll !== null) {
+          sessionStorage.removeItem("sarathi_services_scroll");
+          window.scrollTo({ top: Number(savedScroll), behavior: "instant" });
+          return;
+        }
+      } catch {
+        // Continue with the normal scroll behavior when storage is unavailable.
+      }
+    }
     if (hash) {
       const id = decodeURIComponent(hash.slice(1));
       const servicesTarget = id === "services";
@@ -49,8 +63,13 @@ function ScrollToTop() {
       }
     }
     window.scrollTo({ top: 0, behavior: "instant" });
-  }, [pathname, hash]);
+  }, [pathname, hash, navigationType]);
   return null;
+}
+
+function LegacyLoanRedirect() {
+  const { slug } = useParams();
+  return <Navigate replace to={`/services/${slug}`} />;
 }
 
 export default function App() {
@@ -72,6 +91,8 @@ export default function App() {
           <Routes location={location}>
             <Route path="/" element={<HomePage />} />
             <Route path="/services" element={<ServicesPage />} />
+            <Route path="/services/:slug" element={<LoanDetailPage />} />
+            <Route path="/loans/:slug" element={<LegacyLoanRedirect />} />
           </Routes>
         </div>
         {!splashDone && <SplitRevealSplash onComplete={completeSplash} />}

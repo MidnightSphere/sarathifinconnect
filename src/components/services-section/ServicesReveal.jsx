@@ -9,6 +9,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ScrollStack, { ScrollStackItem } from "./ServicesScrollStack.jsx";
 import { loanServices } from "../../data/loan-services-data.js";
+import useBlobNavigate from "../transitions/useBlobNavigate";
 
 const SERVICE_CARD_COLORS = [
   {
@@ -160,6 +161,7 @@ function WalletPlaceholder() {
 }
 
 function ServiceCard({ card }) {
+  const blobNavigate = useBlobNavigate();
   const isDark = card.tone === "dark";
   const buttonStyle = isDark
     ? SERVICE_BUTTON_STYLES.gold
@@ -215,6 +217,7 @@ function ServiceCard({ card }) {
 
       <Link
         to={card.href}
+        onClick={(event) => blobNavigate(event, card.href, { label: card.title })}
         style={{
           "--cta-background": buttonStyle.background,
           "--cta-hover-background": buttonStyle.hoverBackground,

@@ -26,7 +26,7 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === "/";
-  const isServicesPage = location.pathname === "/services";
+  const isServicesPage = location.pathname === "/services" || location.pathname.startsWith("/services/");
   const prefersReducedMotion = useReducedMotion();
   const splashDone = useSplashDone();
   const pillTransition = prefersReducedMotion

@@ -27,7 +27,7 @@ export default function LoanGrid() {
               viewport={{ once: true, amount: 0.12 }}
               transition={{ duration: reducedMotion ? 0 : 0.4, delay: reducedMotion ? 0 : (index % 3) * 0.055, ease: [0.22, 1, 0.36, 1] }}
             >
-              <LoanCard service={service} to={`/loans/${service.id}`} />
+              <LoanCard service={service} to={`/services/${service.id}`} />
             </motion.div>
           ))}
         </div>
