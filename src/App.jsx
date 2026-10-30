@@ -3,6 +3,7 @@ import { useCallback, useState, useLayoutEffect } from "react";
 import HomePage from "./pages/HomePage";
 import ServicesPage from "./pages/ServicesPage";
 import LoanDetailPage from "./pages/loans/LoanDetailPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import SplitRevealSplash from "./components/ui/split-reveal/SplitRevealSplash";
 import SplashProvider from "./components/ui/split-reveal/SplashProvider";
 import { Analytics } from "@vercel/analytics/react";
@@ -93,6 +94,7 @@ export default function App() {
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/services/:slug" element={<LoanDetailPage />} />
             <Route path="/loans/:slug" element={<LegacyLoanRedirect />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
         {!splashDone && <SplitRevealSplash onComplete={completeSplash} />}

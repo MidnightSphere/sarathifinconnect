@@ -1,8 +1,12 @@
 {
-  "rewrites": [
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "^/$", "dest": "/index.html", "status": 200 },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+      "src": "^/(services|loans)(/(home-loan|car-loan|business-loan|personal-loan|loan-against-property|loan-against-securities|gold-loan|machinery-loan|commercial-vehicle-loan|home-loan-balance-transfer|education-loan|sme-msme-loan|business-equipment-finance|working-capital-finance|solar-project-finance))?/?$",
+      "dest": "/index.html",
+      "status": 200
+    },
+    { "src": "^/.*$", "dest": "/index.html", "status": 404 }
   ]
 }

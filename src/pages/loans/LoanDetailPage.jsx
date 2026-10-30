@@ -35,7 +35,7 @@ function LoanNotFound() {
     <main className="grid min-h-[65vh] place-items-center bg-surface px-4 py-16 text-center">
       <div className="max-w-xl">
         <p className="font-space text-xs uppercase tracking-[0.18em] text-brand-navy/65">Loan not found</p>
-        <h1 className="mb-0 mt-3 font-bricolage text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-tight tracking-tight text-brand-navy">We couldnt find that loan page.</h1>
+        <h1 className="mb-0 mt-3 font-bricolage text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-tight tracking-tight text-brand-navy">We couldn't find that loan page.</h1>
         <p className="mb-0 mt-4 text-[0.9375rem] leading-relaxed text-brand-navy/70">The link may be incorrect or the service may no longer be listed.</p>
         <Link to="/services" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-full bg-brand-navy px-6 text-[0.9375rem] font-semibold text-white no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-gold"><ArrowLeft size={17} aria-hidden="true" />Browse all services</Link>
       </div>
