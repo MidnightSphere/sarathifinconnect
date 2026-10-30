@@ -33,13 +33,14 @@
 }
 
 html {
+  background-color: var(--color-surface);
   scroll-behavior: smooth;
   /* Offset for the fixed navbar so hash-link targets aren't hidden behind it */
   scroll-padding-top: 80px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overscroll-behavior-y: none;
+  overscroll-behavior-y: auto;
 }
 
 /* Subtle brand-tinted glass shared by the fixed navbar and mobile menu. */
@@ -143,7 +144,7 @@ body {
   color: var(--color-text-primary);
   background-color: var(--color-surface);
   line-height: 1.6;
-  overscroll-behavior-y: none;
+  overscroll-behavior-y: auto;
 }
 
 /* ─── Reduced Motion ─── */
