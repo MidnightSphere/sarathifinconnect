@@ -509,7 +509,6 @@ export default function Journey() {
            Path passes BEHIND this card (z-10 > z-0).
            Path ends at the Journey section boundary. */}
       <section
-        id="contact"
         className="relative z-10 flex items-center justify-center px-5 py-20 text-center sm:px-8 sm:py-28"
       >
         <div className="max-w-2xl rounded-[2rem] border border-brand-navy/10 bg-brand-navy px-7 py-12 text-white shadow-[0_20px_55px_rgba(11,31,77,0.18)] sm:px-12 sm:py-16">
