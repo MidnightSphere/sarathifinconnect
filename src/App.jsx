@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useCallback, useState, useLayoutEffect } from "react";
 import HomePage from "./pages/HomePage";
-import ServicesPage from "./pages/services/ServicesCatalogPage";
+import ServicesPage from "./pages/ServicesPage";
 import SplitRevealSplash from "./components/ui/split-reveal/SplitRevealSplash";
 import SplashProvider from "./components/ui/split-reveal/SplashProvider";
 import { Analytics } from "@vercel/analytics/react";
