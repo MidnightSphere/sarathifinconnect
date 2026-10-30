@@ -6,7 +6,7 @@ export default function ContactMap() {
     ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(contactInfo.mapQuery)}`
     : "";
   return (
-    <div className="relative isolate h-full min-h-80 overflow-hidden rounded-[2rem] border border-brand-navy/15 bg-brand-navy shadow-[0_1px_2px_rgba(11,31,77,0.06),0_24px_60px_rgba(11,31,77,0.10)] md:min-h-[26rem] lg:min-h-[34rem]">
+    <div className="relative isolate h-full min-h-[28rem] overflow-hidden rounded-[2rem] border border-brand-navy/15 bg-brand-navy shadow-[0_1px_2px_rgba(11,31,77,0.06),0_24px_60px_rgba(11,31,77,0.10)] sm:min-h-[30rem] lg:min-h-[34rem]">
       {contactInfo.mapQuery ? (
         <iframe
           src={`https://www.google.com/maps?q=${encodeURIComponent(contactInfo.mapQuery)}&output=embed`}
@@ -36,20 +36,12 @@ export default function ContactMap() {
           className="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand-navy/5 via-transparent to-brand-navy/10"
         />
       )}
-      <div className="absolute bottom-4 left-4 right-4 max-w-sm rounded-2xl border border-white/70 bg-white/85 p-4 shadow-[0_12px_36px_rgba(11,31,77,0.16)] backdrop-blur-md sm:bottom-6 sm:left-6 sm:right-auto sm:p-5">
-        <p className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-brand-navy">
-          <ShieldCheck
-            size={16}
-            className="text-brand-gold"
-            aria-hidden="true"
-          />{" "}
-          Sarathi FinConnect
-        </p>
-        <div className="grid gap-3 text-sm text-brand-navy/80">
+      <div className="pointer-events-auto absolute bottom-3 left-3 right-3 rounded-xl border border-white/70 bg-white/85 p-3 shadow-[0_12px_36px_rgba(11,31,77,0.16)] backdrop-blur-md sm:bottom-4 sm:left-4 sm:right-auto sm:max-w-xs sm:p-4">
+        <div className="grid gap-1.5 leading-snug text-xs text-brand-navy/80 sm:text-sm">
           {contactInfo.address && (
-            <div className="flex gap-2.5">
+            <div className="flex gap-1.5">
               <MapPin
-                size={17}
+                size={14}
                 className="mt-0.5 shrink-0 text-brand-gold"
                 aria-hidden="true"
               />
@@ -59,10 +51,10 @@ export default function ContactMap() {
           {contactInfo.phone && (
             <a
               href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
-              className="flex items-center gap-2.5 text-inherit no-underline hover:text-brand-navy"
+              className="flex items-center gap-1.5 text-inherit no-underline hover:text-brand-navy"
             >
               <Phone
-                size={16}
+                size={14}
                 className="shrink-0 text-brand-gold"
                 aria-hidden="true"
               />
@@ -72,24 +64,24 @@ export default function ContactMap() {
           {contactInfo.email && (
             <a
               href={`mailto:${contactInfo.email}`}
-              className="flex min-w-0 items-center gap-2.5 text-inherit no-underline hover:text-brand-navy"
+              className="flex min-w-0 items-center gap-1.5 text-inherit no-underline hover:text-brand-navy"
             >
               <Mail
-                size={16}
+                size={14}
                 className="shrink-0 text-brand-gold"
                 aria-hidden="true"
               />
               <span className="break-all">{contactInfo.email}</span>
             </a>
           )}
-          {contactInfo.hours && <p className="m-0">{contactInfo.hours}</p>}
+          {contactInfo.hours && <p className="m-0 hidden sm:block">{contactInfo.hours}</p>}
         </div>
         {directionsUrl && (
           <a
             href={directionsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex min-h-10 items-center rounded-full bg-brand-navy px-4 text-sm font-semibold text-white no-underline transition hover:bg-brand-navy-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
+            className="relative after:absolute after:-inset-1.5 mt-2 inline-flex min-h-9 items-center rounded-full bg-brand-navy px-4 text-xs font-semibold text-white no-underline transition hover:bg-brand-navy-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold sm:text-sm"
           >
             Get directions
           </a>

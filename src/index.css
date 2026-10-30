@@ -35,6 +35,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
 }
 
 /* Subtle brand-tinted glass shared by the fixed navbar and mobile menu. */
@@ -138,6 +139,7 @@ body {
   color: var(--color-text-primary);
   background-color: var(--color-surface);
   line-height: 1.6;
+  overscroll-behavior-y: none;
 }
 
 /* ─── Reduced Motion ─── */

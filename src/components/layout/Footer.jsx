@@ -32,8 +32,8 @@ function LinkGroup({ title, children }) {
 
 export default function Footer() {
   return (
-    <footer className="w-full px-3 pb-4 sm:px-4 sm:pb-6 lg:px-6">
-      <div className="mx-auto mt-12 w-full max-w-[96rem] overflow-hidden rounded-[2rem] bg-surface-soft/65 px-3 pt-3 pb-1 shadow-[0_12px_36px_rgba(11,31,77,0.045)] sm:rounded-[2.5rem] sm:px-4 sm:pt-4 md:rounded-[3rem] md:px-6 md:pt-6">
+    <footer className="w-full px-3 pb-0 sm:px-4 lg:px-6">
+      <div className="mx-auto mt-12 w-full max-w-[96rem] overflow-hidden rounded-[2rem] bg-surface-soft/65 px-3 pt-3 pb-0 shadow-[0_12px_36px_rgba(11,31,77,0.045)] sm:rounded-[2.5rem] sm:px-4 sm:pt-4 md:rounded-[3rem] md:px-6 md:pt-6">
         <div className="rounded-[1.5rem] border border-border bg-white p-5 shadow-[0_8px_28px_rgba(11,31,77,0.035)] sm:p-8 md:rounded-[2rem] md:p-10 lg:p-12">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] lg:gap-12">
             <div className="max-w-md">
@@ -131,12 +131,14 @@ export default function Footer() {
 
         <div
           aria-hidden="true"
-          className="pointer-events-none select-none overflow-hidden px-1 pt-5 pb-1 text-center sm:px-3 sm:pt-7 md:pt-8"
+          className="pointer-events-none relative select-none overflow-hidden"
+          style={{ height: "clamp(46px, 8.5vw, 145px)" }}
         >
           <span
-            className="block whitespace-nowrap font-bricolage font-black leading-[0.82] tracking-[-0.075em] md:tracking-[0.03em]"
+            className="absolute left-1/2 bottom-0 block whitespace-nowrap font-bricolage font-black leading-[0.82] tracking-[-0.075em] md:tracking-[0.03em]"
             style={{
               fontSize: "clamp(1.7rem, 9.3vw, 8.5rem)",
+              transform: "translate(-50%, 22.5%)",
               backgroundImage:
                 "linear-gradient(to bottom, color-mix(in srgb, var(--color-brand-navy) 3%, transparent), color-mix(in srgb, var(--color-brand-navy) 13%, transparent))",
               WebkitBackgroundClip: "text",
