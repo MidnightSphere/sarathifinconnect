@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
 import Wordmark from "../components/layout/Wordmark";
@@ -11,6 +11,7 @@ const helpfulLinks = [
 ];
 
 export default function NotFoundPage() {
+  const playAreaRef = useRef(null);
   useEffect(() => {
     const previousTitle = document.title;
     document.title = "404: Not Found | Sarathi FinConnect";
@@ -32,8 +33,8 @@ export default function NotFoundPage() {
   return (
     <div className="flex min-h-screen flex-col overflow-x-clip bg-surface text-brand-navy">
       <Navbar />
-      <main className="relative flex flex-1 flex-col items-center px-4 pb-10 pt-28 text-center">
-        <RupeeMark />
+      <main ref={playAreaRef} className="relative flex flex-1 flex-col items-center px-4 pb-10 pt-28 text-center">
+        <RupeeMark playAreaRef={playAreaRef} />
         <p className="mb-0 mt-3 max-w-xl font-space text-xs leading-relaxed text-text-secondary/80">
           Drag the dots to reshape, drag the mark to move it, drag the box handles to resize.
         </p>
