@@ -1,4 +1,4 @@
-const SHEET_NAME = "Enquiries";
+const SHEET_NAME = "Website_enquiries";
 
 function doGet() {
   return HtmlService.createHtmlOutput(
@@ -13,7 +13,7 @@ function authorizeAndTest() {
   }
   const sheet = spreadsheet.getSheetByName(SHEET_NAME);
   if (!sheet) {
-    throw new Error('Create a sheet tab named "Enquiries" first.');
+    throw new Error('Create a sheet tab named "Website_enquiries" first.');
   }
   console.log('Authorization successful. Ready to write to "' + SHEET_NAME + '".');
 }
@@ -48,7 +48,7 @@ function doPost(event) {
     const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
     const sheet = spreadsheet && spreadsheet.getSheetByName(SHEET_NAME);
     if (!sheet) {
-      throw new Error('Create a sheet tab named "Enquiries" first.');
+      throw new Error('Create a sheet tab named "Website_enquiries" first.');
     }
 
     sheet.appendRow([
