@@ -38,7 +38,7 @@ export default function EnquiryForm({
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [failed, setFailed] = useState(false);
+  const [failed, setFailed] = useState("");
   const loanLabels = useMemo(
     () =>
       Object.fromEntries(
@@ -125,8 +125,12 @@ export default function EnquiryForm({
       });
       setSubmitted(true);
       onSuccess?.();
-    } catch {
-      setFailed(true);
+    } catch (error) {
+      setFailed(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
     } finally {
       setBusy(false);
     }
@@ -317,6 +321,21 @@ export default function EnquiryForm({
                 onChange={(e) => update("amount", e.target.value)}
               />
             </div>
+            <div className="sm:col-span-2">
+              <label className={labelClass} htmlFor="enquiry-message">
+                Message{" "}
+                <span className="font-normal text-brand-navy/50">(optional)</span>
+              </label>
+              <textarea
+                id="enquiry-message"
+                name="message"
+                rows="3"
+                placeholder="Tell us a little about your requirement"
+                className="w-full resize-y rounded-xl border border-border bg-slate-50 px-4 py-3 text-base text-brand-navy outline-none transition placeholder:text-slate-400 focus:border-brand-navy focus:ring-[3px] focus:ring-brand-gold/30"
+                value={values.message}
+                onChange={(e) => update("message", e.target.value)}
+              />
+            </div>
           </>
         )}
         {!loanVariant && (
@@ -369,7 +388,7 @@ export default function EnquiryForm({
           role="alert"
           className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
         >
-          Something went wrong. Please try again
+          {failed}
           {contactInfo.phone ? (
             <>
               {" "}

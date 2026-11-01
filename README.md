@@ -1,23 +1,60 @@
-# React + Vite
+# Sarathi FinConnect
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Send form submissions to Google Sheets with Apps Script
 
-Currently, two official plugins are available:
+Both the contact form and loan application forms submit to the Apps Script web
+app in [`google-apps-script/Code.gs`](./google-apps-script/Code.gs). It appends
+each submission to the `Enquiries` tab. No Google Cloud project, service
+account, or paid Sheets API setup is needed.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### One-time setup
 
-## React Compiler
+1. **Create a spreadsheet.** Go to [Google Sheets](https://sheets.google.com)
+   and create a spreadsheet. Name the first tab `Enquiries`.
+2. **Add the column headings** in row 1, in this order:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+   `Name | Phone | Email | Loan | Amount | City | Message | Time`
 
-## Expanding the ESLint configuration
+3. **Open Apps Script.** In the spreadsheet, click **Extensions → Apps Script**.
+   In the editor, open `Code.gs`, remove its starter code, then copy and paste
+   the full contents of this project's
+   [`Code.gs`](./google-apps-script/Code.gs). Click **Save**.
+4. **Authorize spreadsheet access.** In the Apps Script editor, select
+   `authorizeAndTest` from the function dropdown and click **Run**. Review and
+   allow the Google authorization prompt. Confirm the execution log says it is
+   ready to write to `Enquiries`.
+5. **Deploy the script.** Click **Deploy → New deployment**. Click the gear
+   beside “Select type” and choose **Web app**. Set:
+   - **Execute as:** Me
+   - **Who has access:** Anyone
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# Enquiry form configuration
+   Click **Deploy**. The web app must
+   be accessible to anyone so website visitors can submit without signing in.
+   Keep the spreadsheet itself private; do not share it publicly.
+6. **Copy the web app URL.** It looks like
+   `https://script.google.com/macros/s/.../exec`. Treat it as public; it is not
+   a password.
+7. **Configure the website endpoint.** The current Apps Script URL is already
+   the website's default. If you create a different web app deployment, open
+   **Settings → Environment Variables** in Vercel and add:
+   - Name: `VITE_ENQUIRY_ENDPOINT`
+   - Value: the Apps Script web app URL you copied
+   - Environment: **Production** (and **Preview** if you test preview links)
 
-Copy `.env.example` to `.env` and set `VITE_ENQUIRY_ENDPOINT` and
-`VITE_WEB3FORMS_KEY` before enabling enquiry submissions. The recommended
-endpoint is `https://api.web3forms.com/submit`. Web3Forms access keys are
-embedded in browser requests and are therefore public; use the provider's
-domain restrictions and spam controls for the key.
+   Save it, then redeploy the site so the new setting is included. The
+   `.env.example` file is only an example and is not automatically loaded by
+   Vercel.
+8. **Send a test enquiry.** Submit one from the website and check that a new
+   row appears in the `Enquiries` tab. Test a loan form too; both form types
+   use the same sheet.
+
+### Updating the script later
+
+After changing `Code.gs`, click **Deploy → Manage deployments**, edit the
+deployment, select **New version**, and deploy it. Keep the same web app URL in
+Vercel unless you create a new deployment.
+
+This uses Google Sheets and Apps Script quotas, which are generally sufficient
+for a small enquiry form at no additional charge. Google may apply account and
+usage limits. The web app URL is public, so keep the spreadsheet private and
+review the sheet for unwanted submissions.
