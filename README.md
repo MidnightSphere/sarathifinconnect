@@ -13,7 +13,7 @@ account, or paid Sheets API setup is needed.
    and create a spreadsheet. Name the first tab `Enquiries`.
 2. **Add the column headings** in row 1, in this order:
 
-   `Name | Phone | Email | Loan | Amount | City | Message | Time`
+   `Name | Phone | Email | Loan Type | Amount | City | Message | Submitted At`
 
 3. **Open Apps Script.** In the spreadsheet, click **Extensions → Apps Script**.
    In the editor, open `Code.gs`, remove its starter code, then copy and paste
