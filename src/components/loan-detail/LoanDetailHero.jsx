@@ -10,7 +10,7 @@ export default function LoanDetailHero({ service, onApply }) {
   const Icon = icons[service.icon] ?? Banknote;
   return (
     <section className="bg-[radial-gradient(ellipse_at_76%_42%,rgba(198,146,20,0.08),transparent_34%),linear-gradient(115deg,#f7f8fa_0%,#fff_52%,#f8f8f5_100%)] px-4 pb-12 pt-28 sm:px-6 md:pb-16 md:pt-32" aria-labelledby="loan-detail-heading">
-      <div className="mx-auto grid min-w-0 grid-cols-1 max-w-7xl items-center gap-8 lg:grid-cols-2 lg:gap-12">
+      <div className="mx-auto grid w-full min-w-0 grid-cols-1 max-w-7xl items-center gap-8 lg:grid-cols-2 lg:gap-12">
         <div className="min-w-0">
           <Eyebrow>{service.category}</Eyebrow>
           <h1 id="loan-detail-heading" className="mb-0 mt-4 font-bricolage text-[clamp(2rem,4vw,3.25rem)] font-bold leading-[1.08] tracking-[-0.025em] text-brand-navy">
