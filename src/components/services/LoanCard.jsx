@@ -17,7 +17,7 @@ export default function LoanCard({ service, to }) {
       <p className="mb-0 mt-2 line-clamp-2 text-[0.9375rem] leading-relaxed text-brand-navy/65">{service.summary}</p>
       <span className="mt-auto inline-flex items-center justify-between gap-4 pt-5 text-sm font-semibold text-brand-navy">
         <span>View loan details</span>
-        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-brand-gold text-brand-navy transition-transform duration-250 group-hover:translate-x-1 motion-reduce:transition-none" aria-hidden="true">
+        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-brand-gold/20 text-brand-navy transition-colors duration-200 group-hover:bg-brand-gold group-focus-visible:bg-brand-gold motion-reduce:transition-none" aria-hidden="true">
           <ArrowRight size={16} strokeWidth={1.8} />
         </span>
       </span>

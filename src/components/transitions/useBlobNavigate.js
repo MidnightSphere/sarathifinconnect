@@ -41,13 +41,16 @@ function createCover(label) {
       `linear-gradient(135deg, ${THEME.navy} 0%, ${THEME.navyMid} 45%, ${THEME.navyLight} 100%)`,
     ].join(", "),
   });
-  const mark = document.createElement("span");
+  const mark = document.createElement("img");
+  mark.src = "/logo/sarathi-finconnect-only-logo.svg";
+  mark.alt = "";
+  mark.setAttribute("aria-hidden", "true");
   Object.assign(mark.style, {
-    display: "grid", placeItems: "center", width: "64px", height: "64px", border: `1.5px solid ${THEME.gold}`,
-    borderRadius: "9999px", color: THEME.gold, fontFamily: 'Georgia, "Times New Roman", serif', fontSize: "34px", lineHeight: "1",
+    display: "block", width: "52px", height: "64px", objectFit: "contain", filter: "brightness(0) invert(1)",
+    transform: "scale(0.9)", opacity: "0", transition: "transform 240ms ease-out, opacity 240ms ease-out",
   });
-  mark.textContent = "S";
   cover.appendChild(mark);
+  requestAnimationFrame(() => { mark.style.transform = "scale(1)"; mark.style.opacity = "1"; });
   if (label) {
     const text = document.createElement("span");
     Object.assign(text.style, { maxWidth: "80vw", textAlign: "center", color: THEME.white, fontFamily: "inherit", fontSize: "15px", fontWeight: "700", letterSpacing: "-0.01em" });
