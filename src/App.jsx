@@ -7,6 +7,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import SplitRevealSplash from "./components/ui/split-reveal/SplitRevealSplash";
 import SplashProvider from "./components/ui/split-reveal/SplashProvider";
 import { Analytics } from "@vercel/analytics/react";
+import Chatbot from "./components/chatbot/Chatbot";
 
 const SPLASH_SEEN_KEY = "sarathi_splash_seen";
 
@@ -98,6 +99,7 @@ export default function App() {
           </Routes>
         </div>
         {!splashDone && <SplitRevealSplash onComplete={completeSplash} />}
+        {splashDone && <Chatbot />}
         <Analytics />
       </>
     </SplashProvider>

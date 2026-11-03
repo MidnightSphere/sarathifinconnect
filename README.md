@@ -58,3 +58,21 @@ This uses Google Sheets and Apps Script quotas, which are generally sufficient
 for a small enquiry form at no additional charge. Google may apply account and
 usage limits. The web app URL is public, so keep the spreadsheet private and
 review the sheet for unwanted submissions.
+
+## Configure the site chatbot
+
+The site chatbot uses Groq's `openai/gpt-oss-20b` model through the server-side
+`/api/chat` function. The Groq API key is only read by that function; never add
+it to a `VITE_` variable or commit it to the repository.
+
+1. Create a Groq API key in the [Groq Console](https://console.groq.com/keys).
+2. For local development, set `GROQ_API_KEY` in an uncommitted `.env.local`
+   file, then run `npm run dev`. The Vite development server exposes the chat
+   function locally without requiring the Vercel CLI.
+3. In Vercel, add `GROQ_API_KEY` under **Settings → Environment Variables** for
+   Production and Preview. Redeploy after saving the variable.
+4. Open the chat bubble and ask a loan-services question to verify the setup.
+
+The assistant uses the loan-service information in `src/data/loan-services-data.js`.
+It provides general information only; rates and eligibility are not guaranteed,
+and visitors should not share sensitive personal or financial information in chat.
