@@ -1,22 +1,17 @@
 import { ArrowDown, ArrowUpRight, Banknote, Briefcase, Building2, Car, Coins, Cog, GraduationCap, Home, LineChart, Repeat, Store, Sun, Truck, Wallet, Wrench } from "lucide-react";
 import { Link } from "react-router-dom";
 import Eyebrow from "../services/Eyebrow";
+import { loanServiceImages } from "../../data/loan-service-images";
 
 const icons = { Home, Car, Briefcase, Wallet, Building2, LineChart, Coins, Cog, Truck, Repeat, GraduationCap, Store, Wrench, Banknote, Sun };
-const loanImages = {
-  "home-loan": "/loan-pages-photos/01-home-loan.png",
-  "car-loan": "/loan-pages-photos/02-car-loan.png",
-  "business-loan": "/loan-pages-photos/03-business-loan.png",
-  "personal-loan": "/loan-pages-photos/04-personal-loan.png",
-};
 
 export default function LoanDetailHero({ service, onApply }) {
-  const imageSrc = loanImages[service.id];
+  const imageSrc = loanServiceImages[service.id];
   const Icon = icons[service.icon] ?? Banknote;
   return (
-    <section className="bg-white px-4 pb-12 pt-28 sm:px-6 md:pb-16 md:pt-32" aria-labelledby="loan-detail-heading">
-      <div className="mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-2 lg:gap-12">
-        <div className="order-2 min-w-0 lg:order-1">
+    <section className="bg-[radial-gradient(ellipse_at_76%_42%,rgba(198,146,20,0.08),transparent_34%),linear-gradient(115deg,#f7f8fa_0%,#fff_52%,#f8f8f5_100%)] px-4 pb-12 pt-28 sm:px-6 md:pb-16 md:pt-32" aria-labelledby="loan-detail-heading">
+      <div className="mx-auto grid min-w-0 grid-cols-1 max-w-7xl items-center gap-8 lg:grid-cols-2 lg:gap-12">
+        <div className="min-w-0">
           <Eyebrow>{service.category}</Eyebrow>
           <h1 id="loan-detail-heading" className="mb-0 mt-4 font-bricolage text-[clamp(2rem,4vw,3.25rem)] font-bold leading-[1.08] tracking-[-0.025em] text-brand-navy">
             Explore <span className="text-brand-gold">{service.name}</span> options with a clearer view.
@@ -33,9 +28,16 @@ export default function LoanDetailHero({ service, onApply }) {
             </Link>
           </div>
         </div>
-        <div className="relative order-1 mx-auto w-full max-w-xl lg:order-2">
-          <div className="relative grid aspect-[4/3] place-items-center overflow-hidden rounded-2xl border border-brand-navy/10 bg-surface-soft/60">
-            {imageSrc ? <img src={imageSrc} alt={`${service.name} illustration`} fetchPriority="high" className="h-full w-full object-contain" /> : <div className="grid size-full place-items-center bg-brand-navy/[0.04]"><span className="grid size-16 place-items-center rounded-full bg-brand-gold/15 text-brand-navy"><Icon size={30} strokeWidth={1.75} aria-hidden="true" /></span></div>}
+        <div className="relative mx-auto min-w-0 w-full max-w-[590px] lg:ml-auto">
+          <div className="absolute -inset-3 rounded-[45%_38%_35%_40%] border border-[#d5a52c] sm:-inset-5" aria-hidden="true" />
+          <div className="relative aspect-[1.35] overflow-hidden rounded-[42%_27%_34%_25%] bg-[#e9edf2] shadow-[0_24px_60px_rgba(16,34,77,0.14)]">
+            {imageSrc ? (
+              <img className="h-full w-full object-cover" src={imageSrc} alt={`Photo related to ${service.name}`} fetchPriority="high" />
+            ) : (
+              <div className="grid h-full place-items-center text-brand-navy">
+                <span className="grid size-16 place-items-center rounded-full bg-brand-gold/15"><Icon size={30} strokeWidth={1.75} aria-hidden="true" /></span>
+              </div>
+            )}
           </div>
         </div>
       </div>

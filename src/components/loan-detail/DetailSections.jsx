@@ -1,6 +1,7 @@
-import { ArrowRight, Check, FileText, ShieldCheck } from "lucide-react";
+import { ArrowRight, FileText, ShieldCheck } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Eyebrow from "../services/Eyebrow";
+import { loanServiceImages } from "../../data/loan-service-images";
 
 export function RevealSection({ children, className = "", ...props }) {
   const reducedMotion = useReducedMotion();
@@ -106,6 +107,7 @@ export function FeaturesSection({ service }) {
 export function RatesSection({ service }) {
   const rates = [service.rate, service.tenure].filter(Boolean);
   if (!rates.length) return null;
+  const imageSrc = loanServiceImages[service.id];
   return (
     <RevealSection
       className="grid gap-4 py-8 md:py-10 lg:grid-cols-[1.1fr_0.9fr]"
@@ -142,17 +144,16 @@ export function RatesSection({ service }) {
           terms directly with a lender.
         </p>
       </div>
-      <div className="flex flex-col justify-center rounded-2xl border border-brand-navy/10 bg-white p-6 md:p-8">
-        <span className="grid size-10 place-items-center rounded-full bg-brand-gold/12 text-brand-navy">
-          <Check size={20} strokeWidth={1.75} aria-hidden="true" />
-        </span>
-        <h3 className="mb-0 mt-4 font-bricolage text-xl font-semibold text-brand-navy">
-          Plan with clear information.
-        </h3>
-        <p className="mb-0 mt-2 max-w-sm text-[0.9375rem] leading-relaxed text-brand-navy/70">
-          Compare written offers and review the total repayment and applicable
-          charges.
-        </p>
+      <div className="relative isolate flex min-h-56 flex-col justify-center overflow-hidden rounded-2xl border border-brand-navy/10 bg-white p-6 md:p-8">
+        {imageSrc && <img src={imageSrc} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 z-0 h-full w-full object-cover opacity-[0.34]" />}
+        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-white/95 via-white/85 to-white/55" aria-hidden="true" />
+        <div className="relative z-20">
+          <span className="grid size-10 place-items-center rounded-full bg-brand-gold/12 font-bricolage text-2xl font-semibold leading-none text-brand-gold" aria-hidden="true">“</span>
+          <h3 className="mb-0 mt-4 font-bricolage text-xl font-semibold text-brand-navy">Plan with clear information.</h3>
+          <p className="mb-0 mt-2 max-w-sm text-[0.9375rem] leading-relaxed text-brand-navy/70">
+            Compare written offers and review the total repayment and applicable charges.
+          </p>
+        </div>
       </div>
     </RevealSection>
   );

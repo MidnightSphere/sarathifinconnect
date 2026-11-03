@@ -81,7 +81,7 @@ export default function Footer() {
 
               <LinkGroup title="Services">
                 {serviceLinks.map((service) => (
-                  <li key={service}>
+                  <li key={service.slug}>
                     <Link
                       to={`/services/${service.slug}`}
                       className="text-sm text-text-secondary transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold"

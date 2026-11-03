@@ -66,8 +66,38 @@ export default function LoanDetailPage() {
 
   useEffect(() => {
     const originalTitle = document.title;
-    document.title = service ? `${service.name} | Sarathi FinConnect` : "Loan not found | Sarathi FinConnect";
-    return () => { document.title = originalTitle; };
+    const descriptionMeta = document.querySelector('meta[name="description"]');
+    const originalDescription = descriptionMeta?.content;
+    const existingCanonical = document.querySelector('link[rel="canonical"]');
+    const originalCanonicalHref = existingCanonical?.getAttribute("href");
+    let canonical = existingCanonical;
+
+    if (service) {
+      document.title = `${service.name} | Sarathi FinConnect`;
+      if (descriptionMeta) descriptionMeta.content = `${service.intro || service.summary} Sarathi FinConnect loan information.`.slice(0, 160);
+      if (!canonical) {
+        canonical = document.createElement("link");
+        canonical.rel = "canonical";
+        document.head.append(canonical);
+      }
+      canonical.href = `${window.location.origin}/services/${service.id}`;
+    } else {
+      document.title = "Loan not found | Sarathi FinConnect";
+      if (descriptionMeta) descriptionMeta.content = "The requested loan service could not be found. Browse all services from Sarathi FinConnect.";
+      canonical?.remove();
+    }
+
+    return () => {
+      document.title = originalTitle;
+      if (descriptionMeta && originalDescription !== undefined) descriptionMeta.content = originalDescription;
+      if (existingCanonical) {
+        if (originalCanonicalHref !== null) existingCanonical.href = originalCanonicalHref;
+        else existingCanonical.removeAttribute("href");
+        if (!existingCanonical.isConnected) document.head.append(existingCanonical);
+      } else {
+        canonical?.remove();
+      }
+    };
   }, [service]);
 
   return (
