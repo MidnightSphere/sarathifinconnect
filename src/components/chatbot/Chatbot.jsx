@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import "./Chatbot.css";
 
-const MAX_MESSAGES = 10;
+const MAX_MESSAGES = 8;
 const MAX_MESSAGE_LENGTH = 1200;
 
 export default function Chatbot() {
@@ -56,7 +56,7 @@ export default function Chatbot() {
         throw new Error(
           `Chat service returned an empty or invalid response (HTTP ${response.status}). ${
             import.meta.env.DEV
-              ? "Run this project with `vercel dev` and configure GROQ_API_KEY."
+            ? "Run this project with `npm run dev` and configure GEMINI_API_KEY."
               : "Please try again later."
           }`,
         );

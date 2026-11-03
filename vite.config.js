@@ -7,7 +7,7 @@ import chatHandler from './api/chat.js'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  if (env.GROQ_API_KEY) process.env.GROQ_API_KEY = env.GROQ_API_KEY
+  if (env.GEMINI_API_KEY) process.env.GEMINI_API_KEY = env.GEMINI_API_KEY
 
   return {
     plugins: [
@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
               let size = 0
               for await (const chunk of request) {
                 size += chunk.length
-                if (size > 16_000) {
+                if (size > 48_000) {
                   response.statusCode = 413
                   response.setHeader('Content-Type', 'application/json')
                   response.end(JSON.stringify({ error: 'Message is too large.' }))
