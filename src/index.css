@@ -43,6 +43,20 @@ html {
   overscroll-behavior-y: auto;
 }
 
+/* Stop desktop wheel/touchpad overscroll at the document boundaries while
+   leaving touch devices' native refresh and elastic scrolling untouched. */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    overscroll-behavior-y: none;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  html {
+    overscroll-behavior-y: auto;
+  }
+}
+
 /* Subtle brand-tinted glass shared by the fixed navbar and mobile menu. */
 /* .navbar-glass {
   background: rgba(255, 255, 255, 0.14);
