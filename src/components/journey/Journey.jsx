@@ -3,7 +3,6 @@ import {
   useInView,
   useReducedMotion,
   useScroll,
-  useTransform,
 } from "motion/react";
 import { useRef, useState, useEffect, useMemo } from "react";
 import {
@@ -123,71 +122,6 @@ function buildPath(w, h) {
    the text beside the dot.
    ═══════════════════════════════════════════════════ */
 
-function MilestoneLabel({ label, scrollProgress, at, topPct, leftPct, labelSide = "right" }) {
-  const opacity = useTransform(
-    scrollProgress,
-    [Math.max(0, at - 0.06), at],
-    [0.45, 1],
-  );
-
-  // Offset label away from the dot center (dot is 14px SVG radius)
-  const offsetX = labelSide === "left" ? "-100%" : "0%";
-  const nudge = labelSide === "left" ? -22 : 22;
-
-  return (
-    <motion.div
-      className="pointer-events-none absolute z-20 hidden md:block"
-      style={{
-        top: `${topPct}%`,
-        left: `${leftPct}%`,
-        opacity,
-      }}
-    >
-      <span
-        className="inline-block whitespace-nowrap text-[0.68rem] font-semibold tracking-[0.14em] text-brand-navy"
-        style={{
-          transform: `translate(${offsetX}, -50%) translateX(${nudge}px)`,
-        }}
-      >
-        {label}
-      </span>
-    </motion.div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════
-   MOBILE MILESTONE LABEL
-   ─────────────────────────────────────────────────
-   Flow-based label shown ABOVE each card on mobile.
-   Hidden on desktop (absolute markers + SVG dots instead).
-
-   pathXPct = the X coordinate of this milestone’s waypoint
-   as a percentage of container width. This is the SAME
-   coordinate the SVG center path passes through, ensuring
-   the dot sits exactly between the two rails.
-   ═══════════════════════════════════════════════════ */
-
-function MobileMilestoneLabel({ label, pathXPct }) {
-  return (
-    <div className="relative mb-6 md:hidden" style={{ height: 28 }}>
-      {/* Dot + label positioned at the path’s X coordinate */}
-      <div
-        className="absolute top-0 flex items-center gap-2"
-        style={{ left: `${pathXPct}%`, transform: "translateX(-50%)" }}
-      >
-        <div className="relative flex h-6 w-6 shrink-0 items-center justify-center">
-          <div className="absolute inset-0 rounded-full border-[1.5px] border-brand-gold/40 bg-surface" />
-          <div className="absolute h-2.5 w-2.5 rounded-full bg-brand-gold" />
-          <div className="absolute h-1 w-1 rounded-full bg-surface" />
-        </div>
-        <span className="whitespace-nowrap text-[0.62rem] font-semibold tracking-[0.14em] text-brand-navy">
-          {label}
-        </span>
-      </div>
-    </div>
-  );
-}
-
 /* ═══════════════════════════════════════════════════
    MAIN JOURNEY COMPONENT
    ─────────────────────────────────────────────────
@@ -287,29 +221,12 @@ export default function Journey() {
   const goldStroke = isMobile ? 2.5 : 3.5;
   const highlightStroke = isMobile ? 1 : 1.5;
 
-  /* ── Milestone positions as percentages of container ── */
-  const solTopPct = (solY / dims.h) * 100;
-  const whyTopPct = (whyY / dims.h) * 100;
-  const howTopPct = (howY / dims.h) * 100;
-  const leftPct = (lx / dims.w) * 100;
-  const rightPct = (rx / dims.w) * 100;
-
   return (
     <div
       ref={containerRef}
       className="relative overflow-y-clip"
       aria-label="Sarathi FinConnect financial journey"
     >
-      {/* Subtle radial background */}
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_75%_27%,rgba(11,31,77,0.035),transparent_42%)]"
-        aria-hidden="true"
-      />
-
-      {/* ═══════════════════════════════════════════
-          SVG PATH LAYER — 3-LINE RAIL SYSTEM
-          viewBox matches container pixels → 1:1 mapping
-          ═══════════════════════════════════════════ */}
       <svg
         className="pointer-events-none absolute inset-0 z-0 h-full w-full"
         viewBox={`0 0 ${dims.w} ${dims.h}`}
@@ -361,9 +278,7 @@ export default function Journey() {
           style={activeStyle}
         />
 
-        {/* 5. MILESTONE DOTS — rendered in SVG at exact waypoint coords.
-            Desktop only. On mobile, MobileMilestoneLabel handles dots
-            (positioned at the same pathXPct) to avoid duplicates.      */}
+        {/* 5. Desktop-only milestone dots at exact waypoint coordinates. */}
         {!isMobile && [
           { x: rx, y: solY },
           { x: lx, y: whyY },
@@ -377,42 +292,7 @@ export default function Journey() {
         ))}
       </svg>
 
-      {/* ═══════════════════════════════════════════
-          MILESTONE MARKERS — on the path, outside cards
-          Labels face AWAY from their cards to prevent overlap
-          ═══════════════════════════════════════════ */}
-
-      {/* ● SOLUTIONS label — beside the SVG dot on the RIGHT */}
-      <MilestoneLabel
-        label="SOLUTIONS"
-        scrollProgress={scrollYProgress}
-        at={0.13}
-        topPct={solTopPct}
-        leftPct={rightPct}
-        labelSide="right"
-      />
-
-      {/* ● WHY CHOOSE US label — beside the SVG dot on the LEFT */}
-      <MilestoneLabel
-        label="WHY CHOOSE US"
-        scrollProgress={scrollYProgress}
-        at={0.33}
-        topPct={whyTopPct}
-        leftPct={leftPct}
-        labelSide="left"
-      />
-
-      {/* ● HOW IT WORKS label — beside the SVG dot on the RIGHT */}
-      <MilestoneLabel
-        label="HOW IT WORKS"
-        scrollProgress={scrollYProgress}
-        at={0.53}
-        topPct={howTopPct}
-        leftPct={rightPct}
-        labelSide="right"
-      />
-
-      {/* ═══════════════════════════════════════════
+            {/* ═══════════════════════════════════════════
           CONTENT CARDS — normal flow, always visible
           z-10 sits above the SVG path layer
           ═══════════════════════════════════════════ */}
@@ -422,7 +302,6 @@ export default function Journey() {
         id="journey-services"
         className="relative z-10 px-5 py-20 sm:px-8 sm:py-28"
       >
-        <MobileMilestoneLabel label="SOLUTIONS" pathXPct={rightPct} />
         <div className="flex items-center md:justify-start">
           <motion.article
             initial={reduceMotion ? false : { opacity: 0, y: 10 }}
@@ -452,7 +331,6 @@ export default function Journey() {
 
       {/* ─── WHY CHOOSE US (RIGHT) ─── */}
       <section className="relative z-10 px-5 py-20 sm:px-8 sm:py-28">
-        <MobileMilestoneLabel label="WHY CHOOSE US" pathXPct={leftPct} />
         <div className="flex items-center md:justify-end">
           <motion.article
             initial={reduceMotion ? false : { opacity: 0, y: 10 }}
@@ -474,7 +352,6 @@ export default function Journey() {
       <section
         className="relative z-10 px-5 py-20 sm:px-8 sm:py-28"
       >
-        <MobileMilestoneLabel label="HOW IT WORKS" pathXPct={rightPct} />
         <div className="flex items-center md:justify-start">
           <motion.article
             initial={reduceMotion ? false : { opacity: 0, y: 10 }}
