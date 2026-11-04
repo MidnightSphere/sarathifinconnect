@@ -26,6 +26,7 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === "/";
+  const isAboutPage = location.pathname === "/about";
   const isServicesPage = location.pathname === "/services" || location.pathname.startsWith("/services/");
   const prefersReducedMotion = useReducedMotion();
   const splashDone = useSplashDone();
@@ -74,6 +75,11 @@ export default function Navbar() {
   const navigateFromMobileMenu = useCallback(
     (event, href) => {
       event.preventDefault();
+      if (href.startsWith("/")) {
+        closeMobileMenu();
+        navigate(href);
+        return;
+      }
       const hash = href.slice(href.indexOf("#"));
       if (isHome && !getNavSection(hash)) return;
       if (isHome) {
@@ -104,6 +110,7 @@ export default function Navbar() {
       frame = requestAnimationFrame(() => {
         const readingLine = NAV_OFFSET + 12;
         const sections = navLinks
+          .filter((link) => link.href.startsWith("#"))
           .map((link) => ({ link, section: getNavSection(link.href) }))
           .filter(({ section }) => section)
           .map(({ link, section }) => ({
@@ -154,9 +161,14 @@ export default function Navbar() {
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [mobileMenuOpen, closeMobileMenu]);
 
-  // On home: use plain hash; on other pages: navigate to home then hash.
-  const getHref = (hash) => (isHome ? hash : `/${hash}`);
+  // Hash links point into home sections. About is its own client-side route.
+  const getHref = (hash) => hash.startsWith("/") ? hash : (isHome ? hash : `/${hash}`);
   const navigateFromDesktopNav = (event, href) => {
+    if (href.startsWith("/")) {
+      event.preventDefault();
+      navigate(href);
+      return;
+    }
     event.preventDefault();
     if (isHome && !getNavSection(href)) return;
     if (isHome && !scrollToHash(href)) return;
@@ -196,13 +208,16 @@ export default function Navbar() {
           <nav aria-label="Main navigation links" className="hidden md:block">
             <ul className="m-0 flex list-none items-center gap-1 p-0">
               {navLinks.map((link) => {
-                const isActive = isServicesPage
-                  ? link.href === "#services"
-                  : activeHref === link.href;
+                const isActive = link.href === "/about"
+                  ? isAboutPage
+                  : isServicesPage
+                    ? link.href === "#services"
+                    : isHome && activeHref === link.href;
+                const NavLink = link.href.startsWith("/") ? Link : "a";
                 return (
                   <li key={link.href}>
-                    <a
-                      href={getHref(link.href)}
+                    <NavLink
+                      {...(link.href.startsWith("/") ? { to: link.href } : { href: getHref(link.href) })}
                       aria-current={isActive ? "location" : undefined}
                       onClick={(event) =>
                         navigateFromDesktopNav(event, link.href)
@@ -227,7 +242,7 @@ export default function Navbar() {
                       >
                         {link.label}
                       </motion.span>
-                    </a>
+                    </NavLink>
                   </li>
                 );
               })}
@@ -264,7 +279,7 @@ export default function Navbar() {
         <MobileMenu
           isOpen={mobileMenuOpen}
           onNavigate={navigateFromMobileMenu}
-          activeHref={isServicesPage ? "#services" : activeHref}
+          activeHref={isAboutPage ? "/about" : isServicesPage ? "#services" : activeHref}
           isHome={isHome}
         />
       </div>

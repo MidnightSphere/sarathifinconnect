@@ -6,7 +6,7 @@ import RupeeMark from "../components/not-found/RupeeMark";
 
 const helpfulLinks = [
   { label: "Services", to: "/services" },
-  { label: "About us", to: "/#about-us" },
+  { label: "About us", to: "/about" },
   { label: "Contact", to: "/#contact" },
 ];
 

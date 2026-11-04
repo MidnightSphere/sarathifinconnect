@@ -51,9 +51,10 @@ function getLoanContext(messages) {
     .map(({ content }) => content.toLowerCase())
     .join(" ");
   const queryTerms = new Set(
-    query.match(/[a-z0-9]+/g)?.filter(
-      (term) => term.length > 2 && !GENERIC_QUERY_TERMS.has(term),
-    ) || [],
+    query
+      .match(/[a-z0-9]+/g)
+      ?.filter((term) => term.length > 2 && !GENERIC_QUERY_TERMS.has(term)) ||
+      [],
   );
   const detailedServices = loanServices
     .map((service) => {
@@ -165,9 +166,7 @@ export default async function handler(request, response) {
     messages.shift();
   }
 
-  const greetingReply = getGreetingReply(
-    messages[messages.length - 1].content,
-  );
+  const greetingReply = getGreetingReply(messages[messages.length - 1].content);
   if (greetingReply) {
     return response.status(200).json({ reply: greetingReply });
   }

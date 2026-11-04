@@ -1,9 +1,10 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { Link } from "react-router-dom";
 import { navLinks } from "../../data/navigation";
 import ArrowButton from "../ui/ArrowButton";
 
 export default function MobileMenu({ isOpen, onNavigate, activeHref, isHome }) {
-  const getHref = (hash) => (isHome ? hash : `/${hash}`);
+  const getHref = (hash) => hash.startsWith("/") ? hash : (isHome ? hash : `/${hash}`);
   const prefersReducedMotion = useReducedMotion();
   const pillTransition = prefersReducedMotion
     ? { duration: 0 }
@@ -22,32 +23,36 @@ export default function MobileMenu({ isOpen, onNavigate, activeHref, isHome }) {
         >
           <nav aria-label="Mobile navigation">
             <ul className="m-0 flex list-none flex-col gap-1 p-0">
-              {navLinks.map((link, index) => (
-                <motion.li key={link.href} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.04 + index * 0.04 }}>
-                  <a
-                    href={getHref(link.href)}
-                    aria-current={activeHref === link.href ? "location" : undefined}
-                    onClick={(event) => onNavigate(event, getHref(link.href))}
-                    className={`relative block rounded-full px-4 py-3 text-sm no-underline transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold ${activeHref === link.href ? "font-bold text-brand-navy" : "font-semibold text-text-primary"}`}
-                  >
-                    {activeHref === link.href && (
-                      <motion.span
-                        layoutId="mobile-nav-pill"
-                        transition={pillTransition}
-                        className="absolute inset-0 rounded-full border border-white/70 bg-white/60 shadow-[0_2px_10px_rgba(11,31,77,0.12)]"
-                        aria-hidden="true"
-                      />
-                    )}
-                    <motion.span
-                      className="relative z-10 inline-block"
-                      animate={{ scale: activeHref === link.href ? 1 : 0.98 }}
-                      transition={{ duration: prefersReducedMotion ? 0 : 0.28, ease: [0.32, 0.72, 0, 1] }}
+              {navLinks.map((link, index) => {
+                const isActive = activeHref === link.href;
+                const NavLink = link.href.startsWith("/") ? Link : "a";
+                return (
+                  <motion.li key={link.href} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.04 + index * 0.04 }}>
+                    <NavLink
+                      {...(link.href.startsWith("/") ? { to: link.href } : { href: getHref(link.href) })}
+                      aria-current={isActive ? "location" : undefined}
+                      onClick={(event) => onNavigate(event, getHref(link.href))}
+                      className={`relative block rounded-full px-4 py-3 text-sm no-underline transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold ${isActive ? "font-bold text-brand-navy" : "font-semibold text-text-primary"}`}
                     >
-                      {link.label}
-                    </motion.span>
-                  </a>
-                </motion.li>
-              ))}
+                      {isActive && (
+                        <motion.span
+                          layoutId="mobile-nav-pill"
+                          transition={pillTransition}
+                          className="absolute inset-0 rounded-full border border-white/70 bg-white/60 shadow-[0_2px_10px_rgba(11,31,77,0.12)]"
+                          aria-hidden="true"
+                        />
+                      )}
+                      <motion.span
+                        className="relative z-10 inline-block"
+                        animate={{ scale: isActive ? 1 : 0.98 }}
+                        transition={{ duration: prefersReducedMotion ? 0 : 0.28, ease: [0.32, 0.72, 0, 1] }}
+                      >
+                        {link.label}
+                      </motion.span>
+                    </NavLink>
+                  </motion.li>
+                );
+              })}
               <li className="mt-1 border-t border-border pt-2">
                 <ArrowButton
                   href={getHref("#contact")}

@@ -22,9 +22,41 @@ export default function Chatbot() {
 
   useEffect(() => {
     if (!isOpen) return;
-    endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
     inputRef.current?.focus();
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [isOpen, isSending, messages]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const viewport = window.visualViewport;
+    const updateVisibleViewport = () => {
+      root.style.setProperty(
+        "--chatbot-visible-height",
+        `${viewport?.height ?? window.innerHeight}px`,
+      );
+      root.style.setProperty(
+        "--chatbot-visible-top",
+        `${viewport?.offsetTop ?? 0}px`,
+      );
+    };
+
+    updateVisibleViewport();
+    viewport?.addEventListener("resize", updateVisibleViewport);
+    viewport?.addEventListener("scroll", updateVisibleViewport);
+    window.addEventListener("resize", updateVisibleViewport);
+
+    return () => {
+      viewport?.removeEventListener("resize", updateVisibleViewport);
+      viewport?.removeEventListener("scroll", updateVisibleViewport);
+      window.removeEventListener("resize", updateVisibleViewport);
+      root.style.removeProperty("--chatbot-visible-height");
+      root.style.removeProperty("--chatbot-visible-top");
+    };
+  }, []);
 
   async function sendMessage(event) {
     event.preventDefault();

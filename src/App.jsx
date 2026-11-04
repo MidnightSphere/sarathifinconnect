@@ -1,6 +1,9 @@
 import { Navigate, Route, Routes, useLocation, useNavigationType, useParams } from "react-router-dom";
 import { useCallback, useState, useLayoutEffect } from "react";
 import HomePage from "./pages/HomePage";
+import AboutUs from "./components/about/AboutUs";
+import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/layout/Footer";
 import ServicesPage from "./pages/ServicesPage";
 import LoanDetailPage from "./pages/loans/LoanDetailPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -92,6 +95,7 @@ export default function App() {
           <ScrollToTop />
           <Routes location={location}>
             <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<><Navbar /><main className="pt-20"><AboutUs /></main><Footer /></>} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/services/:slug" element={<LoanDetailPage />} />
             <Route path="/loans/:slug" element={<LegacyLoanRedirect />} />

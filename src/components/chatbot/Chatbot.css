@@ -242,10 +242,17 @@
 
 @media (max-width: 480px) {
   .chatbot__panel {
-    right: -0.5rem;
-    bottom: 4.125rem;
-    width: calc(100vw - 1rem);
-    height: min(34rem, calc(100dvh - 6.5rem));
+    position: fixed;
+    top: calc(var(--chatbot-visible-top, 0px) + max(0.5rem, env(safe-area-inset-top)));
+    right: max(0.5rem, env(safe-area-inset-right));
+    bottom: auto;
+    width: calc(100vw - 1rem - env(safe-area-inset-left) - env(safe-area-inset-right));
+    height: min(34rem, calc(var(--chatbot-visible-height, 100dvh) - max(1rem, env(safe-area-inset-top)) - max(1rem, env(safe-area-inset-bottom))));
+    min-height: 0;
+  }
+
+  .chatbot__messages {
+    min-height: 0;
   }
 
   .chatbot__launcher span {

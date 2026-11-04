@@ -69,7 +69,12 @@ export default function Footer() {
             <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 sm:gap-x-8">
               <LinkGroup title="Company">
                 <li>
-                  <SectionLink hash="#about-us">About</SectionLink>
+                  <Link
+                    to="/about"
+                    className="text-sm text-text-secondary transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold"
+                  >
+                    About
+                  </Link>
                 </li>
                 <li>
                   <SectionLink hash="#services">Services</SectionLink>

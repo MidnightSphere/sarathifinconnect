@@ -1,5 +1,6 @@
 import {
   motion,
+  useInView,
   useReducedMotion,
   useScroll,
   useTransform,
@@ -7,35 +8,52 @@ import {
 import { useRef, useState, useEffect, useMemo } from "react";
 import {
   ArrowRight,
-  Compass,
-  Eye,
-  HeartHandshake,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import ArrowButton from "../ui/ArrowButton";
 import useSplashDone from "../ui/split-reveal/useSplashDone";
+import { journeyCards } from "../../data/journey-cards";
 
 /* ═══════════════════════════════════════════════════
    DATA
    ═══════════════════════════════════════════════════ */
 
-const services = [
-  { num: "01", name: "Personal Loan", desc: "Funding for personal milestones, planned or unplanned." },
-  { num: "02", name: "Business Finance", desc: "Working capital and growth funding for businesses." },
-  { num: "03", name: "Home Finance", desc: "Support for purchasing or renovating your home." },
-];
+function CountUp({ value, label, verified = true }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.45 });
+  const reduceMotion = useReducedMotion();
+  const [count, setCount] = useState(0);
 
-const values = [
-  { icon: Compass, title: "Clear Guidance", desc: "Straightforward advice so you always know where you stand." },
-  { icon: Eye, title: "Transparent Process", desc: "No hidden steps, no surprises along the way." },
-  { icon: HeartHandshake, title: "Support at Every Step", desc: "From first enquiry to final step, we are with you." },
-];
+  useEffect(() => {
+    if (!isInView) return;
+    if (reduceMotion) return;
+    let frame;
+    const start = performance.now();
+    const animate = (now) => {
+      const progress = Math.min((now - start) / 1400, 1);
+      setCount(Math.round(value * (1 - (1 - progress) ** 3)));
+      if (progress < 1) frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [isInView, reduceMotion, value]);
 
-const howSteps = [
-  { num: "01", title: "Share Your Requirement", desc: "Tell us what you are looking for and understand the next steps." },
-  { num: "02", title: "Explore Suitable Options", desc: "Review the financial solution that best matches your requirement." },
-  { num: "03", title: "Move Forward With Clarity", desc: "Get guidance through the next stage of the process." },
-];
+  const shownCount = reduceMotion && isInView ? value : count;
+  const formatted = shownCount.toLocaleString("en-IN");
+  const finalFormatted = value.toLocaleString("en-IN");
+  return (
+    <div ref={ref} role="img" className="flex flex-wrap items-baseline gap-x-2" aria-label={verified ? `${finalFormatted} plus ${label.toLowerCase()}` : "Our founder's client relationships"}>
+      {verified ? (
+        <span aria-hidden="true" className="font-bricolage text-[clamp(4rem,9vw,7rem)] font-bold leading-[0.9] tracking-[-0.065em] text-brand-navy">
+          {formatted}<span className="text-brand-gold">+</span>
+        </span>
+      ) : (
+        <span aria-hidden="true" className="font-bricolage text-lg font-semibold text-brand-navy">Our founder&apos;s client relationships</span>
+      )}
+      <span aria-hidden="true" className="font-bricolage text-lg font-semibold text-brand-navy">{label}</span>
+    </div>
+  );
+}
 
 /* ═══════════════════════════════════════════════════
    PATH GENERATION
@@ -208,6 +226,12 @@ export default function Journey() {
   const containerRef = useRef(null);
   const reduceMotion = useReducedMotion();
   const [dims, setDims] = useState({ w: 1200, h: 3600 });
+
+  useEffect(() => {
+    if (import.meta.env.DEV && !journeyCards[2].verified) {
+      console.warn("Client count unverified");
+    }
+  }, []);
 
   /* ── Measure container (including padding) so viewBox = pixel dims ── */
   useEffect(() => {
@@ -400,41 +424,29 @@ export default function Journey() {
       >
         <MobileMilestoneLabel label="SOLUTIONS" pathXPct={rightPct} />
         <div className="flex items-center md:justify-start">
-        <div className="w-full max-w-md rounded-3xl border border-white/80 bg-white/72 p-6 shadow-[0_16px_44px_rgba(11,31,77,0.06)] backdrop-blur-sm sm:p-8 md:ml-[9%]">
-          <h2 className="m-0 text-3xl font-bold leading-[1.08] tracking-[-0.035em] text-brand-navy sm:text-4xl">
-            Solutions for your next step.
-          </h2>
-          <ul className="mt-7 grid gap-4 p-0">
-            {services.map((svc) => (
-              <li
-                key={svc.name}
-                className="list-none border-b border-border pb-4 last:border-0 last:pb-0"
-              >
-                <div className="flex gap-3">
-                  <span className="text-sm font-bold leading-tight text-brand-gold">
-                    {svc.num}
-                  </span>
-                  <div>
-                    <span className="text-[0.98rem] font-semibold text-brand-navy">
-                      {svc.name}
-                    </span>
-                    <p className="m-0 mt-1 text-[0.88rem] leading-relaxed text-text-secondary">
-                      {svc.desc}
-                    </p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-6">
-            <Link
-              to="/services"
-              className="inline-flex items-center gap-2 text-[0.9rem] font-semibold text-brand-gold no-underline transition-colors duration-200 hover:text-brand-navy"
-            >
-              View All Services <ArrowRight size={15} aria-hidden="true" />
+          <motion.article
+            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: reduceMotion ? 0 : 0.4 }}
+            className="w-full max-w-md rounded-3xl border border-brand-navy/[0.08] bg-white/90 p-6 shadow-[0_12px_34px_rgba(11,31,77,0.07)] backdrop-blur-sm sm:p-8 md:ml-[9%]"
+          >
+            <p className="m-0 font-space text-xs font-semibold uppercase tracking-[0.16em] text-brand-gold">{journeyCards[0].eyebrow}</p>
+            <div className="mt-3 flex items-center gap-3 sm:gap-4">
+              <div className="grid size-16 shrink-0 place-items-center rounded-full border border-brand-gold/20 bg-brand-gold/10 sm:size-[4.5rem]" aria-hidden="true">
+                <img src="/logo/sarathi-finconnect-only-logo.svg" alt="" className="size-9 object-contain sm:size-10" />
+              </div>
+              <svg viewBox="0 0 112 58" className="h-12 min-w-0 flex-1 max-w-28 text-brand-gold" fill="none" aria-hidden="true">
+                <path d="M4 48C28 48 24 12 53 12s28 34 55 4" stroke="currentColor" strokeWidth="2" strokeDasharray="3 5" strokeLinecap="round" />
+                <circle cx="4" cy="48" r="3" fill="currentColor" /><circle cx="53" cy="12" r="3" fill="currentColor" /><circle cx="108" cy="16" r="3" fill="currentColor" />
+              </svg>
+            </div>
+            <h2 className="m-0 mt-3 font-bricolage text-2xl font-bold leading-[1.08] tracking-[-0.035em] text-brand-navy md:text-3xl">{journeyCards[0].heading}</h2>
+            <p className="m-0 mt-2 line-clamp-3 text-sm leading-relaxed text-text-secondary">{journeyCards[0].description}</p>
+            <Link to="/about" className="group mt-2 inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-semibold text-brand-navy no-underline transition-colors hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold">
+              Read more <ArrowRight size={16} aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none" />
             </Link>
-          </div>
-        </div>
+          </motion.article>
         </div>
       </section>
 
@@ -442,66 +454,41 @@ export default function Journey() {
       <section className="relative z-10 px-5 py-20 sm:px-8 sm:py-28">
         <MobileMilestoneLabel label="WHY CHOOSE US" pathXPct={leftPct} />
         <div className="flex items-center md:justify-end">
-        <div className="w-full max-w-md rounded-3xl border border-white/80 bg-white/72 p-6 shadow-[0_16px_44px_rgba(11,31,77,0.06)] backdrop-blur-sm sm:p-8 md:mr-[9%]">
-          <h2 className="m-0 text-3xl font-bold leading-[1.08] tracking-[-0.035em] text-brand-navy sm:text-4xl">
-            Guidance that keeps things clear.
-          </h2>
-          <div className="mt-7 grid gap-5">
-            {values.map((v) => {
-              const Icon = v.icon;
-              return (
-                <div key={v.title} className="flex gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-gold/8">
-                    <Icon size={18} className="text-brand-gold" strokeWidth={2} />
-                  </div>
-                  <div>
-                    <p className="m-0 text-[0.95rem] font-semibold text-brand-navy">
-                      {v.title}
-                    </p>
-                    <p className="m-0 mt-1 text-[0.85rem] leading-relaxed text-text-secondary">
-                      {v.desc}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+          <motion.article
+            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: reduceMotion ? 0 : 0.4 }}
+            className="w-full max-w-md rounded-3xl border border-brand-navy/[0.08] bg-white/90 p-6 shadow-[0_12px_34px_rgba(11,31,77,0.07)] backdrop-blur-sm sm:p-8 md:mr-[9%]"
+          >
+            <p className="m-0 font-space text-xs font-semibold uppercase tracking-[0.16em] text-brand-gold">{journeyCards[1].eyebrow}</p>
+            <div className="mt-2"><CountUp value={journeyCards[1].value} label={journeyCards[1].label} /></div>
+            <h2 className="m-0 mt-1 font-bricolage text-lg font-semibold leading-tight text-brand-navy">{journeyCards[1].title}</h2>
+            <p className="m-0 mt-1 text-xs leading-relaxed text-text-secondary">{journeyCards[1].attribution}</p>
+            <p className="m-0 mt-2 text-sm leading-relaxed text-text-secondary">{journeyCards[1].description}</p>
+          </motion.article>
         </div>
       </section>
 
       {/* ─── HOW IT WORKS (LEFT) ─── */}
       <section
-        id="about"
         className="relative z-10 px-5 py-20 sm:px-8 sm:py-28"
       >
         <MobileMilestoneLabel label="HOW IT WORKS" pathXPct={rightPct} />
         <div className="flex items-center md:justify-start">
-        <div className="w-full max-w-md rounded-3xl border border-white/80 bg-white/72 p-6 shadow-[0_16px_44px_rgba(11,31,77,0.06)] backdrop-blur-sm sm:p-8 md:ml-[9%]">
-          <h2 className="m-0 text-3xl font-bold leading-[1.08] tracking-[-0.035em] text-brand-navy sm:text-4xl">
-            A simpler way to move forward.
-          </h2>
-          <ol className="mt-7 grid gap-4 p-0">
-            {howSteps.map((s) => (
-              <li
-                key={s.num}
-                className="flex gap-4 border-b border-border pb-4 last:border-0 last:pb-0"
-              >
-                <span className="text-lg font-bold leading-tight text-brand-gold">
-                  {s.num}
-                </span>
-                <div>
-                  <p className="m-0 text-[0.95rem] font-semibold text-brand-navy">
-                    {s.title}
-                  </p>
-                  <p className="m-0 mt-1 text-[0.85rem] leading-relaxed text-text-secondary">
-                    {s.desc}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
+          <motion.article
+            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: reduceMotion ? 0 : 0.4 }}
+            className="w-full max-w-md rounded-3xl border border-brand-navy/[0.08] bg-white/90 p-6 shadow-[0_12px_34px_rgba(11,31,77,0.07)] backdrop-blur-sm sm:p-8 md:ml-[9%]"
+          >
+            <p className="m-0 font-space text-xs font-semibold uppercase tracking-[0.16em] text-brand-gold">{journeyCards[2].eyebrow}</p>
+            <div className="mt-2"><CountUp value={journeyCards[2].value} label={journeyCards[2].label} verified={journeyCards[2].verified} /></div>
+            <h2 className="m-0 mt-1 font-bricolage text-lg font-semibold leading-tight text-brand-navy">{journeyCards[2].title}</h2>
+            <p className="m-0 mt-1 text-xs leading-relaxed text-text-secondary">{journeyCards[2].attribution}</p>
+            <p className="m-0 mt-2 text-sm leading-relaxed text-text-secondary">{journeyCards[2].description}</p>
+          </motion.article>
         </div>
       </section>
 
