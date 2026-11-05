@@ -1,0 +1,425 @@
+/*
+ * LaunchingSoon.css
+ * Premium, luxury-style "Launching Soon" page for Sarathi FinConnect.
+ * Deep navy · Warm ivory · Subtle gold accents.
+ */
+
+/* ─── Design tokens ──────────────────────────────────────────────────────────── */
+:root {
+  --sfc-navy:       #0b1f4d;
+  --sfc-navy-mid:   #122260;
+  --sfc-navy-dark:  #071633;
+  --sfc-ivory:      #f7f1e3;
+  --sfc-ivory-warm: #ede0c4;
+  --sfc-gold:       #c9952f;
+  --sfc-gold-light: #e8b84a;
+  --sfc-gold-pale:  #f4d77c;
+  --sfc-text-main:  #f7f1e3;
+  --sfc-text-muted: #9faecc;
+  --sfc-text-dim:   #6878a8;
+}
+
+/* ─── Root / Layout ──────────────────────────────────────────────────────────── */
+.sfc-ls-root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100svh;
+  min-height: 100vh;
+  background-color: var(--sfc-navy);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(201, 149, 47, 0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(11, 31, 77, 0.6) 0%, transparent 70%);
+  color: var(--sfc-text-main);
+  overflow: hidden;
+  padding: 0 1.5rem;
+}
+
+/* ─── Background texture ─────────────────────────────────────────────────────── */
+.sfc-bg-texture {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 25%, rgba(201, 149, 47, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 80% 75%, rgba(201, 149, 47, 0.03) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Gold accent lines ──────────────────────────────────────────────────────── */
+.sfc-top-line,
+.sfc-bottom-line {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--sfc-gold) 30%,
+    var(--sfc-gold-pale) 50%,
+    var(--sfc-gold) 70%,
+    transparent 100%
+  );
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Main content ───────────────────────────────────────────────────────────── */
+.sfc-ls-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  max-width: 760px;
+  padding: 3.5rem 0 2.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+/* ─── Logo ───────────────────────────────────────────────────────────────────── */
+.sfc-logo-wrap {
+  margin-bottom: 1.75rem;
+}
+
+.sfc-logo {
+  width: clamp(52px, 8vw, 72px);
+  height: auto;
+  /* Invert navy paths to ivory for dark background */
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(94%)
+    sepia(18%)
+    saturate(300%)
+    hue-rotate(5deg)
+    brightness(103%)
+    contrast(95%);
+  opacity: 0.92;
+}
+
+/* ─── Eyebrow ────────────────────────────────────────────────────────────────── */
+.sfc-eyebrow {
+  font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(0.6rem, 1.4vw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--sfc-gold-light);
+  text-transform: uppercase;
+  margin: 0 0 1.4rem;
+  opacity: 0.9;
+}
+
+/* ─── Divider ────────────────────────────────────────────────────────────────── */
+.sfc-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: min(320px, 60%);
+  margin: 0 auto 1.75rem;
+}
+
+.sfc-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sfc-gold), transparent);
+  opacity: 0.5;
+}
+
+.sfc-divider-diamond {
+  font-size: 0.45rem;
+  color: var(--sfc-gold);
+  opacity: 0.75;
+  line-height: 1;
+}
+
+/* ─── Main heading ───────────────────────────────────────────────────────────── */
+.sfc-heading {
+  font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.4rem, 7vw, 4.25rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  color: var(--sfc-ivory);
+  margin: 0 0 1.5rem;
+}
+
+/* ─── Supporting message ─────────────────────────────────────────────────────── */
+.sfc-subheading {
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--sfc-text-muted);
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  font-style: italic;
+}
+
+.sfc-break {
+  /* Allow wrapping on narrow screens, force break on wider */
+}
+
+/* ─── Countdown ──────────────────────────────────────────────────────────────── */
+.sfc-countdown-wrap {
+  margin-bottom: 2rem;
+}
+
+.sfc-countdown {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sfc-countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: clamp(60px, 11vw, 90px);
+  padding: 0.8rem 0.5rem 0.75rem;
+  border: 1px solid rgba(201, 149, 47, 0.3);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(4px);
+  position: relative;
+}
+
+.sfc-countdown-unit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sfc-gold-light), transparent);
+  opacity: 0.6;
+}
+
+.sfc-countdown-value {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+  font-weight: 700;
+  color: var(--sfc-ivory);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.sfc-countdown-label {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(0.52rem, 1.1vw, 0.62rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--sfc-gold);
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.sfc-countdown-sep {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  font-weight: 300;
+  color: var(--sfc-gold);
+  opacity: 0.45;
+  line-height: 1;
+  /* Align with numbers, not the label */
+  margin-bottom: 1.4rem;
+  align-self: center;
+}
+
+.sfc-launched-msg {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--sfc-gold-light);
+  letter-spacing: 0.06em;
+}
+
+/* ─── Event date ─────────────────────────────────────────────────────────────── */
+.sfc-event-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 2.5rem;
+}
+
+.sfc-event-date-label {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(0.58rem, 1.3vw, 0.68rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sfc-gold);
+  opacity: 0.8;
+}
+
+.sfc-event-date-value {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  font-weight: 500;
+  color: var(--sfc-text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* ─── CTA button ─────────────────────────────────────────────────────────────── */
+.sfc-cta-wrap {
+  margin-bottom: 0.5rem;
+}
+
+.sfc-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 2.2rem;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(0.72rem, 1.5vw, 0.82rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--sfc-gold-pale);
+  border: 1.5px solid var(--sfc-gold);
+  border-radius: 2px;
+  background: rgba(201, 149, 47, 0.07);
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.sfc-cta-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(201, 149, 47, 0.12) 0%,
+    rgba(248, 215, 124, 0.08) 50%,
+    rgba(201, 149, 47, 0.12) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.sfc-cta-btn:hover::before,
+.sfc-cta-btn:focus-visible::before {
+  opacity: 1;
+}
+
+.sfc-cta-btn:hover,
+.sfc-cta-btn:focus-visible {
+  color: var(--sfc-gold-pale);
+  border-color: var(--sfc-gold-light);
+  transform: translateY(-1px);
+}
+
+.sfc-cta-btn:focus-visible {
+  outline: 2px solid var(--sfc-gold-light);
+  outline-offset: 3px;
+}
+
+.sfc-cta-btn:active {
+  transform: translateY(0);
+}
+
+.sfc-cta-arrow {
+  font-size: 0.9em;
+  transition: transform 0.2s ease;
+}
+
+.sfc-cta-btn:hover .sfc-cta-arrow,
+.sfc-cta-btn:focus-visible .sfc-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────────── */
+.sfc-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 0;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.sfc-footer-line {
+  width: min(240px, 50%);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 149, 47, 0.3), transparent);
+}
+
+.sfc-footer-text {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(0.58rem, 1.2vw, 0.65rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sfc-text-dim);
+}
+
+/* ─── Responsive adjustments ─────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .sfc-ls-content {
+    padding: 2.5rem 0 2rem;
+  }
+
+  .sfc-countdown {
+    gap: 0.2rem;
+  }
+
+  .sfc-countdown-unit {
+    min-width: clamp(56px, 20vw, 72px);
+    padding: 0.65rem 0.3rem 0.6rem;
+  }
+
+  .sfc-countdown-sep {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .sfc-subheading {
+    font-size: 1rem;
+  }
+
+  .sfc-cta-btn {
+    padding: 0.8rem 1.6rem;
+    font-size: 0.7rem;
+  }
+
+  .sfc-event-date-value {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .sfc-countdown-sep {
+    display: none;
+  }
+
+  .sfc-countdown {
+    gap: 0.5rem;
+  }
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .sfc-cta-btn,
+  .sfc-cta-arrow {
+    transition: none;
+  }
+}

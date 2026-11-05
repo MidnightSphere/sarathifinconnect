@@ -9,6 +9,7 @@ import SplashProvider from "./components/ui/split-reveal/SplashProvider";
 import { Analytics } from "@vercel/analytics/react";
 import Chatbot from "./components/chatbot/Chatbot";
 import AboutPage from "./pages/about/AboutPage";
+import LaunchingGate from "./components/launching-soon/LaunchingGate";
 
 const SPLASH_SEEN_KEY = "sarathi_splash_seen";
 
@@ -83,27 +84,29 @@ export default function App() {
   }, []);
 
   return (
-    <SplashProvider value={splashDone}>
-      <>
-        <div
-          className="min-h-screen overflow-x-clip bg-surface"
-          inert={!splashDone}
-          aria-hidden={!splashDone}
-        >
-          <ScrollToTop />
-          <Routes location={location}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/services/:slug" element={<LoanDetailPage />} />
-            <Route path="/loans/:slug" element={<LegacyLoanRedirect />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </div>
-        {!splashDone && <SplitRevealSplash onComplete={completeSplash} />}
-        {splashDone && <Chatbot />}
-        <Analytics />
-      </>
-    </SplashProvider>
+    <LaunchingGate>
+      <SplashProvider value={splashDone}>
+        <>
+          <div
+            className="min-h-screen overflow-x-clip bg-surface"
+            inert={!splashDone}
+            aria-hidden={!splashDone}
+          >
+            <ScrollToTop />
+            <Routes location={location}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/services/:slug" element={<LoanDetailPage />} />
+              <Route path="/loans/:slug" element={<LegacyLoanRedirect />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </div>
+          {!splashDone && <SplitRevealSplash onComplete={completeSplash} />}
+          {splashDone && <Chatbot />}
+          <Analytics />
+        </>
+      </SplashProvider>
+    </LaunchingGate>
   );
 }
