@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Award, BriefcaseBusiness, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Eyebrow from "./Eyebrow";
 
 const expertise = [
   "Home Loans",
@@ -44,18 +45,8 @@ function LeadershipSection() {
   return (
     <section
       aria-labelledby="founder-heading"
-      className="relative isolate overflow-hidden bg-[#F9F8F5] py-20 text-[#172033] sm:py-24 lg:py-28"
+      className="relative isolate overflow-hidden bg-white py-16 text-brand-navy md:py-24"
     >
-      {/* Soft decorative accents */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-32 top-12 h-72 w-72 rounded-full bg-[#D9B76B]/10 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-40 right-0 h-96 w-96 rounded-full bg-[#0B1F4D]/[0.04] blur-3xl"
-      />
-
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <motion.div
           variants={reveal}
@@ -64,17 +55,14 @@ function LeadershipSection() {
           viewport={{ once: true, amount: 0.35 }}
           className="mb-12 max-w-3xl lg:mb-16"
         >
-          <span className="mb-4 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.24em] text-[#A87920]">
-            <span className="h-px w-8 bg-[#B88A35]" />
-            Leadership at Sarathi
-          </span>
+          <Eyebrow className="mb-4">Leadership at Sarathi</Eyebrow>
 
           <h2
             id="founder-heading"
-            className="text-4xl font-semibold leading-[1.08] tracking-[-0.045em] text-[#101B32] sm:text-5xl lg:text-6xl"
+            className="font-bricolage text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.02em] text-brand-navy"
           >
             Who’s behind{" "}
-            <span className="font-serif font-medium italic text-[#A87920]">
+            <span className="font-bricolage font-semibold text-brand-gold">
               Sarathi?
             </span>
           </h2>
@@ -94,19 +82,19 @@ function LeadershipSection() {
             viewport={{ once: true, amount: 0.2 }}
             className="relative mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none"
           >
-            <div className="relative rounded-[2rem] border border-[#E8E2D7] bg-white p-3 shadow-[0_24px_70px_-35px_rgba(18,30,54,0.35)]">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-[#E9E5DC]">
+            <div className="relative rounded-[2rem] border border-brand-navy/10 bg-white p-3 shadow-[0_24px_70px_-35px_rgba(18,30,54,0.35)]">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-slate-100">
                 {/* The source portrait asset is not present in the supplied project. */}
                 <div
                   aria-hidden="true"
-                  className="absolute inset-0 -z-0 flex items-center justify-center bg-gradient-to-br from-[#EAE4D8] via-[#DCD5C8] to-[#C9C0B1]"
+                  className="absolute inset-0 -z-0 flex items-center justify-center bg-gradient-to-br from-slate-100 via-slate-100 to-slate-200"
                 >
-                  <span className="font-serif text-7xl font-semibold tracking-tight text-[#0B1F4D]/25">
+                  <span className="font-bricolage text-7xl font-semibold tracking-tight text-brand-navy/25">
                     HM
                   </span>
                 </div>
 
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#101B32]/75 via-[#101B32]/20 to-transparent p-6 pt-24">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-navy/75 via-brand-navy/20 to-transparent p-6 pt-24">
                   <p className="text-sm font-medium tracking-wide text-white/80">
                     Designated Partner
                   </p>
@@ -122,13 +110,13 @@ function LeadershipSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: shouldReduceMotion ? 0 : 0.35, duration: 0.55 }}
-              className="absolute -right-2 top-8 flex items-center gap-3 rounded-2xl border border-[#E8D8B6] bg-white/95 px-4 py-3 shadow-[0_14px_35px_-18px_rgba(20,30,50,0.35)] backdrop-blur sm:-right-6 sm:px-5"
+              className="absolute -right-2 top-8 flex items-center gap-3 rounded-2xl border border-brand-navy/10 bg-white/95 px-4 py-3 shadow-[0_14px_35px_-18px_rgba(20,30,50,0.35)] backdrop-blur sm:-right-6 sm:px-5"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F5EBD6] text-[#9B6B18]">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gold/10 text-brand-gold">
                 <Award size={20} strokeWidth={1.8} />
               </span>
               <span>
-                <strong className="block text-lg leading-none text-[#101B32]">
+                <strong className="block text-lg leading-none text-brand-navy">
                   12+ Years
                 </strong>
                 <span className="mt-1 block text-xs text-slate-500">
@@ -137,7 +125,7 @@ function LeadershipSection() {
               </span>
             </motion.div>
 
-            <div className="absolute -bottom-5 left-6 -z-10 h-28 w-28 rounded-[1.75rem] border border-[#D9C69F]/70" />
+            <div className="absolute -bottom-5 left-6 -z-10 h-28 w-28 rounded-[1.75rem] border border-brand-gold/70" />
           </motion.div>
 
           {/* Founder story */}
@@ -149,24 +137,22 @@ function LeadershipSection() {
             className="lg:col-span-7"
           >
             <div className="mb-6">
-              <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#A87920]">
-                The experience behind the guidance
-              </span>
-              <h3 className="mt-3 text-3xl font-semibold leading-tight tracking-[-0.035em] text-[#101B32] sm:text-4xl">
+              <Eyebrow>The experience behind the guidance</Eyebrow>
+              <h3 className="mt-3 font-bricolage text-2xl font-semibold leading-tight tracking-[-0.02em] text-brand-navy md:text-3xl">
                 Experience you can rely on.
               </h3>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 border-y border-[#E7E1D7] py-5 sm:gap-6 sm:py-6">
+            <div className="grid grid-cols-3 gap-3 border-y border-brand-navy/10 py-5 sm:gap-6 sm:py-6">
               {stats.map(({ value, label, icon: Icon }) => (
                 <div key={label} className="min-w-0">
                   <Icon
                     aria-hidden="true"
                     size={19}
                     strokeWidth={1.7}
-                    className="mb-3 text-[#A87920]"
+                    className="mb-3 text-brand-gold"
                   />
-                  <p className="text-3xl font-semibold tracking-tight text-[#101B32] sm:text-4xl">
+                  <p className="text-3xl font-semibold tracking-tight text-brand-navy sm:text-2xl md:text-3xl">
                     {value}
                   </p>
                   <p className="mt-1 max-w-28 text-[11px] leading-4 text-slate-500 sm:max-w-none sm:text-xs sm:leading-5">
@@ -204,18 +190,18 @@ function LeadershipSection() {
               {expertise.map((item) => (
                 <span
                   key={item}
-                  className="rounded-full border border-[#E5DCCB] bg-white/80 px-3.5 py-2 text-xs font-medium text-[#344054] shadow-sm shadow-[#172033]/[0.02] sm:text-sm"
+                  className="rounded-full border border-brand-navy/10 bg-white/80 px-3.5 py-2 text-xs font-medium text-brand-navy shadow-sm shadow-[#0B1F4D]/[0.02] sm:text-sm"
                 >
                   {item}
                 </span>
               ))}
             </div>
 
-            <blockquote className="mt-9 border-l-4 border-[#B88A35] bg-[#F1EBDD]/65 px-5 py-5 sm:px-7">
-              <p className="font-serif text-xl italic leading-relaxed text-[#172033] sm:text-2xl">
+            <blockquote className="mt-9 border-l-4 border-brand-gold bg-slate-50/65 px-5 py-5 sm:px-7">
+              <p className="font-bricolage text-xl italic leading-relaxed text-brand-navy sm:text-2xl">
                 “Every person deserves clear guidance before taking a loan.”
               </p>
-              <cite className="mt-3 block text-xs font-semibold not-italic uppercase tracking-[0.16em] text-[#9B6B18]">
+              <cite className="mt-3 block text-xs font-semibold not-italic uppercase tracking-[0.16em] text-brand-gold">
                 Hitesh D. Makwana
               </cite>
             </blockquote>
@@ -226,10 +212,10 @@ function LeadershipSection() {
                 event.preventDefault();
                 navigate({ pathname: "/", hash: "#contact" });
               }}
-              className="group mt-8 inline-flex items-center gap-3 text-sm font-semibold text-[#0B1F4D] transition-colors hover:text-[#A87920] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88A35] focus-visible:ring-offset-4"
+              className="group mt-8 inline-flex items-center gap-3 text-sm font-semibold text-brand-navy transition-colors hover:text-brand-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C69214] focus-visible:ring-offset-4"
             >
               Talk to our team
-              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D8C69F] transition-all duration-300 group-hover:translate-x-1 group-hover:bg-[#0B1F4D] group-hover:text-white">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-navy/15 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-brand-navy group-hover:text-white">
                 <ArrowUpRight size={17} />
               </span>
             </a>

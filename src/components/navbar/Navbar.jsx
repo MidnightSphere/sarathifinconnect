@@ -222,7 +222,7 @@ export default function Navbar() {
                       onClick={(event) =>
                         navigateFromDesktopNav(event, link.href)
                       }
-                      className={`relative block rounded-full px-4 py-2 text-sm no-underline transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold ${isActive ? "font-bold text-brand-navy" : "font-semibold text-text-primary"}`}
+                      className={`relative block rounded-full px-4 py-2 text-sm no-underline transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold ${isActive ? "font-bold text-brand-gold" : "font-semibold text-text-primary"}`}
                     >
                       {isActive && (
                         <motion.span

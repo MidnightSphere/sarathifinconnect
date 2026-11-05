@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/layout/Footer";
-import Aboutus2 from "../../components/about/ported/Aboutus2";
 import OurStory from "../../components/about/ported/OurStory";
 import WhoWeAre from "../../components/about/ported/WhoWeAre";
 import PrinciplesSection from "../../components/about/ported/PrinciplesSection";
@@ -22,9 +21,8 @@ export default function AboutPage() {
     <>
       <Navbar />
       <main>
-        <Aboutus2 />
-        <OurStory />
         <WhoWeAre />
+        <OurStory />
         <PrinciplesSection />
         <SarathiNameStory />
         <LeadershipSection />

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import Eyebrow from "./Eyebrow";
 
 /* -------------------------------------------------------------------------- */
 /*  Data                                                                      */
@@ -103,24 +104,24 @@ function ServiceCard({ no, title, description, hidden }) {
     <article
       aria-hidden={hidden || undefined}
       onMouseMove={handleMouseMove}
-      className="group relative w-60 shrink-0 cursor-pointer overflow-hidden rounded-3xl border border-white/15 bg-[linear-gradient(160deg,rgba(255,255,255,0.10),rgba(255,255,255,0.03))] p-5 transition-all duration-300 ease-out before:pointer-events-none before:absolute before:inset-0 before:-translate-x-full before:bg-[linear-gradient(110deg,transparent_35%,rgba(255,255,255,0.12)_50%,transparent_65%)] before:transition-transform before:duration-700 before:ease-out hover:-translate-y-1.5 hover:border-[#e2be6b]/60 hover:shadow-[0_10px_30px_-10px_rgba(226,190,107,0.4)] hover:before:translate-x-full sm:w-72 sm:p-6"
+      className="group relative w-60 shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-brand-navy/[0.08] bg-white p-5 text-brand-navy shadow-[0_1px_2px_rgba(11,31,77,0.04)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand-gold/40 hover:shadow-[0_12px_32px_rgba(11,31,77,0.08)] sm:w-72 sm:p-6"
     >
       {/* cursor-following gold spotlight */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(220px_circle_at_var(--x,50%)_var(--y,50%),rgba(226,190,107,0.18),transparent_70%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 bg-brand-gold/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
       />
 
       <div className="relative">
         {/* number badge */}
-        <span className="grid h-9 w-9 place-items-center rounded-xl border border-[#e2be6b]/40 bg-[#e2be6b]/10 text-xs font-bold text-[#e2be6b] transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110 group-hover:bg-[#e2be6b] group-hover:text-black">
+        <span className="grid h-9 w-9 place-items-center rounded-xl border border-brand-gold/40 bg-brand-gold/10 font-space text-xs font-bold text-brand-navy transition-all duration-300 group-hover:bg-brand-gold">
           {no}
         </span>
 
-        <h3 className="mt-5 text-base font-semibold text-white sm:text-lg">
+        <h3 className="mt-5 font-bricolage text-base font-semibold text-brand-navy sm:text-lg">
           {title}
         </h3>
-        <p className="mt-2 text-sm leading-relaxed text-white/60 transition-colors duration-300 group-hover:text-white/85">
+        <p className="mt-2 text-sm leading-relaxed text-brand-navy/65">
           {description}
         </p>
       </div>
@@ -128,7 +129,7 @@ function ServiceCard({ no, title, description, hidden }) {
       {/* gold underline that grows on hover */}
       <span
         aria-hidden
-        className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#e2be6b] transition-all duration-500 ease-out group-hover:w-full"
+        className="absolute bottom-0 left-0 h-0.5 w-0 bg-brand-gold transition-all duration-500 ease-out group-hover:w-full"
       />
     </article>
   );
@@ -205,24 +206,17 @@ export default function WhatWeDoSection() {
   return (
     <section
       id="about-services"
-      className="relative isolate w-full overflow-hidden bg-black py-16 sm:py-20 lg:py-28"
+      className="relative isolate w-full overflow-hidden bg-slate-50 py-16 md:py-24"
     >
-      {/* gold glows */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-40 top-1/3 h-[28rem] w-[28rem] rounded-full bg-[#8a6400]/50 blur-[120px]" />
-        <div className="absolute -bottom-40 -right-40 h-[28rem] w-[28rem] rounded-full bg-[#8a6400]/50 blur-[120px]" />
-      </div>
 
       {/* heading (the only part with side padding) */}
       <div className="mx-auto max-w-3xl px-4 text-center">
-        <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#e2be6b]">
-          What we do
-        </p>
-        <h2 className="mt-4 text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl">
+        <Eyebrow>What we do</Eyebrow>
+        <h2 className="mt-4 text-balance font-bricolage text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.02em] text-brand-navy">
           From first question to{" "}
-          <span className="text-[#e2be6b]">the right lender.</span>
+          <span className="text-brand-gold">the right lender.</span>
         </h2>
-        <p className="mt-4 text-sm text-white/70 sm:text-base">
+        <p className="mt-4 text-base text-brand-navy/65">
           Hover over a card to pause and read.
         </p>
       </div>

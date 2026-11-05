@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef } from "react";
+import Eyebrow from "./Eyebrow";
 
 const NAME = ["S", "a", "r", "a", "t", "h", "i"];
 const ROUTE = "M20 160 C160 20 260 30 390 120 S620 215 780 60";
@@ -112,16 +113,11 @@ export default function SarathiNameStory() {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate overflow-hidden px-5 py-[clamp(80px,11vw,140px)] text-center text-white [background:radial-gradient(60%_55%_at_88%_0%,rgba(196,144,15,.32),transparent_62%),radial-gradient(50%_50%_at_0%_100%,rgba(79,107,216,.38),transparent_65%),#0b1f4b] [font-family:Inter,system-ui,-apple-system,Segoe_UI,sans-serif] [font-size:16px] [line-height:1.6] [-webkit-font-smoothing:antialiased]"
+      className="relative isolate overflow-hidden bg-brand-navy px-4 py-16 text-center text-white md:py-24"
       aria-labelledby={labelId}
     >
       <div className="relative z-[1] mx-auto w-full max-w-[1040px]">
-        <span
-          id={labelId}
-          className="text-[11px] font-bold uppercase tracking-[.18em] text-[#e7b94a]"
-        >
-          Our name tells the story
-        </span>
+        <span id={labelId}><Eyebrow className="text-white/75">Our name tells the story</Eyebrow></span>
 
         <div
           ref={wordRef}
@@ -142,7 +138,7 @@ export default function SarathiNameStory() {
           ))}
           <span
             data-sfc-letter
-            className="inline-block translate-y-[112%] text-[#e7b94a] transition-transform duration-[900ms] [transition-timing-function:cubic-bezier(.2,.7,.2,1)] [will-change:transform] motion-reduce:translate-y-0 motion-reduce:transition-none"
+            className="inline-block translate-y-[112%] text-brand-gold transition-transform duration-[900ms] [transition-timing-function:cubic-bezier(.2,.7,.2,1)] [will-change:transform] motion-reduce:translate-y-0 motion-reduce:transition-none"
             style={{ transitionDelay: "560ms" }}
             aria-hidden="true"
           >
@@ -152,7 +148,7 @@ export default function SarathiNameStory() {
 
         <div
           data-sfc-reveal
-          className={`${revealClasses} [font-family:'Noto_Sans_Devanagari',Inter,system-ui,sans-serif] text-[clamp(20px,3vw,30px)] font-bold text-[#e7b94a]`}
+          className={`${revealClasses} font-bricolage text-2xl md:text-3xl font-bold text-brand-gold`}
         >
           सारथी
         </div>
@@ -175,7 +171,7 @@ export default function SarathiNameStory() {
             ref={routeRef}
             d={ROUTE}
             fill="none"
-            stroke="#e7b94a"
+            stroke="#C69214"
             strokeWidth="4"
             strokeLinecap="round"
           />
@@ -184,34 +180,34 @@ export default function SarathiNameStory() {
             cy="60"
             r="8"
             fill="none"
-            stroke="#e7b94a"
+            stroke="#C69214"
             strokeWidth="3"
           />
           <text
             x="790"
             y="36"
             textAnchor="end"
-            className="fill-white text-[11px] font-bold uppercase tracking-[.14em] [font-family:Inter,system-ui,sans-serif]"
+            className="fill-white text-[11px] font-bold uppercase tracking-[.14em] font-space"
           >
             Your goal
           </text>
           <g ref={youRef}>
-            <circle r="11" fill="#0b1f4b" stroke="white" strokeWidth="3" />
+            <circle r="11" fill="#0B1F4D" stroke="white" strokeWidth="3" />
             <text
               y="-20"
               textAnchor="middle"
-              className="fill-white text-[11px] font-bold uppercase tracking-[.14em] [font-family:Inter,system-ui,sans-serif]"
+              className="fill-white text-[11px] font-bold uppercase tracking-[.14em] font-space"
             >
               You
             </text>
           </g>
           <g ref={sarathiRef}>
-            <circle r="11" fill="#e7b94a" />
-            <circle r="4" fill="#0b1f4b" />
+            <circle r="11" fill="#C69214" />
+            <circle r="4" fill="#0B1F4D" />
             <text
               y="34"
               textAnchor="middle"
-              className="fill-white text-[11px] font-bold uppercase tracking-[.14em] [font-family:Inter,system-ui,sans-serif]"
+              className="fill-white text-[11px] font-bold uppercase tracking-[.14em] font-space"
             >
               Sarathi
             </text>
@@ -220,7 +216,7 @@ export default function SarathiNameStory() {
 
         <p
           data-sfc-reveal
-          className={`${revealClasses} mx-auto mt-[34px] max-w-[560px] text-[clamp(17px,2.2vw,21px)] text-[#b9c4de]`}
+          className={`${revealClasses} mx-auto mt-[34px] max-w-[560px] text-[clamp(17px,2.2vw,21px)] text-white/75`}
         >
           <b className="text-white">Sarathi</b> means a guide who walks beside you
           and shows the way. That is what we try to be for every client.
@@ -232,15 +228,15 @@ export default function SarathiNameStory() {
           aria-label="Our values: Clear, Honest, Friendly"
         >
           <span>Clear</span>
-          <i className="h-[9px] w-[9px] shrink-0 rounded-full bg-[#c4900f]" aria-hidden="true" />
+          <i className="h-[9px] w-[9px] shrink-0 rounded-full bg-brand-gold" aria-hidden="true" />
           <span>Honest</span>
-          <i className="h-[9px] w-[9px] shrink-0 rounded-full bg-[#c4900f]" aria-hidden="true" />
+          <i className="h-[9px] w-[9px] shrink-0 rounded-full bg-brand-gold" aria-hidden="true" />
           <span>Friendly</span>
         </div>
 
         <p
           data-sfc-reveal
-          className={`${revealClasses} mt-[14px] text-[13px] text-[#b9c4de]`}
+          className={`${revealClasses} mt-[14px] text-[13px] text-white/75`}
         >
           No hidden surprises. Ever.
         </p>

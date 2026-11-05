@@ -32,7 +32,7 @@ export default function MobileMenu({ isOpen, onNavigate, activeHref, isHome }) {
                       {...(link.href.startsWith("/") ? { to: link.href } : { href: getHref(link.href) })}
                       aria-current={isActive ? "location" : undefined}
                       onClick={(event) => onNavigate(event, getHref(link.href))}
-                      className={`relative block rounded-full px-4 py-3 text-sm no-underline transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold ${isActive ? "font-bold text-brand-navy" : "font-semibold text-text-primary"}`}
+                      className={`relative block rounded-full px-4 py-3 text-sm no-underline transition-colors duration-200 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-brand-gold ${isActive ? "font-bold text-brand-gold" : "font-semibold text-text-primary"}`}
                     >
                       {isActive && (
                         <motion.span
