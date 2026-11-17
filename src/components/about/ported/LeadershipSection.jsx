@@ -45,7 +45,8 @@ function LeadershipSection() {
   return (
     <section
       aria-labelledby="founder-heading"
-      className="relative isolate overflow-hidden bg-[#faf8f2] py-16 text-brand-navy md:py-24"
+      style={{ borderRadius: "2rem", overflow: "hidden" }}
+      className="relative isolate bg-[#faf8f2] py-16 text-brand-navy md:py-24"
     >
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <motion.div

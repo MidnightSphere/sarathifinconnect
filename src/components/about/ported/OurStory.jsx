@@ -16,7 +16,8 @@ export default function OurStory() {
     <section
       id="our-story"
       aria-labelledby={headingId}
-      className="relative isolate overflow-hidden bg-[#faf8f2] px-4 py-16 text-brand-navy sm:px-6 md:py-24"
+      style={{ borderRadius: "2rem", overflow: "hidden" }}
+      className="relative isolate bg-[#faf8f2] px-4 py-16 text-brand-navy sm:px-6 md:py-24"
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-white/90 to-transparent" />
 
