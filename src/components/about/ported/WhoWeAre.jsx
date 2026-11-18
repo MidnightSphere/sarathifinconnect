@@ -100,13 +100,15 @@ export default function WhoWeAre() {
                 >
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute top-5 left-10 right-0 hidden border-t border-dashed border-brand-gold/35 lg:block"
+                    className={`pointer-events-none absolute top-5 left-10 right-0 border-t border-dashed border-brand-gold/35 ${
+                      index === steps.length - 1 ? "hidden" : "hidden lg:block"
+                    }`}
                   />
-                  <div className="flex items-start gap-4 lg:block">
+                  <div className="flex items-start gap-4 md:block">
                     <span className="relative z-[2] grid h-10 w-10 shrink-0 place-items-center rounded-full border border-brand-gold/50 bg-white font-space text-sm font-semibold tabular-nums text-brand-gold transition-colors duration-200 group-hover/step:bg-brand-gold/10">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <p className="max-w-[16rem] pt-1 font-bricolage text-base font-semibold leading-snug text-brand-navy [text-wrap:balance] transition-colors group-hover/step:text-brand-navy lg:mt-4 lg:pt-0 md:text-lg">
+                    <p className="max-w-[16rem] pt-1 font-bricolage text-base font-semibold leading-snug text-brand-navy [text-wrap:balance] transition-colors group-hover/step:text-brand-navy md:mt-4 md:pt-0 md:text-lg">
                       {step}
                     </p>
                   </div>
