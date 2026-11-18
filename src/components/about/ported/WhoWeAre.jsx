@@ -1,6 +1,6 @@
 ﻿import { useId } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import Reveal from "./Reveal";
-import useReveal from "../../../hooks/useAboutReveal";
 
 const steps = [
   "Listen first",
@@ -38,7 +38,7 @@ function LocationPin() {
 
 export default function WhoWeAre() {
   const headingId = useId();
-  const [processRef, processShown] = useReveal();
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <section
@@ -75,19 +75,44 @@ export default function WhoWeAre() {
             <p className="relative mt-2 text-2xl font-semibold text-brand-gold sm:text-3xl">We are your guide.</p>
           </Reveal>
 
-          <Reveal as="article" delay={300} className="rounded-3xl border border-brand-navy/10 bg-white p-7 shadow-[0_20px_55px_-38px_rgba(15,37,87,0.25)] lg:col-span-12 sm:p-9">
-            <p className="mb-7 font-space text-xs font-medium uppercase tracking-[0.18em] text-brand-navy/60">We listen first.</p>
-            <div ref={processRef} className="relative grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-              <span aria-hidden="true" className={`pointer-events-none absolute left-[20px] right-[20px] top-5 hidden h-px origin-left bg-brand-gold transition-transform duration-1000 ease-out motion-reduce:transition-none lg:block ${processShown ? "[transform:scaleX(1)]" : "[transform:scaleX(0)]"}`} />
+          <Reveal as="article" delay={300} className="rounded-3xl border border-brand-navy/10 bg-white px-6 pt-6 pb-8 shadow-[0_20px_55px_-38px_rgba(15,37,87,0.25)] md:px-8 md:pt-8 lg:px-10 lg:pt-10 lg:col-span-12">
+            <p className="mb-8 font-space text-xs font-medium uppercase tracking-[0.18em] text-brand-gold md:mb-10">We listen first.</p>
+            <motion.ol
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.25 }}
+              className="relative grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-8 lg:grid-cols-4 lg:gap-0"
+            >
+              <span aria-hidden="true" className="pointer-events-none absolute top-5 bottom-5 left-5 w-px bg-brand-gold/30 md:hidden" />
               {steps.map((step, index) => (
-                <Reveal key={step} delay={index * 100} className="relative z-[1]">
-                  <div className="group/step flex min-h-[72px] items-center gap-4 rounded-2xl bg-white px-1 transition-colors duration-300">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-brand-gold bg-slate-50 text-sm font-bold tabular-nums text-brand-gold transition-all duration-300 group-hover/step:ring-4 group-hover/step:ring-brand-gold/15">{String(index + 1).padStart(2, "0")}</span>
-                    <p className="text-sm font-medium leading-6 text-brand-navy/65 transition-colors group-hover/step:text-brand-navy">{step}</p>
+                <motion.li
+                  key={step}
+                  transition={{
+                    duration: shouldReduceMotion ? 0 : 0.4,
+                    delay: shouldReduceMotion ? 0 : index * 0.08,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  variants={{
+                    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 12 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                  className="group/step relative z-[1] min-w-0"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute top-5 left-10 right-0 hidden border-t border-dashed border-brand-gold/35 lg:block"
+                  />
+                  <div className="flex items-start gap-4 lg:block">
+                    <span className="relative z-[2] grid h-10 w-10 shrink-0 place-items-center rounded-full border border-brand-gold/50 bg-white font-space text-sm font-semibold tabular-nums text-brand-gold transition-colors duration-200 group-hover/step:bg-brand-gold/10">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <p className="max-w-[16rem] pt-1 font-bricolage text-base font-semibold leading-snug text-brand-navy [text-wrap:balance] transition-colors group-hover/step:text-brand-navy lg:mt-4 lg:pt-0 md:text-lg">
+                      {step}
+                    </p>
                   </div>
-                </Reveal>
+                </motion.li>
               ))}
-            </div>
+            </motion.ol>
           </Reveal>
 
           <Reveal as="blockquote" delay={400} className="rounded-2xl border-l-4 border-brand-gold bg-[#f8f4e9] px-8 py-8 lg:col-span-12">

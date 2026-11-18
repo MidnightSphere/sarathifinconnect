@@ -16,7 +16,13 @@ export default function OurStory() {
     <section
       id="our-story"
       aria-labelledby={headingId}
-      style={{ borderRadius: "2rem", overflow: "hidden" }}
+      style={{
+        borderTopLeftRadius: "2rem",
+        borderTopRightRadius: "2rem",
+        borderBottomRightRadius: "2rem",
+        borderBottomLeftRadius: "2rem",
+        overflow: "hidden",
+      }}
       className="relative isolate bg-[#faf8f2] px-4 py-16 text-brand-navy sm:px-6 md:py-24"
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-white/90 to-transparent" />

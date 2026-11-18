@@ -1,31 +1,28 @@
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, Award, BriefcaseBusiness, Users } from "lucide-react";
+import { ArrowUpRight, Award, BriefcaseBusiness, Building2, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Eyebrow from "./Eyebrow";
 
-const expertise = [
-  "Home Loans",
-  "Loan Against Property",
-  "Personal Loans",
-  "Business Loans",
-  "MSME Finance",
-];
-
 const stats = [
   {
-    value: "12+",
-    label: "Years in banking & finance",
+    value: "11+",
+    label: "Years of Experience",
     icon: BriefcaseBusiness,
   },
   {
-    value: "4",
-    label: "Branches led",
-    icon: Award,
+    value: "2,000+",
+    label: "Clients Served",
+    icon: Users,
   },
   {
-    value: "18+",
-    label: "People in his team",
+    value: "8+",
+    label: "People in His Team",
     icon: Users,
+  },
+  {
+    value: "2",
+    label: "Businesses Established",
+    icon: Building2,
   },
 ];
 
@@ -45,7 +42,13 @@ function LeadershipSection() {
   return (
     <section
       aria-labelledby="founder-heading"
-      style={{ borderRadius: "2rem", overflow: "hidden" }}
+      style={{
+        borderTopLeftRadius: "2rem",
+        borderTopRightRadius: "2rem",
+        borderBottomRightRadius: "2rem",
+        borderBottomLeftRadius: "2rem",
+        overflow: "hidden",
+      }}
       className="relative isolate bg-[#faf8f2] py-16 text-brand-navy md:py-24"
     >
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
@@ -118,10 +121,10 @@ function LeadershipSection() {
               </span>
               <span>
                 <strong className="block text-lg leading-none text-brand-navy">
-                  12+ Years
+                  Banking & Finance
                 </strong>
                 <span className="mt-1 block text-xs text-slate-500">
-                  Banking experience
+                  Professional experience
                 </span>
               </span>
             </motion.div>
@@ -144,7 +147,7 @@ function LeadershipSection() {
               </h3>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 border-y border-brand-navy/10 py-5 sm:gap-6 sm:py-6">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-5 border-y border-brand-navy/10 py-5 sm:gap-4 sm:py-6 lg:grid-cols-4 lg:gap-6">
               {stats.map(({ value, label, icon: Icon }) => (
                 <div key={label} className="min-w-0">
                   <Icon
@@ -153,20 +156,23 @@ function LeadershipSection() {
                     strokeWidth={1.7}
                     className="mb-3 text-brand-gold"
                   />
-                  <p className="text-3xl font-semibold tracking-tight text-brand-navy sm:text-2xl md:text-3xl">
+                  <p className="text-2xl font-semibold tracking-tight text-brand-navy sm:text-xl md:text-2xl">
                     {value}
                   </p>
-                  <p className="mt-1 max-w-28 text-[11px] leading-4 text-slate-500 sm:max-w-none sm:text-xs sm:leading-5">
+                  <p className="mt-1 text-[11px] leading-4 text-slate-500 sm:text-xs sm:leading-5">
                     {label}
                   </p>
                 </div>
               ))}
             </div>
+            <p className="mt-3 text-xs leading-5 text-slate-500">
+              These figures reflect Hitesh’s professional experience and previous career, not Sarathi FinConnect’s operating history.
+            </p>
 
             <div className="mt-7 space-y-4 text-[15px] leading-7 text-slate-600 sm:text-base sm:leading-8">
               <p>
-                Hitesh D. Makwana, Designated Partner, has spent over 12 years
-                in banking and finance, working extensively on home loans,
+                Hitesh D. Makwana, Designated Partner, has extensive experience
+                in banking and finance, working on home loans,
                 loan against property, personal loans, business loans, and
                 MSME finance.
               </p>
@@ -174,8 +180,7 @@ function LeadershipSection() {
               <p>
                 He has held leadership roles at well-known housing finance
                 companies across sales, credit assessment, and branch
-                management. During his career, he led 4 branches and a team of
-                18+ people. He also holds an MBA in Finance, Banking, and
+                management, leading teams and business operations. He also holds an MBA in Finance, Banking, and
                 Insurance.
               </p>
 
@@ -185,17 +190,6 @@ function LeadershipSection() {
                 people getting stuck simply because the process felt too
                 complicated. Sarathi FinConnect was built to change that.
               </p>
-            </div>
-
-            <div className="mt-7 flex flex-wrap gap-2">
-              {expertise.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-brand-navy/10 bg-white/80 px-3.5 py-2 text-xs font-medium text-brand-navy shadow-sm shadow-[#0B1F4D]/[0.02] sm:text-sm"
-                >
-                  {item}
-                </span>
-              ))}
             </div>
 
             <blockquote className="mt-9 border-l-4 border-brand-gold bg-[#f4f0e6] px-5 py-5 sm:px-7">
