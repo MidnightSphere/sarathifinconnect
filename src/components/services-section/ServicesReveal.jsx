@@ -452,7 +452,7 @@ function ServicesReveal() {
           baseScale={0.88}
           dimAmount={0.12}
           holdDistance={180}
-          className="relative left-1/2 mx-auto !w-[94vw] max-w-[90rem] -translate-x-1/2 overflow-x-clip"
+          className="relative mx-auto !w-[94%] max-w-[90rem] overflow-x-clip"
           innerClassName="px-[clamp(0.25rem,1vw,1rem)]"
         >
           {serviceCards.map((card) => (
