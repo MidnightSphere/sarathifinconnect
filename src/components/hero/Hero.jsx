@@ -23,22 +23,78 @@ const item = {
    "Your Goals → Sarathi → Right Financial Solution"
    ───────────────────────────────────────────────────────── */
 
-// viewBox for the growth curve SVG — wide landscape, rising left→right
-const VB_W = 1000;
-const VB_H = 420;
+// ── Desktop layout (≥640px) ──
+const DESKTOP = {
+  vbW: 1000,
+  vbH: 420,
+  milestones: [
+    { vx: 80,  vy: 350, label: "Your Goals",               kind: "start"  },
+    { vx: 480, vy: 200, label: "Sarathi",                  kind: "middle" },
+    { vx: 900, vy: 60,  label: "Right Financial Solution", kind: "end"    },
+  ],
+  labels: [
+    { anchor: "start",  dx: 18,  dy: 6   },
+    { anchor: "middle", dx: 0,   dy: -32  },
+    { anchor: "end",    dx: -18, dy: 6    },
+  ],
+  fontSize: 15,
+  strokeW: 3.5,
+  outerR: [8, 13, 10],
+  innerR: 6,
+  dotR: 6,
+  sarathiRing: 15,
+  sarathiRingPulse: 18,
+};
 
-// Three milestone positions at progressively higher Y (lower Y = higher on screen)
-const MILESTONES = [
-  { vx: 80, vy: 350, label: "Your Goals", kind: "start" },
-  { vx: 480, vy: 200, label: "Sarathi", kind: "middle" },
-  { vx: 900, vy: 60, label: "Right Financial Solution", kind: "end" },
-];
+// ── Mobile layout (<640px) — taller aspect, bigger elements relative to viewBox ──
+const MOBILE = {
+  vbW: 400,
+  vbH: 220,
+  milestones: [
+    { vx: 40,  vy: 185, label: "Your Goals",               kind: "start"  },
+    { vx: 190, vy: 110, label: "Sarathi",                  kind: "middle" },
+    { vx: 355, vy: 35,  label: "Right Financial Solution", kind: "end"    },
+  ],
+  labels: [
+    { anchor: "start",  dx: 14, dy: -14  },
+    { anchor: "middle", dx: 0,  dy: -22  },
+    { anchor: "end",    dx: -14, dy: -14 },
+  ],
+  fontSize: 12,
+  strokeW: 2.5,
+  outerR: [7, 10, 8],
+  innerR: 4,
+  dotR: 4.5,
+  sarathiRing: 13,
+  sarathiRingPulse: 16,
+};
 
-// Smooth upward cubic Bézier from bottom-left to top-right through all three milestones
-const CURVE_D = `M ${MILESTONES[0].vx} ${MILESTONES[0].vy} C 200 340, 340 220, ${MILESTONES[1].vx} ${MILESTONES[1].vy} S 740 90, ${MILESTONES[2].vx} ${MILESTONES[2].vy}`;
+function buildCurveD(ms) {
+  const [a, b, c] = ms;
+  const cp1x = a.vx + (b.vx - a.vx) * 0.3;
+  const cp1y = a.vy - (a.vy - b.vy) * 0.05;
+  const cp2x = a.vx + (b.vx - a.vx) * 0.7;
+  const cp2y = b.vy + (a.vy - b.vy) * 0.15;
+  return `M ${a.vx} ${a.vy} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${b.vx} ${b.vy} S ${b.vx + (c.vx - b.vx) * 0.7} ${c.vy + (b.vy - c.vy) * 0.15}, ${c.vx} ${c.vy}`;
+}
 
 // Fractional path-lengths where the dot reaches each milestone (approximate)
 const MILESTONE_T = [0, 0.46, 1];
+
+// Hook to detect mobile (<640px)
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth < 640 : false
+  );
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 639px)");
+    const handler = (e) => setIsMobile(e.matches);
+    setIsMobile(mql.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+  return isMobile;
+}
 
 function HeroGrowthCurve({ splashDone }) {
   const ref = useRef(null);
@@ -51,6 +107,11 @@ function HeroGrowthCurve({ splashDone }) {
   const reduceMotion = useReducedMotion();
   const [pageVisible, setPageVisible] = useState(() => !document.hidden);
   const [phase, setPhase] = useState("idle"); // idle → drawing → milestones → dot
+  const isMobile = useIsMobile();
+
+  // Pick layout config
+  const cfg = isMobile ? MOBILE : DESKTOP;
+  const curveD = buildCurveD(cfg.milestones);
 
   // Track tab visibility
   useEffect(() => {
@@ -78,36 +139,34 @@ function HeroGrowthCurve({ splashDone }) {
   // ── Moving gold dot along the path (manual rAF for smooth motion) ──
   useEffect(() => {
     if (phase !== "dot" || reduceMotion) return;
-    if (!active) return; // don't start if not visible
+    if (!active) return;
     const path = pathRef.current;
     const dot = dotRef.current;
     if (!path || !dot) return;
 
     const totalLen = path.getTotalLength();
-    const duration = 5500; // ms per loop
+    const duration = 5500;
     startRef.current = null;
     let running = true;
 
-    // Sarathi ring pulse element
     const sarathiRing = svgRef.current?.querySelector("[data-sarathi-ring]");
 
     const tick = (ts) => {
       if (!running) return;
       if (startRef.current === null) startRef.current = ts;
       const elapsed = (ts - startRef.current) % duration;
-      const t = elapsed / duration; // 0→1 progress
+      const t = elapsed / duration;
       const pt = path.getPointAtLength(t * totalLen);
       dot.setAttribute("cx", pt.x);
       dot.setAttribute("cy", pt.y);
 
-      // Pulse Sarathi ring when dot is near milestone 2
       if (sarathiRing) {
         const dist = Math.abs(t - MILESTONE_T[1]);
         if (dist < 0.025) {
-          sarathiRing.setAttribute("r", "18");
+          sarathiRing.setAttribute("r", String(cfg.sarathiRingPulse));
           sarathiRing.setAttribute("stroke-opacity", "1");
         } else {
-          sarathiRing.setAttribute("r", "15");
+          sarathiRing.setAttribute("r", String(cfg.sarathiRing));
           sarathiRing.setAttribute("stroke-opacity", "0.6");
         }
       }
@@ -121,27 +180,20 @@ function HeroGrowthCurve({ splashDone }) {
       running = false;
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [phase, reduceMotion, active]);
+  }, [phase, reduceMotion, active, cfg]);
 
   const showMilestones = phase === "milestones" || phase === "dot" || reduceMotion;
-
-  // Label configs — positioning relative to each milestone
-  const labelConfigs = [
-    { anchor: "start", dx: 18, dy: 6 }, // "Your Goals" — right of dot
-    { anchor: "middle", dx: 0, dy: -32 }, // "Sarathi" — above dot
-    { anchor: "end", dx: -18, dy: 6 }, // "Right Financial Solution" — left of dot
-  ];
 
   return (
     <div
       ref={ref}
       aria-hidden="true"
-      className="pointer-events-none relative z-10 mx-auto mt-8 w-full max-w-[320px] sm:mt-10 sm:max-w-[520px] md:max-w-[700px] lg:mt-12 lg:max-w-[900px] xl:max-w-[1050px] 2xl:max-w-[1150px]"
-      style={{ aspectRatio: `${VB_W} / ${VB_H}` }}
+      className="pointer-events-none relative z-10 mx-auto mt-6 w-[92%] sm:mt-10 sm:w-full sm:max-w-[520px] md:max-w-[700px] lg:mt-12 lg:max-w-[900px] xl:max-w-[1050px] 2xl:max-w-[1150px]"
+      style={{ aspectRatio: `${cfg.vbW} / ${cfg.vbH}` }}
     >
       <svg
         ref={svgRef}
-        viewBox={`0 0 ${VB_W} ${VB_H}`}
+        viewBox={`0 0 ${cfg.vbW} ${cfg.vbH}`}
         className="h-full w-full overflow-visible"
         preserveAspectRatio="xMidYMid meet"
       >
@@ -166,10 +218,10 @@ function HeroGrowthCurve({ splashDone }) {
         {/* ── Main upward-growth curve ── */}
         <motion.path
           ref={pathRef}
-          d={CURVE_D}
+          d={curveD}
           fill="none"
           stroke="var(--color-brand-gold)"
-          strokeWidth="3.5"
+          strokeWidth={cfg.strokeW}
           strokeLinecap="round"
           strokeLinejoin="round"
           filter="url(#hero-curve-glow)"
@@ -188,13 +240,12 @@ function HeroGrowthCurve({ splashDone }) {
         />
 
         {/* ── Milestones ── */}
-        {MILESTONES.map((m, i) => {
-          const lc = labelConfigs[i];
+        {cfg.milestones.map((m, i) => {
+          const lc = cfg.labels[i];
           const isMiddle = m.kind === "middle";
           const isEnd = m.kind === "end";
-          // Circle radii
-          const outerR = isMiddle ? 13 : isEnd ? 10 : 8;
-          const innerR = isMiddle ? 6 : 0;
+          const outerR = cfg.outerR[i];
+          const innerR = isMiddle ? cfg.innerR : 0;
 
           return (
             <motion.g
@@ -214,7 +265,7 @@ function HeroGrowthCurve({ splashDone }) {
                   data-sarathi-ring=""
                   cx={m.vx}
                   cy={m.vy}
-                  r="15"
+                  r={cfg.sarathiRing}
                   fill="none"
                   stroke="var(--color-brand-gold)"
                   strokeWidth="2"
@@ -247,7 +298,7 @@ function HeroGrowthCurve({ splashDone }) {
                 textAnchor={lc.anchor}
                 fill="var(--color-brand-navy)"
                 fillOpacity="0.78"
-                fontSize="15"
+                fontSize={cfg.fontSize}
                 fontFamily="'Space Grotesk', sans-serif"
                 fontWeight={isMiddle ? 700 : 500}
               >
@@ -261,11 +312,11 @@ function HeroGrowthCurve({ splashDone }) {
         {phase === "dot" && !reduceMotion && (
           <circle
             ref={dotRef}
-            r="6"
+            r={cfg.dotR}
             fill="var(--color-brand-gold)"
             filter="url(#hero-dot-glow)"
-            cx={MILESTONES[0].vx}
-            cy={MILESTONES[0].vy}
+            cx={cfg.milestones[0].vx}
+            cy={cfg.milestones[0].vy}
           />
         )}
       </svg>

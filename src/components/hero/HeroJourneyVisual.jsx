@@ -1,4 +1,5 @@
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useInView } from "motion/react";
 import useSplashDone from "../ui/split-reveal/useSplashDone";
 
 /**
@@ -26,8 +27,12 @@ const milestones = [
 
 export default function HeroJourneyVisual() {
   const splashDone = useSplashDone();
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.2 });
+  const active = splashDone && inView;
+
   return (
-    <div className="relative w-full max-w-lg mx-auto lg:mx-0" aria-hidden="true">
+    <div ref={ref} className="relative w-full max-w-lg mx-auto lg:mx-0" aria-hidden="true">
       {/* Subtle grid texture */}
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -72,7 +77,7 @@ export default function HeroJourneyVisual() {
           strokeLinecap="round"
           fill="none"
           initial={{ pathLength: 0 }}
-          animate={{ pathLength: splashDone ? 1 : 0 }}
+          animate={{ pathLength: active ? 1 : 0 }}
           transition={{ duration: 1.6, ease: "easeInOut" }}
         />
 
@@ -84,7 +89,7 @@ export default function HeroJourneyVisual() {
           strokeLinecap="round"
           fill="none"
           initial={{ pathLength: 0 }}
-          animate={{ pathLength: splashDone ? 1 : 0 }}
+          animate={{ pathLength: active ? 1 : 0 }}
           transition={{ duration: 1.4, ease: "easeInOut", delay: 0.2 }}
         />
 
@@ -98,7 +103,7 @@ export default function HeroJourneyVisual() {
           fill="none"
           strokeOpacity="0.5"
           initial={{ pathLength: 0 }}
-          animate={{ pathLength: splashDone ? 1 : 0 }}
+          animate={{ pathLength: active ? 1 : 0 }}
           transition={{ duration: 1.8, ease: "easeInOut", delay: 0.4 }}
         />
 
@@ -115,7 +120,7 @@ export default function HeroJourneyVisual() {
               strokeWidth="1"
               strokeOpacity="0.3"
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: splashDone ? 1 : 0, opacity: splashDone ? 1 : 0 }}
+              animate={{ scale: active ? 1 : 0, opacity: active ? 1 : 0 }}
               transition={{ delay: 0.8 + i * 0.12, duration: 0.4 }}
             />
             {/* Inner dot */}
@@ -125,7 +130,7 @@ export default function HeroJourneyVisual() {
               r="3"
               fill="var(--color-brand-gold)"
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: splashDone ? 1 : 0, opacity: splashDone ? 1 : 0 }}
+              animate={{ scale: active ? 1 : 0, opacity: active ? 1 : 0 }}
               transition={{ delay: 0.9 + i * 0.12, duration: 0.3 }}
             />
           </motion.g>
@@ -136,7 +141,7 @@ export default function HeroJourneyVisual() {
         {/* Small chart line — near top */}
         <motion.g
           initial={{ opacity: 0 }}
-          animate={{ opacity: splashDone ? 0.15 : 0 }}
+          animate={{ opacity: active ? 0.15 : 0 }}
           transition={{ delay: 1.4, duration: 0.6 }}
         >
           <polyline
@@ -152,7 +157,7 @@ export default function HeroJourneyVisual() {
         {/* Small shield — near middle */}
         <motion.g
           initial={{ opacity: 0 }}
-          animate={{ opacity: splashDone ? 0.12 : 0 }}
+          animate={{ opacity: active ? 0.12 : 0 }}
           transition={{ delay: 1.6, duration: 0.6 }}
         >
           <path
@@ -167,7 +172,7 @@ export default function HeroJourneyVisual() {
         {/* Small currency circle — near bottom */}
         <motion.g
           initial={{ opacity: 0 }}
-          animate={{ opacity: splashDone ? 0.12 : 0 }}
+          animate={{ opacity: active ? 0.12 : 0 }}
           transition={{ delay: 1.8, duration: 0.6 }}
         >
           <circle
@@ -199,7 +204,7 @@ export default function HeroJourneyVisual() {
           strokeWidth="1.5"
           strokeLinecap="round"
           initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: splashDone ? 1 : 0, opacity: splashDone ? 0.35 : 0 }}
+          animate={{ pathLength: active ? 1 : 0, opacity: active ? 0.35 : 0 }}
           transition={{ delay: 1.2, duration: 0.8 }}
         />
         <motion.path
@@ -209,7 +214,7 @@ export default function HeroJourneyVisual() {
           strokeWidth="1"
           strokeLinecap="round"
           initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: splashDone ? 1 : 0, opacity: splashDone ? 0.25 : 0 }}
+          animate={{ pathLength: active ? 1 : 0, opacity: active ? 0.25 : 0 }}
           transition={{ delay: 1.35, duration: 0.7 }}
         />
       </svg>
@@ -232,7 +237,7 @@ export default function HeroJourneyVisual() {
             top: `${(s.y / 440) * 100}%`,
           }}
           initial={{ opacity: 0, y: 8 }}
-          animate={splashDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+          animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
           transition={{ delay: 1.1 + i * 0.15, duration: 0.5, ease: "easeOut" }}
         >
           <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-gold mr-2 align-middle" />
