@@ -10,6 +10,7 @@
       "status": 200
     },
     { "src": "^/about/?$", "dest": "/index.html", "status": 200 },
+    { "src": "^/support/?$", "dest": "/index.html", "status": 200 },
     { "src": "^/(?!api(?:/|$)).*$", "dest": "/index.html", "status": 404 }
   ]
 }
