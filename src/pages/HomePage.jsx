@@ -4,6 +4,7 @@ import Journey from "../components/journey/Journey";
 import ServicesReveal from "../components/services-section/ServicesReveal";
 import Footer from "../components/layout/Footer";
 import ContactSection from "../components/contact/ContactSection";
+import HomeFaq from "../components/faq/HomeFaq";
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
         <Journey />
         <ServicesReveal />
         <ContactSection />
+        <HomeFaq />
       </main>
       <Footer />
     </>
