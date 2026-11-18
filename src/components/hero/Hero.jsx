@@ -29,9 +29,9 @@ const VB_H = 420;
 
 // Three milestone positions at progressively higher Y (lower Y = higher on screen)
 const MILESTONES = [
-  { vx: 80,  vy: 350, label: "Your Goals",                kind: "start"  },
-  { vx: 480, vy: 200, label: "Sarathi",                   kind: "middle" },
-  { vx: 900, vy: 60,  label: "Right Financial Solution",  kind: "end"    },
+  { vx: 80, vy: 350, label: "Your Goals", kind: "start" },
+  { vx: 480, vy: 200, label: "Sarathi", kind: "middle" },
+  { vx: 900, vy: 60, label: "Right Financial Solution", kind: "end" },
 ];
 
 // Smooth upward cubic Bézier from bottom-left to top-right through all three milestones
@@ -127,9 +127,9 @@ function HeroGrowthCurve({ splashDone }) {
 
   // Label configs — positioning relative to each milestone
   const labelConfigs = [
-    { anchor: "start",  dx: 18,  dy: 6   }, // "Your Goals" — right of dot
-    { anchor: "middle", dx: 0,   dy: -32  }, // "Sarathi" — above dot
-    { anchor: "end",    dx: -18, dy: 6    }, // "Right Financial Solution" — left of dot
+    { anchor: "start", dx: 18, dy: 6 }, // "Your Goals" — right of dot
+    { anchor: "middle", dx: 0, dy: -32 }, // "Sarathi" — above dot
+    { anchor: "end", dx: -18, dy: 6 }, // "Right Financial Solution" — left of dot
   ];
 
   return (
@@ -288,7 +288,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate flex min-h-[86vh] items-center justify-center overflow-hidden px-5 pb-20 pt-32 text-center sm:px-8 sm:pt-36"
+      className="relative isolate flex min-h-[86vh] items-center justify-center overflow-hidden px-5 pb-20 pt-40 text-center sm:px-8 sm:pt-60"
     >
       <div
         aria-hidden="true"
@@ -336,9 +336,9 @@ export default function Hero() {
           aria-label="Loan solutions for your goals, guided with confidence."
           className="m-0 mx-auto max-w-6xl text-balance font-bricolage text-[clamp(2.55rem,5.2vw,4.5rem)] font-extrabold leading-[1.02] tracking-[-0.045em] text-brand-navy"
         >
-          <span aria-hidden="true" className="block">{["Loan", "solutions", "for", "your", "goals,"].map((word, i) => <span key={word} className="inline-block overflow-hidden align-bottom"><motion.span className="inline-block" initial={{ y: "100%", opacity: 0 }} animate={splashDone ? { y: 0, opacity: 1 } : { y: "100%", opacity: 0 }} transition={{ delay: i * 0.06, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>{word}{" "}</motion.span></span>)}</span>
+          <span aria-hidden="true" className="block">{["Loan", "solutions", "for", "your", "goals,"].map((word, i) => <span key={word} className="inline-block overflow-hidden align-bottom mr-[0.3em] pr-[0.05em]"><motion.span className="inline-block" initial={{ y: "100%", opacity: 0 }} animate={splashDone ? { y: 0, opacity: 1 } : { y: "100%", opacity: 0 }} transition={{ delay: i * 0.06, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>{word}</motion.span></span>)}</span>
           <span aria-hidden="true" className="block">
-            {["guided", "with", "confidence."].map((word, i) => <span key={word} className="inline-block overflow-hidden align-bottom"><motion.span className={`inline-block ${i !== 1 ? "font-crimson text-[1.08em] font-semibold italic tracking-[-0.02em]" : ""}`} initial={{ y: "100%", opacity: 0, color: i !== 1 ? "rgba(11,31,77,.6)" : undefined }} animate={splashDone ? { y: 0, opacity: 1, color: i !== 1 ? "#c69214" : undefined } : { y: "100%", opacity: 0 }} transition={{ delay: 0.3 + i * 0.06, duration: 0.7, color: { delay: 1.1, duration: 0.6 }, ease: [0.22, 1, 0.36, 1] }}>{word}{" "}</motion.span></span>)}
+            {["guided", "with", "confidence."].map((word, i) => <span key={word} className="inline-block overflow-hidden align-bottom mr-[0.3em] pr-[0.05em]"><motion.span className={`inline-block ${i !== 1 ? "font-crimson text-[1.08em] font-semibold italic tracking-[-0.02em]" : ""}`} initial={{ y: "100%", opacity: 0, color: i !== 1 ? "rgba(11,31,77,.6)" : undefined }} animate={splashDone ? { y: 0, opacity: 1, color: i !== 1 ? "#c69214" : undefined } : { y: "100%", opacity: 0 }} transition={{ delay: 0.3 + i * 0.06, duration: 0.7, color: { delay: 1.1, duration: 0.6 }, ease: [0.22, 1, 0.36, 1] }}>{word}</motion.span></span>)}
           </span>
         </motion.h1>
         <motion.p initial={{ opacity: 0, y: 12 }} animate={splashDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }} transition={{ delay: 0.95, duration: 0.5 }}
