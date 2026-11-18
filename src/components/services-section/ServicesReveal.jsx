@@ -394,10 +394,13 @@ function ServicesReveal() {
               </motion.span>
               <motion.h2
                 id="services-heading"
-                className="m-0 mt-4 max-w-[840px] text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1.08] tracking-[-0.035em]"
+                className="m-0 mt-4 max-w-[840px] text-balance font-bricolage text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1.08] tracking-[-0.035em]"
                 style={{ opacity: headingOpacity, y: headingY }}
               >
-                Loans built around your goals.
+                Loans built around{" "}
+                <span className="font-crimson font-semibold italic text-brand-gold">
+                  your goals.
+                </span>
               </motion.h2>
               <motion.p
                 className="mb-0 mt-4 max-w-[650px] text-sm leading-7 text-white/80 sm:text-base"
@@ -474,9 +477,12 @@ function ServicesRevealCopy() {
       </span>
       <h2
         id="services-heading"
-        className="m-0 max-w-[840px] text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1.08] tracking-[-0.035em]"
+        className="m-0 max-w-[840px] text-balance font-bricolage text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1.08] tracking-[-0.035em]"
       >
-        Loans built around your goals.
+        Loans built around{" "}
+        <span className="font-crimson font-semibold italic text-brand-gold">
+          your goals.
+        </span>
       </h2>
       <p className="m-0 max-w-[650px] text-sm leading-7 text-white/80 sm:text-base">
         Explore loan options for your personal, business and property needs,

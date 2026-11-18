@@ -74,24 +74,22 @@ export default function Hero() {
         initial="hidden"
         animate={splashDone ? "visible" : "hidden"}
         transition={{ staggerChildren: 0.1 }}
-        className="relative z-10 mx-auto max-w-6xl"
+        className="relative z-10 mx-auto w-full max-w-6xl"
       >
-        <motion.p
-          variants={item}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-navy/10 bg-white/70 px-3.5 py-1.5 text-[0.7rem] font-bold tracking-[0.14em] text-brand-navy"
-        >
-          <span
-            className="h-1.5 w-1.5 rounded-full bg-brand-gold"
-            aria-hidden="true"
-          />
-          LOAN & FINANCIAL SERVICES
-        </motion.p>
         <motion.h1
           variants={item}
-          className="m-0 mx-auto max-w-2xl text-balance text-5xl font-space font-[900] leading-[0.96] tracking-[-0.11em] text-brand-navy sm:text-[5.2rem]"
+          className="m-0 mx-auto max-w-6xl text-balance font-bricolage text-[clamp(2.55rem,5.2vw,4.5rem)] font-extrabold leading-[1.02] tracking-[-0.045em] text-brand-navy"
         >
-          Loan solutions for your goals,{" "}
-          <span className="text-brand-gold">guided with confidence.</span>
+          <span className="block">Loan solutions for your goals,</span>
+          <span className="block">
+            <span className="font-crimson text-[1.08em] font-semibold italic tracking-[-0.02em] text-brand-gold">
+              guided
+            </span>{" "}
+            with{" "}
+            <span className="font-crimson text-[1.08em] font-semibold italic tracking-[-0.02em] text-brand-gold">
+              confidence.
+            </span>
+          </span>
         </motion.h1>
         <motion.p
           variants={item}

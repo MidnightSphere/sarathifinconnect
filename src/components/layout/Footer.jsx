@@ -142,7 +142,7 @@ export default function Footer() {
             <div className="min-w-0">
               <LinkGroup title="Explore">
                 <li><Link to="/" className={linkClass}>Home Page</Link></li>
-                <li><SectionLink hash="#services">All Services</SectionLink></li>
+                <li><Link to="/services" className={linkClass}>All Services</Link></li>
                 <li><Link to="/support" className={linkClass}>Support</Link></li>
               </LinkGroup>
             </div>

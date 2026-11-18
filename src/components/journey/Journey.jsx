@@ -379,8 +379,12 @@ export default function Journey() {
           <p className="mb-4 text-[0.68rem] font-bold tracking-[0.15em] text-brand-gold-light">
             NEXT STEP
           </p>
-          <h2 className="m-0 text-balance text-4xl font-bold leading-[1.05] tracking-[-0.04em] sm:text-5xl">
-            Your next step starts here.
+          <h2 className="m-0 text-balance font-bricolage text-4xl font-bold leading-[1.05] tracking-[-0.04em] sm:text-5xl">
+            Your{" "}
+            <span className="font-crimson font-semibold italic text-brand-gold">
+              next step
+            </span>{" "}
+            starts here.
           </h2>
           <p className="mx-auto mt-5 max-w-lg text-white/70">
             A conversation is the first move toward a clearer financial path.
