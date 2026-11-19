@@ -11,7 +11,7 @@ export default function LoanGrid() {
         <header className="mx-auto mb-9 max-w-2xl text-center md:mb-12">
           <Eyebrow align="center">All loan services</Eyebrow>
           <h2 id="services-title" className="mb-0 mt-4 font-bricolage text-[clamp(1.875rem,3.4vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.02em] text-brand-navy">
-            Explore our <span className="text-brand-gold">loan services</span>
+            Explore our <span className="font-crimson font-semibold italic text-brand-gold">loan services</span>
           </h2>
           <p className="mx-auto mb-0 mt-4 max-w-xl text-base leading-relaxed text-brand-navy/65">
             Choose from a wide range of loan options designed for your personal and business needs.

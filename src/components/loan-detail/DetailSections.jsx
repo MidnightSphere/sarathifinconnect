@@ -2,6 +2,7 @@ import { ArrowRight, FileText, ShieldCheck } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Eyebrow from "../services/Eyebrow";
 import { loanServiceImages } from "../../data/loan-service-images";
+import BrandHeading from "../ui/BrandHeading";
 
 export function RevealSection({ children, className = "", ...props }) {
   const reducedMotion = useReducedMotion();
@@ -30,7 +31,7 @@ export function SectionTitle({ eyebrow, title, id }) {
         id={id}
         className="mb-0 mt-2 font-bricolage text-[clamp(1.5rem,2.6vw,2.25rem)] font-semibold leading-[1.12] tracking-[-0.02em] text-brand-navy"
       >
-        {title}
+        <BrandHeading highlight={title.includes(" ") ? title.slice(title.lastIndexOf(" ") + 1) : title}>{title}</BrandHeading>
       </h2>
     </header>
   );
@@ -116,7 +117,7 @@ export function RatesSection({ service }) {
       <div className="rounded-2xl bg-brand-navy p-6 text-white md:p-8">
         <Eyebrow>Rates and tenure</Eyebrow>
         <h2 className="mb-0 mt-3 max-w-md font-bricolage text-[clamp(1.5rem,2.6vw,2.25rem)] font-semibold leading-tight tracking-tight text-white">
-          Understand the terms before you decide.
+          Understand the <span className="font-crimson font-semibold italic text-brand-gold">terms</span> before you decide.
         </h2>
         <div className="mt-6 grid gap-5 sm:grid-cols-2">
           {service.rate && (
@@ -149,7 +150,7 @@ export function RatesSection({ service }) {
         <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-white/95 via-white/85 to-white/55" aria-hidden="true" />
         <div className="relative z-20">
           <span className="grid size-10 place-items-center rounded-full bg-brand-gold/12 font-bricolage text-2xl font-semibold leading-none text-brand-gold" aria-hidden="true">“</span>
-          <h3 className="mb-0 mt-4 font-bricolage text-xl font-semibold text-brand-navy">Plan with clear information.</h3>
+          <h3 className="mb-0 mt-4 font-bricolage text-xl font-semibold text-brand-navy">Plan with clear <span className="font-crimson font-semibold italic text-brand-gold">information.</span></h3>
           <p className="mb-0 mt-2 max-w-sm text-[0.9375rem] leading-relaxed text-brand-navy/70">
             Compare written offers and review the total repayment and applicable charges.
           </p>

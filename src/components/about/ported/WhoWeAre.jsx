@@ -50,7 +50,7 @@ export default function WhoWeAre() {
         <Reveal className="text-center">
             <p className="mb-5 font-space text-xs font-medium uppercase tracking-[0.18em] text-brand-navy/60">Who we are</p>
             <h2 id={headingId} className="mx-auto max-w-4xl font-bricolage text-[clamp(2.4rem,5.2vw,4rem)] font-extrabold leading-[1.02] tracking-[-0.035em] text-brand-navy">
-              A bridge between your<br className="hidden sm:block" /> goals and the <span className="font-serif font-normal italic text-brand-gold">right lender.</span>
+              A bridge between your<br className="hidden sm:block" /> goals and the <span className="font-crimson font-semibold italic text-brand-gold">right lender.</span>
             </h2>
         </Reveal>
 
@@ -71,8 +71,8 @@ export default function WhoWeAre() {
           <Reveal as="article" delay={200} className="group relative isolate overflow-hidden rounded-3xl border border-brand-navy/10 bg-gradient-to-br from-brand-navy to-brand-navy p-7 text-white shadow-[0_22px_55px_-30px_rgba(15,37,87,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/40 hover:shadow-[0_30px_70px_-25px_rgba(15,37,87,0.4)] lg:col-span-5 sm:p-9">
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_90%_8%,rgba(217,169,40,0.35),transparent_48%)] opacity-40 transition-opacity duration-500 group-hover:opacity-100" />
             <div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full border border-brand-gold/30"><span className="absolute inset-4 rounded-full border border-brand-gold/20" /></div>
-            <p className="relative mt-5 text-3xl font-semibold leading-tight tracking-tight sm:text-2xl md:text-3xl">We are not a bank.</p>
-            <p className="relative mt-2 text-2xl font-semibold text-brand-gold sm:text-3xl">We are your guide.</p>
+            <p className="relative mt-5 font-bricolage text-3xl font-semibold leading-tight tracking-tight sm:text-2xl md:text-3xl">We are not a bank.</p>
+          <p className="relative mt-2 font-bricolage text-2xl font-semibold text-white sm:text-3xl">We are your <span className="font-crimson font-semibold italic text-brand-gold">guide.</span></p>
           </Reveal>
 
           <Reveal as="article" delay={300} className="rounded-3xl border border-brand-navy/10 bg-white px-6 pt-6 pb-8 shadow-[0_20px_55px_-38px_rgba(15,37,87,0.25)] md:px-8 md:pt-8 lg:px-10 lg:pt-10 lg:col-span-12">
@@ -119,7 +119,7 @@ export default function WhoWeAre() {
 
           <Reveal as="blockquote" delay={400} className="rounded-2xl border-l-4 border-brand-gold bg-[#f8f4e9] px-8 py-8 lg:col-span-12">
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-brand-gold">OUR BELIEF</p>
-            <p className="whitespace-nowrap font-serif text-[clamp(1rem,1.7vw,1.45rem)] italic leading-tight text-brand-navy">Good financial guidance starts with understanding the person behind the need.</p>
+            <p className="whitespace-nowrap font-crimson text-[clamp(1rem,1.7vw,1.45rem)] italic leading-tight text-brand-navy">Good financial guidance starts with understanding the person behind the need.</p>
           </Reveal>
         </div>
       </div>

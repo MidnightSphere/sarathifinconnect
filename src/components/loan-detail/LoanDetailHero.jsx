@@ -14,7 +14,7 @@ export default function LoanDetailHero({ service, onApply }) {
         <div className="min-w-0">
           <Eyebrow>{service.category}</Eyebrow>
           <h1 id="loan-detail-heading" className="mb-0 mt-4 break-words font-bricolage text-[clamp(2rem,4vw,3.25rem)] font-bold leading-[1.08] tracking-[-0.025em] text-brand-navy">
-            Explore <span className="text-brand-gold">{service.name}</span> options with a clearer view.
+            Explore <span className="font-crimson font-semibold italic text-brand-gold">{service.name}</span> options with a clearer view.
           </h1>
           <p className="mb-0 mt-4 max-w-[58ch] text-[0.9375rem] leading-relaxed text-brand-navy/70 md:text-base">
             {service.intro || service.summary}

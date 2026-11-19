@@ -15,7 +15,7 @@ export default function ServicesHero() {
         <div className="min-w-0">
           <Eyebrow>Our services</Eyebrow>
           <h1 id="services-hero-title" className="mb-0 mt-5 max-w-[570px] font-bricolage text-[clamp(2.25rem,4.4vw,3.75rem)] font-bold leading-[1.05] tracking-[-0.02em] text-brand-navy">
-            Financial solutions for every stage of <span className="text-brand-gold">your journey.</span>
+            Financial solutions for every stage of <span className="font-crimson font-semibold italic text-brand-gold">your journey.</span>
           </h1>
           <p className="mb-0 mt-5 max-w-lg text-base leading-relaxed text-brand-navy/65 md:text-[1.0625rem]">
             From your dream home to business growth, explore tailored loan options and get clear guidance at every step.

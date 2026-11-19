@@ -33,7 +33,7 @@ export default function ContactSection() {
             id="contact-heading"
             className="m-0 font-bricolage text-3xl font-bold leading-tight tracking-[-0.04em] text-brand-navy md:text-5xl"
           >
-            Let's talk about your loan.
+            Let's talk about your <span className="font-crimson font-semibold italic text-brand-gold">loan.</span>
           </h2>
           <p className="mb-0 mt-4 text-base leading-relaxed text-brand-navy/70 md:text-lg">
             Share a few details and our team will get back to you with clear

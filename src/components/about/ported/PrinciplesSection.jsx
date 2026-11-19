@@ -197,7 +197,7 @@ function PrinciplesSection() {
                 id="principles-title"
                 className="font-bricolage text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.02em]"
               >
-                Finance feels different when someone is beside you.
+                Finance feels different when someone is beside <span className="font-crimson font-semibold italic text-brand-gold">you.</span>
               </h2>
             </div>
             <p className="max-w-[40ch] text-base leading-7 text-brand-navy/65 lg:col-span-4 lg:pb-2">
@@ -220,7 +220,7 @@ function PrinciplesSection() {
                 <Eyebrow className="relative text-white/75">Our vision</Eyebrow>
 
                 <h3 className="mt-6 max-w-[16ch] font-bricolage text-2xl font-bold leading-[1.1] tracking-[-0.02em] md:text-3xl">
-                  A future where no one is afraid of finance.
+                  A future where no one is afraid of <span className="font-crimson font-semibold italic text-brand-gold">finance.</span>
                 </h3>
 
                 <p className="mt-6 max-w-[48ch] text-base leading-7 text-white/75 sm:text-[17px]">
@@ -267,7 +267,7 @@ function PrinciplesSection() {
                       className="size-10 transition-transform duration-300 group-hover/m:-translate-y-0.5 group-hover/m:-rotate-6 motion-reduce:transition-none"
                     />
                     <div>
-                      <h4 className="text-base font-bold leading-snug">{title}</h4>
+                       <h4 className="font-bricolage text-base font-bold leading-snug">{title}</h4>
                       <p className="mt-1 text-sm leading-6 text-brand-navy/85">{copy}</p>
                     </div>
                   </li>
@@ -307,7 +307,7 @@ function PrinciplesSection() {
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <div>
-                        <h4 className="text-base font-bold leading-snug sm:text-[17px]">{title}</h4>
+                         <h4 className="font-bricolage text-base font-bold leading-snug sm:text-[17px]">{title}</h4>
                         <p className="mt-1 max-w-[52ch] text-sm leading-6 text-brand-navy/65">{copy}</p>
                       </div>
                     </div>
@@ -352,7 +352,7 @@ function PrinciplesSection() {
                       className="size-9 transition-transform duration-300 group-hover/v:-translate-y-0.5 group-hover/v:-rotate-6 motion-reduce:transition-none"
                     />
                     <div>
-                      <h4 className="text-[15px] font-bold leading-snug">{title}</h4>
+                       <h4 className="font-bricolage text-[15px] font-bold leading-snug">{title}</h4>
                       <p className="mt-0.5 text-[13px] leading-5 text-brand-navy/70">{copy}</p>
                     </div>
                   </li>

@@ -8,7 +8,7 @@ export default function LoanApplyBlock({ service }) {
       <div className="rounded-3xl bg-brand-navy p-5 text-white sm:p-7 md:p-9">
         <div className="mx-auto max-w-2xl text-center">
           <p className="mb-2 font-space text-xs font-medium uppercase tracking-[0.18em] text-brand-gold-light">Apply now</p>
-          <h2 id="apply-heading" className="m-0 font-bricolage text-[clamp(1.5rem,2.6vw,2.25rem)] font-semibold leading-tight tracking-tight">Apply for your {service.name} today</h2>
+          <h2 id="apply-heading" className="m-0 font-bricolage text-[clamp(1.5rem,2.6vw,2.25rem)] font-semibold leading-tight tracking-tight">Apply for your <span className="font-crimson font-semibold italic text-brand-gold-light">{service.name}</span> today</h2>
           <p className="mb-0 mt-3 text-sm leading-relaxed text-white/75 md:text-base">Share a few details and our team will get back to you with clear guidance.</p>
         </div>
         {(contactInfo.phone || contactInfo.email) && <div className="mx-auto mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-white/80">

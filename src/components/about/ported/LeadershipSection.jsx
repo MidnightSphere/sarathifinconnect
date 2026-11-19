@@ -66,7 +66,7 @@ function LeadershipSection() {
             className="font-bricolage text-[clamp(2.5rem,5.5vw,4.5rem)] font-extrabold leading-[1.02] tracking-[-0.035em] text-brand-navy"
           >
             Who’s behind{" "}
-            <span className="font-serif font-normal italic text-brand-gold">
+            <span className="font-crimson font-semibold italic text-brand-gold">
               Sarathi?
             </span>
           </h2>
@@ -143,7 +143,7 @@ function LeadershipSection() {
             <div className="mb-6">
               <Eyebrow>The experience behind the guidance</Eyebrow>
               <h3 className="mt-3 font-bricolage text-2xl font-semibold leading-tight tracking-[-0.02em] text-brand-navy md:text-3xl">
-                Experience you can rely on.
+                Experience you can <span className="font-crimson font-semibold italic text-brand-gold">rely</span> on.
               </h3>
             </div>
 

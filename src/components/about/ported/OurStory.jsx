@@ -34,7 +34,7 @@ export default function OurStory() {
             <Eyebrow className="mb-5">Our story</Eyebrow>
             <h2 id={headingId} className="font-bricolage text-[clamp(2.5rem,5.5vw,4.5rem)] font-extrabold leading-[1.02] tracking-[-0.035em] text-brand-navy">
               <span className="block overflow-hidden pb-[0.08em]"><span className={`inline-block transition-transform duration-700 ease-out delay-100 motion-reduce:transition-none ${shown ? "translate-y-0" : "translate-y-full"}`}>Behind every loan,</span></span>
-              <span className="block overflow-hidden pb-[0.08em]"><span className={`inline-block font-serif font-normal italic text-brand-gold transition-transform duration-700 ease-out delay-200 motion-reduce:transition-none ${shown ? "translate-y-0" : "translate-y-full"}`}>there is a bigger goal.</span></span>
+              <span className="block overflow-hidden pb-[0.08em]"><span className={`inline-block font-crimson font-semibold italic text-brand-gold transition-transform duration-700 ease-out delay-200 motion-reduce:transition-none ${shown ? "translate-y-0" : "translate-y-full"}`}>there is a bigger goal.</span></span>
             </h2>
             </>}
           </Reveal>

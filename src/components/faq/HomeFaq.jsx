@@ -64,7 +64,7 @@ export default function HomeFaq() {
             id={`${sectionId}-heading`}
             className="mb-0 font-bricolage text-3xl font-bold leading-tight tracking-[-0.035em] text-brand-navy sm:text-4xl md:text-5xl"
           >
-            Have Questions? We're Here to Help.
+            Have questions? We're here to <span className="font-crimson font-semibold italic text-brand-gold">help.</span>
           </h2>
           <p className="mx-auto mb-0 mt-4 max-w-2xl text-base leading-7 text-brand-navy/70 sm:text-lg">
             Find answers to common questions about our financial solutions and

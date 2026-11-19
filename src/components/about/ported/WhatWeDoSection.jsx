@@ -214,7 +214,7 @@ export default function WhatWeDoSection() {
         <Eyebrow>What we do</Eyebrow>
         <h2 className="mt-4 text-balance font-bricolage text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.02em] text-brand-navy">
           From first question to{" "}
-          <span className="text-brand-gold">the right lender.</span>
+          <span className="font-crimson font-semibold italic text-brand-gold">the right lender.</span>
         </h2>
         <p className="mt-4 text-base text-brand-navy/65">
           Hover over a card to pause and read.
