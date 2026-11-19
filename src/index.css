@@ -209,3 +209,25 @@ body {
   background-color: var(--color-brand-navy);
   color: #ffffff;
 }
+
+
+/* ─── Diagonal Marquee ─── */
+.marquee-track {
+  animation: marquee-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
