@@ -19,10 +19,12 @@ function getNavSection(href) {
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [navbarHidden, setNavbarHidden] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   // Default "#top" → Home link is active on initial load / page top
   const [activeHref, setActiveHref] = useState("#top");
   const navContainerRef = useRef(null);
+  const scrollAnchorRef = useRef(0);
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === "/";
@@ -34,15 +36,41 @@ export default function Navbar() {
     ? { duration: 0 }
     : { type: "spring", stiffness: 380, damping: 34, mass: 0.75 };
 
-  // ── Scroll shadow ────────────────────────────────────────────────────────
+  // ── Scroll shadow + direction-based visibility ──────────────────────────
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32);
+    const onScroll = () => {
+      const currentY = Math.max(window.scrollY, 0);
+      setScrolled((current) => {
+        const next = currentY > 32;
+        return current === next ? current : next;
+      });
+
+      if (currentY <= 88) {
+        scrollAnchorRef.current = currentY;
+        setNavbarHidden(false);
+        return;
+      }
+
+      const delta = currentY - scrollAnchorRef.current;
+      if (Math.abs(delta) < 10) return;
+      scrollAnchorRef.current = currentY;
+      if (mobileMenuOpen) {
+        setNavbarHidden(false);
+        return;
+      }
+      setNavbarHidden(delta > 0);
+    };
+    scrollAnchorRef.current = Math.max(window.scrollY, 0);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [mobileMenuOpen]);
 
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
+
+  useEffect(() => {
+    if (mobileMenuOpen) setNavbarHidden(false);
+  }, [mobileMenuOpen]);
 
   const scrollToHash = useCallback((hash, smooth = true) => {
     const id = decodeURIComponent(hash.replace(/^#/, ""));
@@ -176,7 +204,15 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 sm:px-6 sm:pt-5">
+    <motion.header
+      className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 sm:px-6 sm:pt-5"
+      initial={false}
+      animate={{ y: navbarHidden && !mobileMenuOpen ? "-120%" : "0%" }}
+      transition={{
+        duration: prefersReducedMotion ? 0 : 0.4,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
       {/* ref covers nav pill + mobile dropdown so outside-click works correctly */}
       <div ref={navContainerRef} className="relative w-full max-w-6xl">
         <motion.nav
@@ -283,6 +319,6 @@ export default function Navbar() {
           isHome={isHome}
         />
       </div>
-    </header>
+    </motion.header>
   );
 }
