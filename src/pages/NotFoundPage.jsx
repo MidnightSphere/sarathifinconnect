@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
 import Wordmark from "../components/layout/Wordmark";
@@ -12,23 +12,6 @@ const helpfulLinks = [
 
 export default function NotFoundPage() {
   const playAreaRef = useRef(null);
-  useEffect(() => {
-    const previousTitle = document.title;
-    document.title = "404: Not Found | Sarathi FinConnect";
-    let robots = document.querySelector('meta[name="robots"]');
-    if (!robots) {
-      robots = document.createElement("meta");
-      robots.name = "robots";
-      document.head.append(robots);
-    }
-    const previousRobots = robots.content;
-    robots.content = "noindex, nofollow";
-    return () => {
-      document.title = previousTitle;
-      if (previousRobots) robots.content = previousRobots;
-      else robots.remove();
-    };
-  }, []);
 
   return (
     <div className="flex min-h-screen flex-col overflow-x-clip bg-surface text-brand-navy">

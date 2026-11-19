@@ -25,7 +25,7 @@
 
 .emi-calculator__eyebrow {
   margin: 0 0 .55rem;
-  color: var(--emi-gold);
+  color: #805b00;
   font-family: var(--font-space-grotesk, sans-serif);
   font-size: .68rem;
   font-weight: 700;
@@ -46,7 +46,7 @@
 
 .emi-calculator__heading h1 span,
 .emi-calculator__heading h2 span {
-  color: var(--emi-gold);
+  color: #805b00;
   font-family: var(--font-crimson, serif);
   font-style: italic;
   font-weight: 600;

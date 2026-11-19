@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://sarathifinconnect.com/</loc>
-  </url>
-  <url>
-    <loc>https://sarathifinconnect.com/about</loc>
-  </url>
-  <url>
-    <loc>https://sarathifinconnect.com/support</loc>
-  </url>
-  <url>
-    <loc>https://sarathifinconnect.com/services</loc>
-  </url>
+  <url><loc>https://sarathifinconnect.com/</loc></url>
+  <url><loc>https://sarathifinconnect.com/about</loc></url>
+  <url><loc>https://sarathifinconnect.com/support</loc></url>
+  <url><loc>https://sarathifinconnect.com/services</loc></url>
+  <url><loc>https://sarathifinconnect.com/emi-calculator</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/home-loan</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/car-loan</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/business-loan</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/personal-loan</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/loan-against-property</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/loan-against-securities</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/gold-loan</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/machinery-loan</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/commercial-vehicle-loan</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/home-loan-balance-transfer</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/education-loan</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/sme-msme-loan</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/business-equipment-finance</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/working-capital-finance</loc></url>
+  <url><loc>https://sarathifinconnect.com/services/solar-project-finance</loc></url>
 </urlset>

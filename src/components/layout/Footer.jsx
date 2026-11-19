@@ -1,12 +1,10 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Clock3, Mail, MapPin, Phone } from "lucide-react";
 import Wordmark from "./Wordmark";
+import { contactInfo } from "../../data/contact";
 
-const address =
-  "Office No. 415, 4th Floor, Imperial Arc, Waghawadi Road, Opp. Shamaldas College Gate, Bhavnagar, Gujarat – 364001.";
-const email = "info@sarathifinconnect.com";
-const phone = "+91 72 03 003 003";
-const phoneHref = "tel:+917203003003";
+const { address, email, phone } = contactInfo;
+const phoneHref = `tel:${phone.replace(/\s/g, "")}`;
 
 function InstagramIcon({ size = 17 }) {
   return (
@@ -92,7 +90,7 @@ export default function Footer() {
             <div className="max-w-md">
               <Link
                 to="/"
-                aria-label="Sarathi FinConnect home"
+                aria-label="sa₹athi finconnect home"
                 className="inline-flex items-center gap-3 rounded-sm no-underline focus-visible:outline-2 focus-visible:outline-brand-gold"
               >
                 <img
@@ -107,16 +105,16 @@ export default function Footer() {
               </Link>
 
               <p className="mb-0 mt-5 max-w-sm text-sm leading-relaxed text-text-secondary">
-                Sarathi FinConnect helps individuals and businesses find
-                suitable loan and finance options with clear guidance and
-                trusted support.
+                Sarathi FinConnect is a loan consultancy and financial advisory
+                firm in Bhavnagar, helping individuals and businesses explore
+                suitable financing options and prepare applications.
               </p>
               <div className="mt-5 grid justify-items-start gap-2">
                 <a
                   href="https://www.instagram.com/sarathi_finconnect/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Sarathi FinConnect on Instagram (opens in a new tab)"
+                  aria-label="@sarathi_finconnect (opens in a new tab)"
                   className="inline-flex min-h-10 max-w-full items-center gap-2.5 rounded-full border border-brand-navy/10 bg-white px-3 text-sm text-brand-navy transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-gold/50 hover:bg-brand-gold/10 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
                 >
                   <InstagramIcon />
@@ -124,7 +122,7 @@ export default function Footer() {
                 </a>
                 <a
                   href={`mailto:${email}`}
-                  aria-label={`Email Sarathi FinConnect at ${email}`}
+                  aria-label={email}
                   className="inline-flex min-h-10 max-w-full items-center gap-2.5 rounded-full border border-brand-navy/10 bg-white px-3 text-sm text-brand-navy transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-gold/50 hover:bg-brand-gold/10 hover:text-brand-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
                 >
                   <Mail size={17} strokeWidth={1.8} aria-hidden="true" />

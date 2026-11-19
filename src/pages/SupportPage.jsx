@@ -9,15 +9,15 @@ import {
 } from "lucide-react";
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/layout/Footer";
+import { contactInfo } from "../data/contact.js";
 
-const officeAddress =
-  "Office No. 415, 4th Floor, Imperial Arc, Waghawadi Road, Opp. Shamaldas College Gate, Bhavnagar, Gujarat – 364001.";
+const officeAddress = contactInfo.address;
 const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(officeAddress)}`;
 
 const faqs = [
   {
     question: "How can I contact Sarathi FinConnect?",
-    answer: "Call us at +91 72 03 003 003, email info@sarathifinconnect.com, or visit our Bhavnagar office.",
+    answer: `Call us at ${contactInfo.phone}, email ${contactInfo.email}, or visit our Bhavnagar office.`,
   },
   {
     question: "What information should I prepare before discussing a loan?",
@@ -109,16 +109,16 @@ export default function SupportPage() {
             <ContactCard
               icon={Phone}
               title="Call Us"
-              detail="+91 72 03 003 003"
+              detail={contactInfo.phone}
               action="Call Now"
-              href="tel:+917203003003"
+              href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
             />
             <ContactCard
               icon={Mail}
               title="Email Us"
-              detail="info@sarathifinconnect.com"
+              detail={contactInfo.email}
               action="Send Email"
-              href="mailto:info@sarathifinconnect.com"
+              href={`mailto:${contactInfo.email}`}
             />
             <ContactCard
               icon={MapPin}

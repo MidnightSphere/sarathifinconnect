@@ -218,7 +218,7 @@ export default function Chatbot() {
       <button
         className={`chatbot__launcher${isOpen ? " chatbot__launcher--open" : ""}`}
         type="button"
-        aria-label={isOpen ? "Close chat" : "Open chat"}
+        aria-label={isOpen ? "Close" : "Chat with us"}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((open) => !open)}
       >

@@ -1,6 +1,8 @@
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { EMI_AMOUNT, EMI_LOANS, EMI_RATE, calcEmi, clamp, inr, toNumber } from "../../data/emi-calculator-data.js";
+import { trackAnalyticsEvent } from "../../seo/analytics.js";
 import "./EmiCalculator.css";
 
 function initialValues(loan) {
@@ -39,6 +41,8 @@ function EmiCalculatorInstance({
   variant = "page",
 }) {
   const id = useId();
+  const location = useLocation();
+  const interactionTracked = useRef(false);
   const startingLoan = EMI_LOANS.find((loan) => loan.id === defaultLoanType) || EMI_LOANS[0];
   const [loanId, setLoanId] = useState(startingLoan.id);
   const [values, setValues] = useState(() => initialValues(startingLoan));
@@ -59,14 +63,26 @@ function EmiCalculatorInstance({
   const principalPercent = valid && totalPayment > 0 ? (amount / totalPayment) * 100 : 50;
   const money = (number) => `₹ ${inr.format(Math.round(number))}`;
 
-  const updateValue = (key, raw) => setValues((current) => ({ ...current, [key]: raw }));
+  const trackInteraction = () => {
+    if (interactionTracked.current) return;
+    interactionTracked.current = true;
+    trackAnalyticsEvent("emi_calculator_interaction", {
+      page_path: location.pathname,
+    });
+  };
+  const updateValue = (key, raw) => {
+    trackInteraction();
+    setValues((current) => ({ ...current, [key]: raw }));
+  };
   const changeLoan = (nextId) => {
     const nextLoan = EMI_LOANS.find((item) => item.id === nextId);
     if (!nextLoan) return;
+    trackInteraction();
     setLoanId(nextLoan.id);
     setValues(initialValues(nextLoan));
   };
   const reset = () => {
+    trackInteraction();
     setValues(initialValues(loan));
   };
   const formatAmount = () => {

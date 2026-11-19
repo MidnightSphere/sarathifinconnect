@@ -221,7 +221,7 @@ export default function Navbar() {
           <Link
             to="/"
             className="flex min-w-0 items-center gap-4 no-underline"
-            aria-label="Sarathi FinConnect — home"
+            aria-label="sa₹athi finconnect home"
           >
             <img
               src="/logo/sarathi-finconnect-only-logo.svg"

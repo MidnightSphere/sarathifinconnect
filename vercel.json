@@ -1,16 +1,23 @@
 {
   "routes": [
-    { "src": "^/invitation(/.*)?$", "dest": "/index.html", "status": 200 },
     { "handle": "filesystem" },
+    { "src": "^/invitation/?$", "dest": "/invitation/index.html", "status": 200 },
+    {
+      "src": "^/loans/(home-loan|car-loan|business-loan|personal-loan|loan-against-property|loan-against-securities|gold-loan|machinery-loan|commercial-vehicle-loan|home-loan-balance-transfer|education-loan|sme-msme-loan|business-equipment-finance|working-capital-finance|solar-project-finance)/?$",
+      "dest": "/services/$1",
+      "status": 308
+    },
     { "src": "^/api/chat/?$", "dest": "/api/chat" },
     { "src": "^/$", "dest": "/index.html", "status": 200 },
     {
-      "src": "^/(services|loans)(/(home-loan|car-loan|business-loan|personal-loan|loan-against-property|loan-against-securities|gold-loan|machinery-loan|commercial-vehicle-loan|home-loan-balance-transfer|education-loan|sme-msme-loan|business-equipment-finance|working-capital-finance|solar-project-finance))?/?$",
-      "dest": "/index.html",
+      "src": "^/services/(home-loan|car-loan|business-loan|personal-loan|loan-against-property|loan-against-securities|gold-loan|machinery-loan|commercial-vehicle-loan|home-loan-balance-transfer|education-loan|sme-msme-loan|business-equipment-finance|working-capital-finance|solar-project-finance)/?$",
+      "dest": "/services/$1.html",
       "status": 200
     },
-    { "src": "^/about/?$", "dest": "/index.html", "status": 200 },
-    { "src": "^/support/?$", "dest": "/index.html", "status": 200 },
-    { "src": "^/(?!api(?:/|$)).*$", "dest": "/index.html", "status": 404 }
+    { "src": "^/services/?$", "dest": "/services.html", "status": 200 },
+    { "src": "^/about/?$", "dest": "/about.html", "status": 200 },
+    { "src": "^/support/?$", "dest": "/support.html", "status": 200 },
+    { "src": "^/emi-calculator/?$", "dest": "/emi-calculator.html", "status": 200 },
+    { "src": "^/(?!api(?:/|$)).*$", "dest": "/404.html", "status": 404 }
   ]
 }

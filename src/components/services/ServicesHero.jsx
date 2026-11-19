@@ -40,7 +40,7 @@ export default function ServicesHero() {
           </ul>
         </div>
         <div className="services-hero-art relative mx-auto w-full max-w-md lg:max-w-none">
-          <img src="/loan-pages-photos/service-hero-image.png" alt="A couple exploring their next milestone, with a home, car, and city in the background." fetchPriority="high" className="relative z-10 block h-auto w-full object-contain" />
+          <img src="/loan-pages-photos/service-hero-image.webp" srcSet="/loan-pages-photos/service-hero-image-480.webp 480w, /loan-pages-photos/service-hero-image-960.webp 960w, /loan-pages-photos/service-hero-image.webp 1392w" sizes="(min-width: 1024px) 448px, (min-width: 640px) 80vw, 92vw" alt="A couple exploring their next milestone, with a home, car, and city in the background." width="1392" height="1130" fetchPriority="high" decoding="async" className="relative z-10 block h-auto w-full object-contain" />
         </div>
       </div>
     </section>

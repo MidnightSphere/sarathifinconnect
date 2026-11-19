@@ -5,7 +5,7 @@ export const chatbotKnowledge = {
     name: "Sarathi FinConnect Advisory LLP",
     ownerANDFounder: "Sarathi FinConnect Advisory LLP is owned and operated by Hitesh Makwana.",
     description:
-      "Sarathi FinConnect is a financial services firm that helps individuals and businesses explore suitable loan and finance options, offering guidance and support through the process.",
+      "Sarathi FinConnect is a loan consultancy and financial advisory firm based in Bhavnagar, Gujarat. It helps individuals, professionals, entrepreneurs and businesses explore suitable financing options, prepare applications and coordinate with banks and financial institutions. It is an advisory firm, not a direct lender.",
     role:
       "Sarathi FinConnect helps connect customers with suitable finance options. Lenders assess applications and determine eligibility, rates, fees, terms, and approval.",
     serviceApproach: [
@@ -21,8 +21,7 @@ export const chatbotKnowledge = {
     phone: contactInfo.phone,
     email: contactInfo.email,
     address: contactInfo.address,
-    businessHours:
-      "Business hours are not listed in the information provided. Contact the team by phone or email to ask about availability.",
+    businessHours: "Monday through Sunday, 9:30 AM to 7:00 PM.",
     enquiry:
       "The website enquiry form asks for a name and mobile number, with loan type, email, and message optional. The site says submitted details are used only to respond to the enquiry.",
   },

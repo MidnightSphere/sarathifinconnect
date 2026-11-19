@@ -1,16 +1,19 @@
+import { lazy, Suspense, useCallback, useLayoutEffect, useState } from "react";
 import { Navigate, Route, Routes, useLocation, useNavigationType, useParams } from "react-router-dom";
-import { useCallback, useState, useLayoutEffect } from "react";
-import HomePage from "./pages/HomePage";
-import ServicesPage from "./pages/ServicesPage";
-import LoanDetailPage from "./pages/loans/LoanDetailPage";
-import NotFoundPage from "./pages/NotFoundPage";
 import SplitRevealSplash from "./components/ui/split-reveal/SplitRevealSplash";
 import SplashProvider from "./components/ui/split-reveal/SplashProvider";
 import { Analytics } from "@vercel/analytics/react";
 import Chatbot from "./components/chatbot/Chatbot";
-import AboutPage from "./pages/about/AboutPage";
-import SupportPage from "./pages/SupportPage";
-import EmiCalculatorPage from "./pages/EmiCalculatorPage";
+import SEOHead from "./seo/SEOHead";
+import { trackOutboundContactClicks } from "./seo/analytics";
+
+const HomePage = lazy(() => import("./pages/HomePage"));
+const ServicesPage = lazy(() => import("./pages/ServicesPage"));
+const LoanDetailPage = lazy(() => import("./pages/loans/LoanDetailPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
+const AboutPage = lazy(() => import("./pages/about/AboutPage"));
+const SupportPage = lazy(() => import("./pages/SupportPage"));
+const EmiCalculatorPage = lazy(() => import("./pages/EmiCalculatorPage"));
 
 const SPLASH_SEEN_KEY = "sarathi_splash_seen";
 
@@ -77,6 +80,14 @@ function LegacyLoanRedirect() {
   return <Navigate replace to={`/services/${slug}`} />;
 }
 
+function RouteLoading() {
+  return (
+    <div className="grid min-h-[50vh] place-items-center px-4 text-center font-space text-sm text-brand-navy/70" role="status" aria-live="polite">
+      Loading page…
+    </div>
+  );
+}
+
 export default function App() {
   const location = useLocation();
   const [splashDone, setSplashDone] = useState(!SHOW_SPLASH_ON_BOOT);
@@ -84,25 +95,30 @@ export default function App() {
     setSplashDone(true);
   }, []);
 
+  useLayoutEffect(() => trackOutboundContactClicks(), []);
+
   return (
     <SplashProvider value={splashDone}>
       <>
+        <SEOHead />
         <div
           className="min-h-screen overflow-x-clip bg-surface"
           inert={!splashDone}
           aria-hidden={!splashDone}
         >
           <ScrollToTop />
-          <Routes location={location}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/support" element={<SupportPage />} />
-            <Route path="/emi-calculator" element={<EmiCalculatorPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/services/:slug" element={<LoanDetailPage />} />
-            <Route path="/loans/:slug" element={<LegacyLoanRedirect />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+          <Suspense fallback={<RouteLoading />}>
+            <Routes location={location}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/support" element={<SupportPage />} />
+              <Route path="/emi-calculator" element={<EmiCalculatorPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/services/:slug" element={<LoanDetailPage />} />
+              <Route path="/loans/:slug" element={<LegacyLoanRedirect />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Suspense>
         </div>
         {!splashDone && <SplitRevealSplash onComplete={completeSplash} />}
         {splashDone && <Chatbot />}

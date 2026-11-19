@@ -1,6 +1,7 @@
 import { useId, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
+import { contactInfo } from "../../data/contact.js";
 
 const questions = [
   {
@@ -40,8 +41,7 @@ const questions = [
   },
   {
     question: "Where is Sarathi FinConnect located?",
-    answer:
-      "Our office is located at Office No. 415, 4th Floor, Imperial Arc, Waghawadi Road, Opp. Shamaldas College Gate, Bhavnagar, Gujarat – 364001.",
+    answer: `Our office is located at ${contactInfo.address}.`,
   },
 ];
 

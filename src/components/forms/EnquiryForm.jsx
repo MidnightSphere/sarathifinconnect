@@ -4,6 +4,7 @@ import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { loanServices } from "../../data/loan-services-data";
 import { contactInfo } from "../../data/contact";
 import { submitEnquiry } from "../../lib/submitEnquiry";
+import { trackAnalyticsEvent } from "../../seo/analytics";
 
 const loanOptions = [
   ...loanServices.map(({ id, name }) => ({ slug: id, label: name })),
@@ -122,6 +123,10 @@ export default function EnquiryForm({
             : "home-contact"),
         page: location.pathname,
         submittedAt: new Date().toISOString(),
+      });
+      trackAnalyticsEvent("generate_lead", {
+        method: "website_form",
+        page_path: location.pathname,
       });
       setSubmitted(true);
       onSuccess?.();

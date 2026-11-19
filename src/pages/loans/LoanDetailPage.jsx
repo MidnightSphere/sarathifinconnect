@@ -1,6 +1,5 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { useEffect } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/layout/Footer";
 import LoanDetailHero from "../../components/loan-detail/LoanDetailHero";
@@ -66,42 +65,6 @@ export default function LoanDetailPage() {
   const service = loanServices.find((loan) => loan.id === slug);
   const hasContent = hasDetailContent(service);
 
-  useEffect(() => {
-    const originalTitle = document.title;
-    const descriptionMeta = document.querySelector('meta[name="description"]');
-    const originalDescription = descriptionMeta?.content;
-    const existingCanonical = document.querySelector('link[rel="canonical"]');
-    const originalCanonicalHref = existingCanonical?.getAttribute("href");
-    let canonical = existingCanonical;
-
-    if (service) {
-      document.title = `${service.name} | Sarathi FinConnect`;
-      if (descriptionMeta) descriptionMeta.content = `${service.intro || service.summary} Sarathi FinConnect loan information.`.slice(0, 160);
-      if (!canonical) {
-        canonical = document.createElement("link");
-        canonical.rel = "canonical";
-        document.head.append(canonical);
-      }
-      canonical.href = `${window.location.origin}/services/${service.id}`;
-    } else {
-      document.title = "Loan not found | Sarathi FinConnect";
-      if (descriptionMeta) descriptionMeta.content = "The requested loan service could not be found. Browse all services from Sarathi FinConnect.";
-      canonical?.remove();
-    }
-
-    return () => {
-      document.title = originalTitle;
-      if (descriptionMeta && originalDescription !== undefined) descriptionMeta.content = originalDescription;
-      if (existingCanonical) {
-        if (originalCanonicalHref !== null) existingCanonical.href = originalCanonicalHref;
-        else existingCanonical.removeAttribute("href");
-        if (!existingCanonical.isConnected) document.head.append(existingCanonical);
-      } else {
-        canonical?.remove();
-      }
-    };
-  }, [service]);
-
   return (
     <div className="min-h-screen overflow-x-clip bg-surface text-brand-navy">
       <Navbar />
@@ -113,6 +76,13 @@ export default function LoanDetailPage() {
               <OverviewSection service={service} />
               <FeaturesSection service={service} />
               <RatesSection service={service} />
+              <p className="mb-0 mt-8 text-sm text-brand-navy/70">
+                Want to compare a different loan type?{" "}
+                <Link className="font-semibold text-brand-navy underline decoration-brand-gold underline-offset-4" to="/emi-calculator">
+                  Open the full EMI calculator
+                </Link>
+                .
+              </p>
               <EmiCalculator defaultLoanType={service.id} showLoanSelector={false} variant="embedded" />
               <EligibilitySection service={service} />
               <DocumentsSection service={service} />

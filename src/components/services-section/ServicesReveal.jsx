@@ -68,22 +68,22 @@ const SERVICE_BUTTON_STYLES = {
 
 const imageByService = {
   "home-loan": {
-    src: "/loan-pages-photos/01-home-loan.png",
+    src: "/loan-pages-photos/01-home-loan.webp",
     alt: "Home loan property",
     imagePosition: "center 40%",
   },
   "car-loan": {
-    src: "/loan-pages-photos/02-car-loan.png",
+    src: "/loan-pages-photos/02-car-loan.webp",
     alt: "Car loan vehicle",
     imagePosition: "center 60%",
   },
   "personal-loan": {
-    src: "/loan-pages-photos/04-personal-loan.png",
+    src: "/loan-pages-photos/04-personal-loan.webp",
     alt: "Personal loan",
     imagePosition: "center 60%",
   },
   "business-loan": {
-    src: "/loan-pages-photos/03-business-loan.png",
+    src: "/loan-pages-photos/03-business-loan.webp",
     alt: "Business loan",
     imagePosition: "center",
   },
@@ -241,6 +241,8 @@ function ServiceCard({ card }) {
       <img
         src={card.image.src}
         alt={card.image.alt}
+        width="720"
+        height="540"
         loading="lazy"
         decoding="async"
         style={{ objectPosition: card.image.imagePosition || "center" }}
