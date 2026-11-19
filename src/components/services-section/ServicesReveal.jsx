@@ -10,7 +10,6 @@ import { Link, useLocation } from "react-router-dom";
 import ScrollStack, { ScrollStackItem } from "./ServicesScrollStack.jsx";
 import { loanServices } from "../../data/loan-services-data.js";
 import useBlobNavigate from "../transitions/useBlobNavigate";
-import DiagonalMarquee from "./DiagonalMarquee.jsx";
 
 const SERVICE_CARD_COLORS = [
   {
@@ -466,7 +465,6 @@ function ServicesReveal() {
           current terms directly with a lender.
         </p>
       </div>
-      <DiagonalMarquee />
     </section>
   );
 }

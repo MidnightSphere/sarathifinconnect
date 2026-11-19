@@ -211,23 +211,85 @@ body {
 }
 
 
-/* ─── Diagonal Marquee ─── */
-.marquee-track {
-  animation: marquee-scroll 30s linear infinite;
+/* ─── Floating Marquee ─── */
+.home-page-shell {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
+.floating-marquee-position {
+  position: absolute;
+  top: var(--floating-marquee-top, 1200px);
+  left: var(--floating-marquee-left, 50%);
+  z-index: var(--floating-marquee-z, 10);
+  width: var(--floating-marquee-width, calc(100% + 5rem));
+  pointer-events: none;
+  user-select: none;
+  transform: translateX(-50%) rotate(var(--floating-marquee-rotation, -1.75deg));
+  transform-origin: center;
+}
+
+.floating-marquee {
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-brand-gold);
+}
+
+.floating-marquee__track {
+  display: flex;
+  width: max-content;
+  min-height: clamp(38px, 4.2vw, 54px);
+  align-items: center;
+  animation: floating-marquee-scroll 38s linear infinite;
   will-change: transform;
 }
 
-@keyframes marquee-scroll {
-  0% {
-    transform: translateX(0);
+.floating-marquee__group {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: clamp(1.5rem, 3.5vw, 3.25rem);
+  padding-inline: clamp(1.1rem, 2.5vw, 2.25rem);
+  white-space: nowrap;
+}
+
+.floating-marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(1.5rem, 3.5vw, 3.25rem);
+  color: var(--color-brand-navy);
+  font-family: var(--font-bricolage);
+  font-size: clamp(0.62rem, 1vw, 0.9rem);
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.floating-marquee__diamond {
+  color: var(--color-brand-navy);
+  font-size: 0.62em;
+  line-height: 1;
+}
+
+@keyframes floating-marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (max-width: 639px) {
+  .floating-marquee__track {
+    min-height: 34px;
   }
-  100% {
-    transform: translateX(-50%);
+
+  .floating-marquee__item {
+    letter-spacing: 0.075em;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track {
+  .floating-marquee__track {
     animation: none;
   }
 }
