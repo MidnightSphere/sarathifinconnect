@@ -144,6 +144,7 @@ export default function Footer() {
                 <li><Link to="/" className={linkClass}>Home Page</Link></li>
                 <li><Link to="/services" className={linkClass}>All Services</Link></li>
                 <li><Link to="/support" className={linkClass}>Support</Link></li>
+                <li><Link to="/emi-calculator" className={linkClass}>EMI Calculator</Link></li>
               </LinkGroup>
             </div>
 

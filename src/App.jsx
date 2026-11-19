@@ -10,6 +10,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Chatbot from "./components/chatbot/Chatbot";
 import AboutPage from "./pages/about/AboutPage";
 import SupportPage from "./pages/SupportPage";
+import EmiCalculatorPage from "./pages/EmiCalculatorPage";
 
 const SPLASH_SEEN_KEY = "sarathi_splash_seen";
 
@@ -96,6 +97,7 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/support" element={<SupportPage />} />
+            <Route path="/emi-calculator" element={<EmiCalculatorPage />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/services/:slug" element={<LoanDetailPage />} />
             <Route path="/loans/:slug" element={<LegacyLoanRedirect />} />

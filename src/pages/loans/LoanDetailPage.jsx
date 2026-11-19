@@ -7,6 +7,7 @@ import LoanDetailHero from "../../components/loan-detail/LoanDetailHero";
 import LoanApplyBlock from "../../components/loan-detail/LoanApplyBlock";
 import { EligibilitySection, FeaturesSection, FaqSection, DocumentsSection, OverviewSection, RatesSection, StepsSection, TermsSection } from "../../components/loan-detail/DetailSections";
 import { loanServices } from "../../data/loan-services-data.js";
+import EmiCalculator from "../../components/emi/EmiCalculator";
 
 function hasDetailContent(service) {
   return Boolean(service && (
@@ -48,6 +49,7 @@ function DetailsComingSoon({ service }) {
     <main className="bg-surface px-4 py-10 pb-24 sm:px-6 md:py-14">
       <div className="mx-auto max-w-7xl">
         <LoanDetailHero service={service} onApply={scrollToApply} />
+        <EmiCalculator defaultLoanType={service.id} showLoanSelector={false} variant="embedded" />
         <section className="mx-auto max-w-3xl py-10 text-center" aria-labelledby="details-coming-soon-heading">
           <h2 id="details-coming-soon-heading" className="font-bricolage text-2xl font-semibold text-brand-navy">Details coming soon</h2>
           <p className="text-[0.9375rem] leading-relaxed text-brand-navy/70">Share your enquiry and our team can guide you through this loan option.</p>
@@ -111,6 +113,7 @@ export default function LoanDetailPage() {
               <OverviewSection service={service} />
               <FeaturesSection service={service} />
               <RatesSection service={service} />
+              <EmiCalculator defaultLoanType={service.id} showLoanSelector={false} variant="embedded" />
               <EligibilitySection service={service} />
               <DocumentsSection service={service} />
               <StepsSection service={service} />

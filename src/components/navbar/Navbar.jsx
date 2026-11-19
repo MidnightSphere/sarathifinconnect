@@ -68,10 +68,6 @@ export default function Navbar() {
 
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
 
-  useEffect(() => {
-    if (mobileMenuOpen) setNavbarHidden(false);
-  }, [mobileMenuOpen]);
-
   const scrollToHash = useCallback((hash, smooth = true) => {
     const id = decodeURIComponent(hash.replace(/^#/, ""));
     const prefersReducedMotion = window.matchMedia(
@@ -297,7 +293,10 @@ export default function Navbar() {
           </div>
           <button
             type="button"
-            onClick={() => setMobileMenuOpen((open) => !open)}
+            onClick={() => {
+              if (!mobileMenuOpen) setNavbarHidden(false);
+              setMobileMenuOpen((open) => !open);
+            }}
             aria-label={
               mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
             }
