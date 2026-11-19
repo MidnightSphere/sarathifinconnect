@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Clock3, Mail, MapPin, Phone } from "lucide-react";
 import Wordmark from "./Wordmark";
-import { contactInfo } from "../../data/contact";
+import { contactInfo, officeHours } from "../../data/contact";
 
 const { address, email, phone } = contactInfo;
 const phoneHref = `tel:${phone.replace(/\s/g, "")}`;
@@ -150,7 +150,12 @@ export default function Footer() {
               <h2 className="m-0 mb-4 text-sm font-bold text-brand-navy">Contact Details</h2>
               <div className="grid gap-3">
                 <ContactItem icon={MapPin}>{address}</ContactItem>
-                <ContactItem icon={Clock3}>9:30 AM – 7:00 PM</ContactItem>
+                <ContactItem icon={Clock3}>
+                  <span className="grid min-w-0 gap-y-1">
+                    <span className="block">{officeHours.weekdays}</span>
+                    <span className="block">{officeHours.sunday}</span>
+                  </span>
+                </ContactItem>
                 <ContactItem icon={Phone} href={phoneHref}>{phone}</ContactItem>
                 <ContactItem icon={Mail} href={`mailto:${email}`}>{email}</ContactItem>
               </div>

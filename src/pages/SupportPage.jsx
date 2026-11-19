@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/layout/Footer";
-import { contactInfo } from "../data/contact.js";
+import { contactInfo, officeHours } from "../data/contact.js";
 
 const officeAddress = contactInfo.address;
 const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(officeAddress)}`;
@@ -139,7 +139,10 @@ export default function SupportPage() {
             </div>
             <div className="inline-flex items-center gap-3 text-sm leading-6 text-white/85 sm:text-base">
               <Clock3 size={20} className="shrink-0 text-brand-gold-light" aria-hidden="true" />
-              <span>Monday – Sunday: 9:30 AM – 7:00 PM</span>
+              <span className="grid">
+                <span>{officeHours.weekdays}</span>
+                <span>{officeHours.sunday}</span>
+              </span>
             </div>
           </div>
         </section>

@@ -12,60 +12,41 @@ const limitDescription = (text) => {
 
 const staticPages = {
   "/": {
-    title: "Loan Consultant in Bhavnagar | Sarathi FinConnect",
+    title: "Sarathi FinConnect | Financial Solutions & Loan Advisory",
     description:
       "Loan consultancy and financial advisory in Bhavnagar, Gujarat. We help you assess needs, prepare applications and coordinate with lenders.",
     schemaType: "WebPage",
   },
   "/about": {
-    title: "About Sarathi FinConnect | Financial Advisory in Bhavnagar",
+    title: "About Us | Sarathi FinConnect",
     description:
       "Learn about Sarathi FinConnect, our financial advisory approach, leadership and support for individuals and businesses exploring financing options.",
     schemaType: "AboutPage",
   },
   "/support": {
-    title: "Contact Sarathi FinConnect | Bhavnagar",
+    title: "Support | Sarathi FinConnect",
     description:
       "Contact Sarathi FinConnect in Bhavnagar for loan consultancy and financial guidance. Call, email or visit our office.",
     schemaType: "ContactPage",
   },
   "/services": {
-    title: "Loan & Finance Services in Bhavnagar | Sarathi FinConnect",
+    title: "Our Services | Sarathi FinConnect",
     description:
       "Explore home loans, business finance, loan against property, personal loans and other financing options with guidance from Sarathi FinConnect.",
     schemaType: "CollectionPage",
   },
   "/emi-calculator": {
-    title: "EMI Calculator | Estimate Monthly Loan Payments",
+    title: "EMI Calculator | Sarathi FinConnect",
     description:
       "Estimate monthly loan EMI, total interest and repayment using the Sarathi FinConnect EMI calculator. Results are indicative.",
     schemaType: "WebPage",
   },
 };
 
-const serviceTitleNames = {
-  "home-loan": "Home Loan",
-  "car-loan": "Car Loan",
-  "business-loan": "Business Loan",
-  "personal-loan": "Personal Loan",
-  "loan-against-property": "Loan Against Property",
-  "loan-against-securities": "Loan Against Securities",
-  "gold-loan": "Gold Loan",
-  "machinery-loan": "Machinery Loan",
-  "commercial-vehicle-loan": "Commercial Vehicle Finance",
-  "home-loan-balance-transfer": "Home Loan Balance Transfer",
-  "education-loan": "Education Loan",
-  "sme-msme-loan": "SME & MSME Finance",
-  "business-equipment-finance": "Business Equipment Finance",
-  "working-capital-finance": "Working Capital Finance",
-  "solar-project-finance": "Solar Project Finance",
-};
-
 export function getPageSeo(pathname, service) {
   if (service) {
-    const serviceTitle = serviceTitleNames[service.id] || service.name;
     return {
-      title: `${serviceTitle} Consultant in Bhavnagar | Sarathi FinConnect`,
+      title: `${service.name} | Sarathi FinConnect`,
       description: limitDescription(
         `${service.intro || service.summary} Eligibility and final terms depend on the lender.`,
       ),

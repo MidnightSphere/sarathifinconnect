@@ -1,4 +1,4 @@
-import { contactInfo } from "./contact.js";
+import { contactInfo, officeHours } from "./contact.js";
 
 export const chatbotKnowledge = {
   company: {
@@ -21,7 +21,7 @@ export const chatbotKnowledge = {
     phone: contactInfo.phone,
     email: contactInfo.email,
     address: contactInfo.address,
-    businessHours: "Monday through Sunday, 9:30 AM to 7:00 PM.",
+    businessHours: `${officeHours.weekdays} ${officeHours.sunday}`,
     enquiry:
       "The website enquiry form asks for a name and mobile number, with loan type, email, and message optional. The site says submitted details are used only to respond to the enquiry.",
   },

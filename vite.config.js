@@ -7,7 +7,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import chatHandler from './api/chat.js'
 import { loanServices } from './src/data/loan-services-data.js'
-import { contactInfo } from './src/data/contact.js'
+import { contactInfo, officeHours } from './src/data/contact.js'
 import { getPageSchemas, getPageSeo } from './src/seo/seoConfig.js'
 
 const seoRoutes = [
@@ -40,7 +40,17 @@ function replaceMeta(html, attribute, name, content) {
 }
 
 function withRouteSeo(template, page, service) {
-  let html = template.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(page.title)}</title>`)
+  const openingHours = [{
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: officeHours.days,
+    opens: officeHours.opens,
+    closes: officeHours.closes,
+  }]
+  let preparedTemplate = template.replace(
+    '"__SFC_OPENING_HOURS__"',
+    JSON.stringify(openingHours),
+  )
+  let html = preparedTemplate.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(page.title)}</title>`)
   html = replaceMeta(html, 'name', 'description', page.description)
   html = replaceMeta(html, 'name', 'robots', page.noindex ? 'noindex, nofollow' : 'index, follow')
   html = replaceMeta(html, 'property', 'og:title', page.title)
@@ -94,6 +104,27 @@ function withRouteSeo(template, page, service) {
   return html.replace('</body>', `${fallbackContent}\n</body>`)
 }
 
+function routeSeoDev() {
+  return {
+    name: 'route-seo-dev',
+    apply: 'serve',
+    transformIndexHtml: {
+      order: 'pre',
+      handler(html, context) {
+        const pathname = new URL(
+          context.originalUrl || context.path,
+          'http://localhost',
+        ).pathname
+        const route = pathname === '/index.html' ? '/' : pathname.replace(/\/$/, '') || '/'
+        const service = route.startsWith('/services/')
+          ? loanServices.find((item) => `/services/${item.id}` === route)
+          : undefined
+        return withRouteSeo(html, getPageSeo(route, service), service)
+      },
+    },
+  }
+}
+
 function routeSeoSnapshots() {
   return {
     name: 'route-seo-snapshots',
@@ -132,6 +163,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [
+      routeSeoDev(),
       react(),
       tailwindcss(),
       routeSeoSnapshots(),
