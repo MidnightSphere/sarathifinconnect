@@ -71,10 +71,14 @@ function handleStyle(handle) {
   }[handle];
 }
 
-export function RupeeGlyph({ className = "", color = "currentColor" }) {
+export function RupeeGlyph({
+  className = "",
+  color = "currentColor",
+  viewBox = "-30 -30 172 172",
+}) {
   return (
     <svg
-      viewBox="-30 -30 172 172"
+      viewBox={viewBox}
       aria-hidden="true"
       className={className}
     >
@@ -101,6 +105,7 @@ export default function RupeeMark({
   stageClassName,
 }) {
   const stageRef = useRef(null);
+  const controlsRef = useRef(null);
   const svgRef = useRef(null);
   const gestureRef = useRef(null);
   const pathsRef = useRef(clonePaths(INITIAL_PATHS));
@@ -117,6 +122,7 @@ export default function RupeeMark({
   const [hovered, setHovered] = useState(false);
   const [active, setActive] = useState(false);
   const [positioned, setPositioned] = useState(!compact);
+  const [removed, setRemoved] = useState(false);
 
   const commitTransform = useCallback((next) => {
     transformRef.current = next;
@@ -270,7 +276,9 @@ export default function RupeeMark({
 
   useEffect(() => {
     const onOutsidePointerDown = (event) => {
-      if (!stageRef.current?.contains(event.target)) setSelected(false);
+      if (stageRef.current?.contains(event.target)) return;
+      if (compact && controlsRef.current?.contains(event.target)) return;
+      setSelected(false);
     };
     const onKeyDown = (event) => {
       if (event.key === "Escape") setSelected(false);
@@ -281,7 +289,7 @@ export default function RupeeMark({
       document.removeEventListener("pointerdown", onOutsidePointerDown, true);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, []);
+  }, [compact]);
 
   const animateTo = (targetPaths, targetTransform) => {
     cancelAnimationFrame(animationRef.current);
@@ -470,11 +478,27 @@ export default function RupeeMark({
       y: (hy ? anchor.y + hy * size * scale / 2 : anchor.y) - wrapper.clientHeight / 2,
       scale,
     }));
+    if (compact) setSelected(true);
   };
 
   const reset = () => {
+    if (compact) {
+      gestureRef.current = null;
+      setActive(false);
+      setSelected(true);
+      setRemoved(false);
+    }
     hasInteractedRef.current = false;
     animateTo(clonePaths(INITIAL_PATHS), initialTransform());
+  };
+
+  const remove = () => {
+    if (!compact) return;
+    gestureRef.current = null;
+    setActive(false);
+    window.clearTimeout(hoverTimerRef.current);
+    setRemoved(true);
+    onRemove?.();
   };
 
   const shuffle = () => {
@@ -504,7 +528,7 @@ export default function RupeeMark({
     <>
       {!compact && <div className="h-[268px] sm:h-[328px]" aria-hidden="true" />}
       <div className="pointer-events-none absolute inset-0 z-30 overflow-visible" aria-label="Interactive rupee mark controls">
-        <div
+        {!removed && <div
           ref={stageRef}
           role="application"
           aria-label="Interactive rupee mark. Drag its dots to reshape, the mark to move, or handles to resize."
@@ -527,7 +551,7 @@ export default function RupeeMark({
           className={`group pointer-events-auto absolute left-1/2 top-1/2 ${stageClassName || "h-[200px] w-[200px] sm:h-[260px] sm:w-[260px]"} touch-none select-none ${compact && !positioned ? "invisible" : ""} ${active ? "z-30 cursor-grabbing" : "z-30 cursor-grab"}`}
           style={{ transform: `translate(calc(-50% + ${transform.x}px), calc(-50% + ${transform.y}px)) scale(${transform.scale})`, transformOrigin: "center" }}
         >
-          <svg ref={svgRef} viewBox="-30 -30 172 172" role="img" aria-label="Interactive rupee symbol" className="absolute inset-0 h-full w-full overflow-visible">
+          <svg ref={svgRef} viewBox={compact ? "8 0 96 114" : "-30 -30 172 172"} role="img" aria-label="Interactive rupee symbol" className="absolute inset-0 h-full w-full overflow-visible">
             {!compact && <defs><linearGradient id="rupee-stroke" x1="0" y1="0" x2="1" y2="1"><stop stopColor="var(--color-brand-navy)" /><stop offset="1" stopColor="var(--color-brand-navy-deep)" /></linearGradient></defs>}
             {paths.map((path, index) => <path key={index} d={makePath(path)} fill="none" stroke={compact ? "white" : "url(#rupee-stroke)"} strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />)}
             {points.map(({ pathIndex, pointIndex, point }) => <g key={`${pathIndex}-${pointIndex}`} data-anchor="true" onPointerDown={(event) => onDotDown(event, pathIndex, pointIndex)} className={`cursor-grab ${compact && !showSelection ? "opacity-0" : ""}`}><circle cx={point[0]} cy={point[1]} r="9" fill="transparent" /><circle cx={point[0]} cy={point[1]} r="3.2" fill={pathIndex === 0 && pointIndex === 0 ? (compact ? "white" : "var(--color-brand-navy)") : (compact ? "var(--color-brand-navy)" : "var(--color-surface)")} stroke={compact ? "white" : "var(--color-brand-navy)"} strokeWidth="1.5" /></g>)}
@@ -535,12 +559,12 @@ export default function RupeeMark({
           <div aria-hidden="true" className={`pointer-events-none absolute inset-0 border ${compact ? "border-brand-gold/70" : "border-brand-navy/35"} transition-opacity [@media(hover:none)]:opacity-100 ${showSelection ? "opacity-100" : "opacity-0"}`} />
           {HANDLES.map((handle) => <button key={handle} type="button" data-resize-handle={handle} aria-label={`Resize rupee mark ${handle}. Use arrow keys to resize`} onPointerDown={(event) => onHandleDown(event, handle)} onKeyDown={(event) => resizeWithKeyboard(event, handle)} className={`absolute z-10 h-7 w-7 touch-none rounded-full bg-transparent p-0 before:absolute before:left-1/2 before:top-1/2 before:h-2.5 before:w-2.5 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:border ${compact ? "before:border-brand-gold before:bg-brand-navy" : "before:border-brand-navy before:bg-white"} before:shadow-sm [@media(pointer:coarse)]:h-11 [@media(pointer:coarse)]:w-11 ${handleStyle(handle)} ${showSelection ? "opacity-100" : "opacity-0"} [@media(hover:none)]:opacity-100 ${handle === "n" || handle === "s" ? "cursor-ns-resize" : handle === "e" || handle === "w" ? "cursor-ew-resize" : handle === "ne" || handle === "sw" ? "cursor-nesw-resize" : "cursor-nwse-resize"}`} />)}
           {!compact && <span className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white/90 px-2 py-0.5 font-space text-[10px] text-brand-navy shadow-sm">{Math.round(renderedSize)} × {Math.round(renderedSize)}</span>}
-        </div>
-        <div className={`pointer-events-auto absolute z-40 -translate-x-1/2 flex items-center gap-2 rounded-full border border-border bg-white/90 p-1 shadow-sm backdrop-blur ${compact && !showSelection ? "invisible" : ""}`} style={controlsStyle}>
-          <button type="button" onClick={reset} className="rounded-full px-3 py-1.5 font-space text-xs font-medium text-brand-navy hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-brand-gold">{compact ? "Reset to Normal" : "Reset"}</button>
-          {compact ? (
-            <button type="button" onClick={onRemove} className="rounded-full px-3 py-1.5 font-space text-xs font-medium text-brand-navy hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-brand-gold">Remove</button>
-          ) : (
+        </div>}
+        <div ref={controlsRef} className={`pointer-events-auto absolute ${compact ? "z-50" : "z-40"} -translate-x-1/2 flex items-center gap-2 rounded-full border border-border bg-white/90 p-1 shadow-sm backdrop-blur ${compact && !showSelection && !removed ? "invisible" : ""}`} style={controlsStyle}>
+          <button type="button" onClick={reset} className={`rounded-full font-space text-xs font-medium text-brand-navy hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-brand-gold ${compact ? "min-h-10 px-4 py-2" : "px-3 py-1.5"}`}>{compact ? "Reset to Normal" : "Reset"}</button>
+          {compact ? (removed ? null : (
+            <button type="button" onClick={remove} className="min-h-10 rounded-full px-4 py-2 font-space text-xs font-medium text-brand-navy hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-brand-gold">Remove</button>
+          )) : (
             <button type="button" onClick={shuffle} className="rounded-full px-3 py-1.5 font-space text-xs font-medium text-brand-navy hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-brand-gold">Shuffle</button>
           )}
         </div>

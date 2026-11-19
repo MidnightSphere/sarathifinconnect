@@ -2,7 +2,6 @@ import { useEffect, useId, useRef, useState } from "react";
 import Eyebrow from "./Eyebrow";
 import RupeeMark, { RupeeGlyph } from "../../not-found/RupeeMark";
 
-const NAME = ["S", "a", "r", "a", "t", "h", "i"];
 const ROUTE = "M20 160 C160 20 260 30 390 120 S620 215 780 60";
 
 const revealClasses =
@@ -120,7 +119,7 @@ export default function SarathiNameStory() {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate overflow-hidden bg-brand-navy px-4 py-16 text-center text-white [--brand-mark-size:clamp(59px,16.2vw,189px)] md:py-24"
+      className="relative isolate overflow-hidden bg-brand-navy px-4 py-16 text-center text-white [--brand-mark-size:clamp(26px,7.2vw,84px)] [--brand-mark-height:clamp(37px,10.08vw,118px)] md:py-24"
       aria-labelledby={labelId}
     >
       <div className="relative z-[1] mx-auto w-full max-w-[1040px]">
@@ -128,41 +127,34 @@ export default function SarathiNameStory() {
 
         <div
           ref={wordRef}
-          className="mt-[6px] flex justify-center overflow-hidden pb-[.08em] font-bricolage text-[clamp(66px,18vw,210px)] font-extrabold leading-none tracking-[-.06em]"
+          className="mt-[6px] whitespace-nowrap overflow-hidden pb-[.08em] font-bricolage text-[clamp(66px,18vw,210px)] font-extrabold leading-none"
           role="img"
           aria-label="Sarathi"
         >
-          {NAME.slice(0, 2).map((letter, index) => (
-            <span
-              data-sfc-letter
-              className="inline-block translate-y-[112%] transition-transform duration-[900ms] [transition-timing-function:cubic-bezier(.2,.7,.2,1)] [will-change:transform] motion-reduce:translate-y-0 motion-reduce:transition-none"
-              style={{ transitionDelay: `${index * 70}ms` }}
-              aria-hidden="true"
-              key={`${letter}-${index}`}
-            >
-              {letter}
-            </span>
-          ))}
+          <span
+            data-sfc-letter
+            className="inline-block translate-y-[112%] transition-transform duration-[900ms] [transition-timing-function:cubic-bezier(.2,.7,.2,1)] [will-change:transform] motion-reduce:translate-y-0 motion-reduce:transition-none"
+            aria-hidden="true"
+          >
+            Sa
+          </span>
           <span
             ref={symbolAnchorRef}
             data-sfc-letter
             data-sfc-mark
-            className="relative inline-block h-[var(--brand-mark-size)] w-[var(--brand-mark-size)] shrink-0 self-center opacity-0 transition-opacity duration-[900ms] motion-reduce:transition-none"
+            className="relative inline-block h-[var(--brand-mark-height)] w-[var(--brand-mark-size)] align-baseline opacity-0 transition-opacity duration-[900ms] motion-reduce:transition-none"
             aria-hidden="true"
           >
-            <RupeeGlyph className="absolute inset-0 h-full w-full" color="white" />
+            <RupeeGlyph className="absolute inset-0 h-full w-full" color="white" viewBox="8 0 96 114" />
           </span>
-          {NAME.slice(3).map((letter, index) => (
-            <span
-              data-sfc-letter
-              className="inline-block translate-y-[112%] transition-transform duration-[900ms] [transition-timing-function:cubic-bezier(.2,.7,.2,1)] [will-change:transform] motion-reduce:translate-y-0 motion-reduce:transition-none"
-              style={{ transitionDelay: `${(index + 3) * 70}ms` }}
-              aria-hidden="true"
-              key={`${letter}-${index + 3}`}
-            >
-              {letter}
-            </span>
-          ))}
+          <span
+            data-sfc-letter
+            className="inline-block translate-y-[112%] transition-transform duration-[900ms] [transition-timing-function:cubic-bezier(.2,.7,.2,1)] [will-change:transform] motion-reduce:translate-y-0 motion-reduce:transition-none"
+            style={{ transitionDelay: "210ms" }}
+            aria-hidden="true"
+          >
+            athi
+          </span>
           <span
             data-sfc-letter
             className="inline-block translate-y-[112%] text-brand-gold transition-transform duration-[900ms] [transition-timing-function:cubic-bezier(.2,.7,.2,1)] [will-change:transform] motion-reduce:translate-y-0 motion-reduce:transition-none"
@@ -282,7 +274,7 @@ export default function SarathiNameStory() {
           playAreaRef={sectionRef}
           anchorRef={symbolAnchorRef}
           compact
-          stageClassName="h-[var(--brand-mark-size)] w-[var(--brand-mark-size)]"
+          stageClassName="h-[var(--brand-mark-height)] w-[var(--brand-mark-size)]"
           onRemove={() => setInteractiveVisible(false)}
         />
       )}
