@@ -209,8 +209,8 @@ export default function Navbar() {
       initial={false}
       animate={{ y: navbarHidden && !mobileMenuOpen ? "-120%" : "0%" }}
       transition={{
-        duration: prefersReducedMotion ? 0 : 0.4,
-        ease: [0.22, 1, 0.36, 1],
+        duration: prefersReducedMotion ? 0 : 0.525,
+        ease: [0.42, 0, 0.58, 1],
       }}
     >
       {/* ref covers nav pill + mobile dropdown so outside-click works correctly */}
