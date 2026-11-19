@@ -1,5 +1,6 @@
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Eyebrow from "./Eyebrow";
+import RupeeMark, { RupeeGlyph } from "../../not-found/RupeeMark";
 
 const NAME = ["S", "a", "r", "a", "t", "h", "i"];
 const ROUTE = "M20 160 C160 20 260 30 390 120 S620 215 780 60";
@@ -12,9 +13,11 @@ export default function SarathiNameStory() {
   const labelId = useId();
   const sectionRef = useRef(null);
   const wordRef = useRef(null);
+  const symbolAnchorRef = useRef(null);
   const routeRef = useRef(null);
   const youRef = useRef(null);
   const sarathiRef = useRef(null);
+  const [interactiveVisible, setInteractiveVisible] = useState(true);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -37,6 +40,7 @@ export default function SarathiNameStory() {
           letter.classList.remove("translate-y-[112%]");
           letter.classList.add("translate-y-0");
         });
+        element.querySelector("[data-sfc-mark]")?.classList.replace("opacity-0", "opacity-100");
       } else {
         element.classList.remove("opacity-0", "translate-y-[26px]");
         element.classList.add("opacity-100", "translate-y-0");
@@ -116,7 +120,7 @@ export default function SarathiNameStory() {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate overflow-hidden bg-brand-navy px-4 py-16 text-center text-white md:py-24"
+      className="relative isolate overflow-hidden bg-brand-navy px-4 py-16 text-center text-white [--brand-mark-size:clamp(59px,16.2vw,189px)] md:py-24"
       aria-labelledby={labelId}
     >
       <div className="relative z-[1] mx-auto w-full max-w-[1040px]">
@@ -124,17 +128,37 @@ export default function SarathiNameStory() {
 
         <div
           ref={wordRef}
-          className="mt-[6px] flex justify-center overflow-hidden pb-[.08em] text-[clamp(66px,18vw,210px)] font-extrabold leading-none tracking-[-.06em]"
+          className="mt-[6px] flex justify-center overflow-hidden pb-[.08em] font-bricolage text-[clamp(66px,18vw,210px)] font-extrabold leading-none tracking-[-.06em]"
           role="img"
           aria-label="Sarathi"
         >
-          {NAME.map((letter, index) => (
+          {NAME.slice(0, 2).map((letter, index) => (
             <span
               data-sfc-letter
               className="inline-block translate-y-[112%] transition-transform duration-[900ms] [transition-timing-function:cubic-bezier(.2,.7,.2,1)] [will-change:transform] motion-reduce:translate-y-0 motion-reduce:transition-none"
               style={{ transitionDelay: `${index * 70}ms` }}
               aria-hidden="true"
               key={`${letter}-${index}`}
+            >
+              {letter}
+            </span>
+          ))}
+          <span
+            ref={symbolAnchorRef}
+            data-sfc-letter
+            data-sfc-mark
+            className="relative inline-block h-[var(--brand-mark-size)] w-[var(--brand-mark-size)] shrink-0 self-center opacity-0 transition-opacity duration-[900ms] motion-reduce:transition-none"
+            aria-hidden="true"
+          >
+            <RupeeGlyph className="absolute inset-0 h-full w-full" color="white" />
+          </span>
+          {NAME.slice(3).map((letter, index) => (
+            <span
+              data-sfc-letter
+              className="inline-block translate-y-[112%] transition-transform duration-[900ms] [transition-timing-function:cubic-bezier(.2,.7,.2,1)] [will-change:transform] motion-reduce:translate-y-0 motion-reduce:transition-none"
+              style={{ transitionDelay: `${(index + 3) * 70}ms` }}
+              aria-hidden="true"
+              key={`${letter}-${index + 3}`}
             >
               {letter}
             </span>
@@ -155,6 +179,15 @@ export default function SarathiNameStory() {
         >
           सारथी
         </div>
+        {!interactiveVisible && (
+          <button
+            type="button"
+            onClick={() => setInteractiveVisible(true)}
+            className="mt-4 rounded-full border border-white/25 px-4 py-2 font-space text-sm font-medium text-white transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
+          >
+            Reset to Normal
+          </button>
+        )}
 
         <svg
           data-sfc-route
@@ -244,6 +277,15 @@ export default function SarathiNameStory() {
           No hidden surprises. Ever.
         </p>
       </div>
+      {interactiveVisible && (
+        <RupeeMark
+          playAreaRef={sectionRef}
+          anchorRef={symbolAnchorRef}
+          compact
+          stageClassName="h-[var(--brand-mark-size)] w-[var(--brand-mark-size)]"
+          onRemove={() => setInteractiveVisible(false)}
+        />
+      )}
     </section>
   );
 }

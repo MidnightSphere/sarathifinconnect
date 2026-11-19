@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const INITIAL_PATHS = [
   [[14, 12], [100, 12]],
@@ -71,7 +71,35 @@ function handleStyle(handle) {
   }[handle];
 }
 
-export default function RupeeMark({ playAreaRef }) {
+export function RupeeGlyph({ className = "", color = "currentColor" }) {
+  return (
+    <svg
+      viewBox="-30 -30 172 172"
+      aria-hidden="true"
+      className={className}
+    >
+      {INITIAL_PATHS.map((path, index) => (
+        <path
+          key={index}
+          d={makePath(path)}
+          fill="none"
+          stroke={color}
+          strokeWidth="5.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      ))}
+    </svg>
+  );
+}
+
+export default function RupeeMark({
+  playAreaRef,
+  anchorRef,
+  compact = false,
+  onRemove,
+  stageClassName,
+}) {
   const stageRef = useRef(null);
   const svgRef = useRef(null);
   const gestureRef = useRef(null);
@@ -80,12 +108,15 @@ export default function RupeeMark({ playAreaRef }) {
   const animationRef = useRef(0);
   const hoverTimerRef = useRef(0);
   const initializedRef = useRef(false);
+  const hasInteractedRef = useRef(false);
+  const areaSizeRef = useRef(null);
   const [paths, setPaths] = useState(() => clonePaths(INITIAL_PATHS));
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
   const [stageSize, setStageSize] = useState(() => window.innerWidth < 640 ? 200 : 260);
   const [selected, setSelected] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [active, setActive] = useState(false);
+  const [positioned, setPositioned] = useState(!compact);
 
   const commitTransform = useCallback((next) => {
     transformRef.current = next;
@@ -104,10 +135,11 @@ export default function RupeeMark({ playAreaRef }) {
     if (!wrapper) return next;
     const width = wrapper.clientWidth;
     const height = wrapper.clientHeight;
+    const topBoundary = compact ? SAFE_PAD : MIN_TOP;
     const maxFitScale = Math.max(MIN_SCALE, Math.min(
       MAX_SCALE,
       (width - SAFE_PAD * 2) / stageSize,
-      (height - MIN_TOP - SAFE_PAD) / stageSize,
+      (height - topBoundary - SAFE_PAD) / stageSize,
     ));
     const scale = Math.min(next.scale, maxFitScale);
     const renderedSize = stageSize * scale;
@@ -115,7 +147,7 @@ export default function RupeeMark({ playAreaRef }) {
     const centerY = height / 2 + next.y;
     const minX = SAFE_PAD + renderedSize / 2 - width / 2;
     const maxX = width / 2 - SAFE_PAD - renderedSize / 2;
-    const minY = Math.max(SAFE_PAD + renderedSize / 2, MIN_TOP + renderedSize / 2) - height / 2;
+    const minY = Math.max(SAFE_PAD + renderedSize / 2, topBoundary + renderedSize / 2) - height / 2;
     const maxY = height / 2 - SAFE_PAD - renderedSize / 2;
     return {
       ...next,
@@ -123,7 +155,7 @@ export default function RupeeMark({ playAreaRef }) {
       x: clamp(centerX, minX + width / 2, maxX + width / 2) - width / 2,
       y: clamp(centerY, minY + height / 2, maxY + height / 2) - height / 2,
     };
-  }, [getStageSize, playAreaRef]);
+  }, [compact, getStageSize, playAreaRef]);
 
   const maxScaleAt = useCallback((centerX, centerY, hx = 0, hy = 0, anchorX = centerX, anchorY = centerY) => {
     const wrapper = playAreaRef.current;
@@ -136,25 +168,53 @@ export default function RupeeMark({ playAreaRef }) {
       : hx < 0
         ? (anchorX - SAFE_PAD) / size
         : 2 * Math.min(anchorX - SAFE_PAD, width - SAFE_PAD - anchorX) / size;
+    const topBoundary = compact ? SAFE_PAD : MIN_TOP;
     const maxHeight = hy > 0
       ? (height - SAFE_PAD - anchorY) / size
       : hy < 0
-        ? (anchorY - MIN_TOP) / size
-        : 2 * Math.min(anchorY - MIN_TOP, height - SAFE_PAD - anchorY) / size;
+        ? (anchorY - topBoundary) / size
+        : 2 * Math.min(anchorY - topBoundary, height - SAFE_PAD - anchorY) / size;
     return Math.max(MIN_SCALE, Math.min(MAX_SCALE, maxWidth, maxHeight));
-  }, [getStageSize, playAreaRef]);
+  }, [compact, getStageSize, playAreaRef]);
 
   const initialTransform = useCallback(() => {
     const wrapper = playAreaRef.current;
     if (!wrapper) return { x: 0, y: 0, scale: 1 };
     const size = getStageSize();
+    const anchor = compact ? anchorRef?.current : null;
+    if (anchor) {
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const anchorRect = anchor.getBoundingClientRect();
+      const centerX = anchorRect.left - wrapperRect.left + anchorRect.width / 2;
+      const centerY = anchorRect.top - wrapperRect.top + anchorRect.height / 2;
+      return clampTransform({
+        x: centerX - wrapper.clientWidth / 2,
+        y: centerY - wrapper.clientHeight / 2,
+        scale: anchorRect.width / size,
+      }, size);
+    }
     const top = 112;
     return clampTransform({
       x: 0,
       y: top + size / 2 - wrapper.clientHeight / 2,
       scale: 1,
     }, size);
-  }, [clampTransform, getStageSize, playAreaRef]);
+  }, [anchorRef, clampTransform, compact, getStageSize, playAreaRef]);
+
+  useLayoutEffect(() => {
+    if (!compact) return undefined;
+    const frame = requestAnimationFrame(() => {
+      initializedRef.current = true;
+      areaSizeRef.current = {
+        width: playAreaRef.current?.clientWidth || 0,
+        height: playAreaRef.current?.clientHeight || 0,
+      };
+      // Align after layout measurement so the editable copy never flashes at center.
+      commitTransform(initialTransform());
+      setPositioned(true);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [compact, commitTransform, initialTransform, playAreaRef]);
 
   useEffect(() => {
     const wrapper = playAreaRef.current;
@@ -164,20 +224,44 @@ export default function RupeeMark({ playAreaRef }) {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         if (stageRef.current) setStageSize(stageRef.current.offsetWidth);
+        const nextAreaSize = {
+          width: wrapper.clientWidth,
+          height: wrapper.clientHeight,
+        };
         if (!initializedRef.current) {
           initializedRef.current = true;
+          areaSizeRef.current = nextAreaSize;
           commitTransform(initialTransform());
+          setPositioned(true);
+          return;
+        }
+        const previousAreaSize = areaSizeRef.current;
+        areaSizeRef.current = nextAreaSize;
+        if (compact && anchorRef?.current && !hasInteractedRef.current) {
+          commitTransform(initialTransform());
+          return;
+        }
+        if (compact && previousAreaSize) {
+          const current = transformRef.current;
+          const centerX = previousAreaSize.width / 2 + current.x;
+          const centerY = previousAreaSize.height / 2 + current.y;
+          commitTransform(clampTransform({
+            ...current,
+            x: (centerX / previousAreaSize.width) * nextAreaSize.width - nextAreaSize.width / 2,
+            y: (centerY / previousAreaSize.height) * nextAreaSize.height - nextAreaSize.height / 2,
+          }));
           return;
         }
         commitTransform(clampTransform(transformRef.current));
       });
     });
     observer.observe(wrapper);
+    if (compact && anchorRef?.current) observer.observe(anchorRef.current);
     return () => {
       observer.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [clampTransform, commitTransform, initialTransform, playAreaRef]);
+  }, [anchorRef, clampTransform, commitTransform, compact, initialTransform, playAreaRef]);
 
   useEffect(() => () => {
     cancelAnimationFrame(animationRef.current);
@@ -290,6 +374,7 @@ export default function RupeeMark({ playAreaRef }) {
     const gesture = gestureRef.current;
     const wrapper = playAreaRef.current;
     if (!gesture || !wrapper) return;
+    hasInteractedRef.current = true;
     if (gesture.type === "dot") {
       const matrix = svgRef.current?.getScreenCTM();
       const svg = svgRef.current;
@@ -352,6 +437,7 @@ export default function RupeeMark({ playAreaRef }) {
     const centerX = wrapper.clientWidth / 2 + current.x;
     const centerY = wrapper.clientHeight / 2 + current.y;
     const scale = clamp(current.scale * (event.deltaY < 0 ? 1.06 : 0.94), MIN_SCALE, maxScaleAt(centerX, centerY));
+    hasInteractedRef.current = true;
     commitTransform(clampTransform({ ...current, scale }));
     setSelected(true);
   };
@@ -369,6 +455,7 @@ export default function RupeeMark({ playAreaRef }) {
     const current = transformRef.current;
     const size = getStageSize();
     const scaleChange = (event.shiftKey ? 20 : 8) * along / size;
+    hasInteractedRef.current = true;
     const centerX = wrapper.clientWidth / 2 + current.x;
     const centerY = wrapper.clientHeight / 2 + current.y;
     const rendered = size * current.scale;
@@ -385,7 +472,10 @@ export default function RupeeMark({ playAreaRef }) {
     }));
   };
 
-  const reset = () => animateTo(clonePaths(INITIAL_PATHS), initialTransform());
+  const reset = () => {
+    hasInteractedRef.current = false;
+    animateTo(clonePaths(INITIAL_PATHS), initialTransform());
+  };
 
   const shuffle = () => {
     const nextPaths = clonePaths(INITIAL_PATHS).map((path) => path.map((point) => {
@@ -399,15 +489,20 @@ export default function RupeeMark({ playAreaRef }) {
 
   const points = paths.flatMap((path, pathIndex) => path.map((point, pointIndex) => ({ pathIndex, pointIndex, point })));
   const renderedSize = stageSize * transform.scale;
-  const controlsStyle = {
-    left: "50%",
-    top: `${112 + stageSize + 24}px`,
-  };
+  const controlsStyle = compact
+    ? {
+        left: `calc(50% + ${transform.x}px)`,
+        top: `calc(50% + ${transform.y + renderedSize / 2 + 58}px)`,
+      }
+    : {
+        left: "50%",
+        top: `${112 + stageSize + 24}px`,
+      };
   const showSelection = selected || hovered || active;
 
   return (
     <>
-      <div className="h-[268px] sm:h-[328px]" aria-hidden="true" />
+      {!compact && <div className="h-[268px] sm:h-[328px]" aria-hidden="true" />}
       <div className="pointer-events-none absolute inset-0 z-30 overflow-visible" aria-label="Interactive rupee mark controls">
         <div
           ref={stageRef}
@@ -429,21 +524,25 @@ export default function RupeeMark({ playAreaRef }) {
             hoverTimerRef.current = window.setTimeout(() => setHovered(false), 250);
           }}
           onWheel={zoomWithWheel}
-          className={`group pointer-events-auto absolute left-1/2 top-1/2 h-[200px] w-[200px] touch-none select-none sm:h-[260px] sm:w-[260px] ${active ? "z-30 cursor-grabbing" : "z-30 cursor-grab"}`}
+          className={`group pointer-events-auto absolute left-1/2 top-1/2 ${stageClassName || "h-[200px] w-[200px] sm:h-[260px] sm:w-[260px]"} touch-none select-none ${compact && !positioned ? "invisible" : ""} ${active ? "z-30 cursor-grabbing" : "z-30 cursor-grab"}`}
           style={{ transform: `translate(calc(-50% + ${transform.x}px), calc(-50% + ${transform.y}px)) scale(${transform.scale})`, transformOrigin: "center" }}
         >
           <svg ref={svgRef} viewBox="-30 -30 172 172" role="img" aria-label="Interactive rupee symbol" className="absolute inset-0 h-full w-full overflow-visible">
-            <defs><linearGradient id="rupee-stroke" x1="0" y1="0" x2="1" y2="1"><stop stopColor="var(--color-brand-navy)" /><stop offset="1" stopColor="var(--color-brand-navy-deep)" /></linearGradient></defs>
-            {paths.map((path, index) => <path key={index} d={makePath(path)} fill="none" stroke="url(#rupee-stroke)" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />)}
-            {points.map(({ pathIndex, pointIndex, point }) => <g key={`${pathIndex}-${pointIndex}`} data-anchor="true" onPointerDown={(event) => onDotDown(event, pathIndex, pointIndex)} className="cursor-grab"><circle cx={point[0]} cy={point[1]} r="9" fill="transparent" /><circle cx={point[0]} cy={point[1]} r="3.2" fill={pathIndex === 0 && pointIndex === 0 ? "var(--color-brand-navy)" : "var(--color-surface)"} stroke="var(--color-brand-navy)" strokeWidth="1.5" /></g>)}
+            {!compact && <defs><linearGradient id="rupee-stroke" x1="0" y1="0" x2="1" y2="1"><stop stopColor="var(--color-brand-navy)" /><stop offset="1" stopColor="var(--color-brand-navy-deep)" /></linearGradient></defs>}
+            {paths.map((path, index) => <path key={index} d={makePath(path)} fill="none" stroke={compact ? "white" : "url(#rupee-stroke)"} strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />)}
+            {points.map(({ pathIndex, pointIndex, point }) => <g key={`${pathIndex}-${pointIndex}`} data-anchor="true" onPointerDown={(event) => onDotDown(event, pathIndex, pointIndex)} className={`cursor-grab ${compact && !showSelection ? "opacity-0" : ""}`}><circle cx={point[0]} cy={point[1]} r="9" fill="transparent" /><circle cx={point[0]} cy={point[1]} r="3.2" fill={pathIndex === 0 && pointIndex === 0 ? (compact ? "white" : "var(--color-brand-navy)") : (compact ? "var(--color-brand-navy)" : "var(--color-surface)")} stroke={compact ? "white" : "var(--color-brand-navy)"} strokeWidth="1.5" /></g>)}
           </svg>
-          <div aria-hidden="true" className={`pointer-events-none absolute inset-0 border border-brand-navy/35 transition-opacity [@media(hover:none)]:opacity-100 ${showSelection ? "opacity-100" : "opacity-0"}`} />
-          {HANDLES.map((handle) => <button key={handle} type="button" data-resize-handle={handle} aria-label={`Resize rupee mark ${handle}. Use arrow keys to resize`} onPointerDown={(event) => onHandleDown(event, handle)} onKeyDown={(event) => resizeWithKeyboard(event, handle)} className={`absolute z-10 h-7 w-7 touch-none rounded-full bg-transparent p-0 before:absolute before:left-1/2 before:top-1/2 before:h-2.5 before:w-2.5 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:border before:border-brand-navy before:bg-white before:shadow-sm [@media(pointer:coarse)]:h-11 [@media(pointer:coarse)]:w-11 ${handleStyle(handle)} ${showSelection ? "opacity-100" : "opacity-0"} [@media(hover:none)]:opacity-100 ${handle === "n" || handle === "s" ? "cursor-ns-resize" : handle === "e" || handle === "w" ? "cursor-ew-resize" : handle === "ne" || handle === "sw" ? "cursor-nesw-resize" : "cursor-nwse-resize"}`} />)}
-          <span className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white/90 px-2 py-0.5 font-space text-[10px] text-brand-navy shadow-sm">{Math.round(renderedSize)} × {Math.round(renderedSize)}</span>
+          <div aria-hidden="true" className={`pointer-events-none absolute inset-0 border ${compact ? "border-brand-gold/70" : "border-brand-navy/35"} transition-opacity [@media(hover:none)]:opacity-100 ${showSelection ? "opacity-100" : "opacity-0"}`} />
+          {HANDLES.map((handle) => <button key={handle} type="button" data-resize-handle={handle} aria-label={`Resize rupee mark ${handle}. Use arrow keys to resize`} onPointerDown={(event) => onHandleDown(event, handle)} onKeyDown={(event) => resizeWithKeyboard(event, handle)} className={`absolute z-10 h-7 w-7 touch-none rounded-full bg-transparent p-0 before:absolute before:left-1/2 before:top-1/2 before:h-2.5 before:w-2.5 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:border ${compact ? "before:border-brand-gold before:bg-brand-navy" : "before:border-brand-navy before:bg-white"} before:shadow-sm [@media(pointer:coarse)]:h-11 [@media(pointer:coarse)]:w-11 ${handleStyle(handle)} ${showSelection ? "opacity-100" : "opacity-0"} [@media(hover:none)]:opacity-100 ${handle === "n" || handle === "s" ? "cursor-ns-resize" : handle === "e" || handle === "w" ? "cursor-ew-resize" : handle === "ne" || handle === "sw" ? "cursor-nesw-resize" : "cursor-nwse-resize"}`} />)}
+          {!compact && <span className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white/90 px-2 py-0.5 font-space text-[10px] text-brand-navy shadow-sm">{Math.round(renderedSize)} × {Math.round(renderedSize)}</span>}
         </div>
-        <div className="pointer-events-auto absolute z-40 -translate-x-1/2 flex items-center gap-2 rounded-full border border-border bg-white/90 p-1 shadow-sm backdrop-blur" style={controlsStyle}>
-          <button type="button" onClick={reset} className="rounded-full px-3 py-1.5 font-space text-xs font-medium text-brand-navy hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-brand-gold">Reset</button>
-          <button type="button" onClick={shuffle} className="rounded-full px-3 py-1.5 font-space text-xs font-medium text-brand-navy hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-brand-gold">Shuffle</button>
+        <div className={`pointer-events-auto absolute z-40 -translate-x-1/2 flex items-center gap-2 rounded-full border border-border bg-white/90 p-1 shadow-sm backdrop-blur ${compact && !showSelection ? "invisible" : ""}`} style={controlsStyle}>
+          <button type="button" onClick={reset} className="rounded-full px-3 py-1.5 font-space text-xs font-medium text-brand-navy hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-brand-gold">{compact ? "Reset to Normal" : "Reset"}</button>
+          {compact ? (
+            <button type="button" onClick={onRemove} className="rounded-full px-3 py-1.5 font-space text-xs font-medium text-brand-navy hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-brand-gold">Remove</button>
+          ) : (
+            <button type="button" onClick={shuffle} className="rounded-full px-3 py-1.5 font-space text-xs font-medium text-brand-navy hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-brand-gold">Shuffle</button>
+          )}
         </div>
       </div>
     </>
